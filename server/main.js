@@ -4,6 +4,7 @@ const ConnectToMongo = require("./db/connectToMongo");
 
 const usersRouter = require("./routes/user.router");
 const boardsRouter = require("./routes/boards.router");
+const authRouter = require("./auth/auth.router");
 
 const app = express();
 const PORT = 3030;
@@ -14,6 +15,7 @@ ConnectToMongo();
 
 app.use("/users", usersRouter);
 app.use("/boards", boardsRouter);
+app.use("/auth", authRouter);
 
 app.get("/", (req, res) => {
     res.json({message: "წარმატებით დარესფონსდა"})
