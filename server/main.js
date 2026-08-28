@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const ConnectToMongo = require("./db/connectToMongo");
+const cors = require("cors");
 
 const usersRouter = require("./routes/user.router");
 const boardsRouter = require("./routes/boards.router");
@@ -10,6 +11,7 @@ const app = express();
 const PORT = 3030;
 
 app.use(express.json());
+app.use(cors());
 
 ConnectToMongo();
 
