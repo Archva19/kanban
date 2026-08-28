@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const usersModel = require("../models/users.model");
 const { isValidObjectId } = require("mongoose");
+const isAuth = require("../middlewares/isAuth.middleware");
 
 const usersRouter = Router();
 
@@ -11,6 +12,23 @@ usersRouter.get("/", async (req, res) => {
     data: findAllUser,
   });
 });
+
+usersRouter.get("/me", isAuth, async (req, res) => {
+    try {
+        const user = await usersModel.findById(req.userId).select("-password").populate("boards");
+
+        if (!user){
+            return res.status(404).json({message: "user not found"});
+        }
+
+        res.json({
+            message: "successfully fetched user data",
+            data: user
+        })
+    } catch (error) {
+        res.status(500).json({message: "Server error", error:error.message})
+    }
+})
 
 usersRouter.get("/:id", async (req, res) => {
   const { id } = req.params;
