@@ -1,0 +1,98 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+@import "tailwindcss";
+
+:root {
+  --bg-color: #f4f7fd;
+  --text-color: #000112;
+  --formTitle-color: #828fa3;
+  --card-background: #ffffff;
+  --lightPurpleBtn-background: #635fc71a;
+  --lightPurpleBtn-hoverBg: #635fc740;
+}
+
+[data-theme="dark"] {
+  --bg-color: #20212c;
+  --text-color: #ffffff;
+  --formTitle-color: #ffffff;
+  --card-background: #2b2c37;
+  --lightPurpleBtn-background: white;
+  --lightPurpleBtn-hoverBg: white;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 700;
+}
+
+p {
+  line-height: 100%;
+}
+
+button,
+a {
+  cursor: pointer;
+}
+
+input{
+  font-weight:500;
+  border: 1px solid #828FA340;
+  border-radius: 4px;
+  padding-top:8px;
+  padding-bottom:9px;
+  padding-left:16px;
+  outline:1px;
+  outline:transparent;
+  width:100%;
+  line-height:23px;
+  font-size: 13px;
+}
+
+input::placeholder {
+  color: var(--text-color);
+  opacity: 0.25;
+  font-weight:500;
+  line-height:23px;
+  font-size: 13px;
+}
+
+@layer components {
+  .heading {
+    @apply text-[18px] md:text-[20px] lg:text-[24px];
+  }
+
+  .formTitle {
+    color: var(--formTitle-color);
+    @apply text-[12px];
+  }
+
+  .focusOnInput {
+    @apply focus:outline-[#635FC7];
+  }
+
+  .inputErrorMessage {
+    @apply absolute top-1/2 -translate-y-1/2 right-4 font-medium text-[#EA5555];
+  }
+
+  .cardBgColor {
+    background-color: var(--card-background);
+  }
+
+  .formBtn {
+    @apply pt-2 pb-2.25 rounded-[20px] w-full text-[13px] leading-5.75 flex items-center justify-center;
+  }
+
+  .lightPurpleBtn {
+    background-color: var(--lightPurpleBtn-background);
+    @apply text-[#635FC7];
+  }
+
+  .lightPurpleBtn:hover {
+    background-color: var(--lightPurpleBtn-hoverBg);
+  }
+
+  .purpleBtn {
+    @apply bg-[#635FC7] text-[white] hover:bg-[#A8A4FF];
+  }
+}
