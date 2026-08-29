@@ -8,15 +8,17 @@
   --card-background: #ffffff;
   --lightPurpleBtn-background: #635fc71a;
   --lightPurpleBtn-hoverBg: #635fc740;
+  --borderLine-color: #E4EBFA;
 }
 
-[data-theme="dark"] {
+.dark, [data-theme="dark"] {
   --bg-color: #20212c;
   --text-color: #ffffff;
   --formTitle-color: #ffffff;
   --card-background: #2b2c37;
   --lightPurpleBtn-background: white;
   --lightPurpleBtn-hoverBg: white;
+  --borderLine-color: #3E3F4E;
 }
 
 body {
@@ -58,6 +60,18 @@ input::placeholder {
 }
 
 @layer components {
+  .bodyBg{
+    background-color: var(--bg-color);
+  }
+
+  .logo{
+    fill: var(--text-color);
+  }
+
+  .borderLineColor{
+    border-color: var(--borderLine-color);
+  }
+
   .heading {
     @apply text-[18px] md:text-[20px] lg:text-[24px];
   }
