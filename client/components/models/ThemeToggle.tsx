@@ -2,7 +2,8 @@
 
 import { useTheme } from "next-themes";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -27,9 +28,12 @@ export default function ThemeToggle() {
           onClick={handleOnToggle}
           className="w-10 h-5 rounded-xl bg-[#635FC7] relative"
         >
-          <div
+          <motion.div
+          initial={{right: isDark ? "auto" : 3, left: isDark ? 3 : "auto"}}
+          animate={{right: isDark ? 3 : "auto", left: isDark ? "auto" : 3}}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
             className={`absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-white ${isDark ? "right-0.75 left-auto" : "left-0.75 right-auto"}`}
-          ></div>
+          ></motion.div>
         </button>
         <Image src="/icons/moon.svg" alt="dark" width="15" height="15" />
       </div>
