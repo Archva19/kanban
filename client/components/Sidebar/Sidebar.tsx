@@ -35,7 +35,7 @@ export default function Sidebar({ setSidebarVis }: SideBarProps) {
             onClick={() => setSidebarVis(false)}
             className="flex gap-2.5 px-6 items-center xl:gap-3.75 xl:px-7.75"
           >
-            <Image src="icons/eye-slash.svg" alt="" width={18} height={16} />
+            <Image src="/icons/eye-slash.svg" alt="" width={18} height={16} />
             <p className="text-[#828FA3] text-[15px]">Hide Sidebar</p>
           </button>
         </div>

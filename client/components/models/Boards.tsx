@@ -1,5 +1,6 @@
 "use client"
 
+import { useForms } from "@/context/FormsContext";
 import { useUser } from "@/context/UserContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -7,6 +8,7 @@ import { usePathname } from "next/navigation";
 export default function Boards() {
   const pathname = usePathname();
   const { boards } = useUser();
+  const { setNewBoardVis } = useForms();
   return (
     <>
       <div className="flex flex-col gap-4.75">
@@ -45,7 +47,9 @@ export default function Boards() {
               </Link>
             );
           })}
-          <button className="pt-3.5 pb-3.75 px-6 items-center flex gap-3 xl:gap-4 xl:px-8">
+          <button 
+          onClick = {() => setNewBoardVis(true)}
+          className="pt-3.5 pb-3.75 px-6 items-center flex gap-3 xl:gap-4 xl:px-8">
             <svg
               width="16"
               height="16"

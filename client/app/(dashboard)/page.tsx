@@ -1,17 +1,17 @@
 "use client";
 import GetStarted from "@/components/GetStarted/GetStarted";
-import useFetchUser from "@/hooks/FetchUser/useFetchUser";
+import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Home() {
-  const userData = useFetchUser();
+  const { userData, boards } = useUser();
   const router = useRouter();
 
   useEffect(() => {
     if (userData) {
-      if (userData.boards && userData.boards.length > 0) {
-        router.push(`/boards/${userData.boards[0]._id}`);
+      if (boards && boards.length > 0) {
+        router.push(`/boards/${boards[0]._id}`);
       }
     }
   }, [userData, router]);
