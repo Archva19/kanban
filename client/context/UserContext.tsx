@@ -1,20 +1,38 @@
 "use client";
 
 import useFetchUser from "@/hooks/FetchUser/useFetchUser";
-import { createContext, ReactNode, useContext } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface UserContextType {
   userData: any;
   boards: any[];
+  addBoard: (newBoard: any) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export default function UserProvider({ children }: { children: ReactNode }) {
   const userData = useFetchUser();
-  const boards = userData?.boards || [];
+  const [boards, setBoards] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (userData?.boards) {
+      setBoards(userData.boards);
+    }
+  }, [userData]);
+
+  function addBoard(newBoard:any) {
+    setBoards((prev) => [...prev, newBoard]);
+  }
+
   return (
-    <UserContext.Provider value={{ userData, boards }}>
+    <UserContext.Provider value={{ userData, boards, addBoard }}>
       {children}
     </UserContext.Provider>
   );

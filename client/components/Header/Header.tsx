@@ -20,7 +20,7 @@ export default function Header() {
 
   return (
     <header className="w-full">
-      <div className="z-10 relative cardBgColor p-4 flex items-center justify-between md:px-6 md:border-b borderLineColor xl:pr-[32.38px] xl:pt-5 xl:pb-7">
+      <div className="z-10 md:z-0 relative cardBgColor p-4 flex items-center justify-between md:px-6 md:border-b borderLineColor xl:pr-[32.38px] xl:pt-5 xl:pb-7">
         <div className="flex items-center gap-4">
           <div className="md:hidden">
             <Logo />
@@ -42,19 +42,24 @@ export default function Header() {
           </div>
         </div>
         <div className="flex items-center gap-[13.69px] md:gap-[22.62px]">
-          <button className="purpleBtn rounded-3xl py-2.5 px-4.5 md:h-12 md:pt-3.75 md:pb-3.5 md:px-[24.5]">
-            <Image
-              className="md:hidden"
-              src="icons/+.svg"
-              alt="+"
-              width={12}
-              height={12}
-            />
-            <div className="hidden md:flex text-[15px]">
-              <p>+</p>
-              <p>Add New Task</p>
-            </div>
-          </button>
+          {activeBoard && (
+            <button
+              disabled={activeBoard.columns.length === 0}
+              className={`purpleBtn rounded-3xl py-2.5 px-4.5 md:h-12 md:pt-3.75 md:pb-3.5 md:px-[24.5] ${activeBoard.columns.length === 0 && "opacity-25 cursor-not-allowed!"}`}
+            >
+              <Image
+                className="md:hidden"
+                src="/icons/+.svg"
+                alt="+"
+                width={12}
+                height={12}
+              />
+              <div className="hidden md:flex text-[15px]">
+                <p>+</p>
+                <p>Add New Task</p>
+              </div>
+            </button>
+          )}
           <button className="flex flex-col items-center gap-[2.46px] w-1.5 md:gap-[3.08px]">
             <div className="w-[3.69px] h-[3.69px] rounded-full bg-[#828FA3] md:w-[4.62px] md:h-[4.62px]"></div>
             <div className="w-[3.69px] h-[3.69px] rounded-full bg-[#828FA3] md:w-[4.62px] md:h-[4.62px]"></div>

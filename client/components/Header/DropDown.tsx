@@ -6,7 +6,7 @@ interface DropDownProps {
   setDropDownVis: (value: boolean) => void;
 }
 
-export default function DropDown({ setDropDownVis }: DropDownProps) {
+export default function DropDown({ setDropDownVis}: DropDownProps) {
   return (
     <>
       <div

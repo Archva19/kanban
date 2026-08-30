@@ -2,6 +2,7 @@ const { Router } = require("express");
 const usersModel = require("../models/users.model");
 const { isValidObjectId } = require("mongoose");
 const isAuth = require("../middlewares/isAuth.middleware");
+const boardsModel = require("../models/boards.model");
 
 const usersRouter = Router();
 
@@ -49,6 +50,7 @@ usersRouter.delete("/:id", async (req, res) => {
     return res.status(400).json({ message: "invalid id", data: null });
   }
 
+  await boardsModel.deleteMany({ userId: id });
   const findUserBydId = await usersModel.findByIdAndDelete(id);
 
   res.json({

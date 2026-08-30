@@ -1,9 +1,11 @@
 "use client";
 
+import NewBoard from "@/components/forms/NewBoard";
 import Header from "@/components/Header/Header";
 import SideLogo from "@/components/Header/SideLogo";
 import EyeVisBtn from "@/components/models/EyeVisBtn";
 import Sidebar from "@/components/Sidebar/Sidebar";
+import FormsProvider, { useForms } from "@/context/FormsContext";
 import UserProvider, { useUser } from "@/context/UserContext";
 import { AnimatePresence } from "motion/react";
 import { useState } from "react";
@@ -11,6 +13,7 @@ import { useState } from "react";
 function DashboardContent({ children }: { children: React.ReactNode }) {
   const [sidebarVis, setSidebarVis] = useState(true);
   const { userData } = useUser();
+  const { newBoardVis } = useForms();
 
   if (!userData) {
     return (
@@ -39,6 +42,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
         </div>
         {!sidebarVis && <EyeVisBtn setSidebarVis={setSidebarVis} />}
       </div>
+      {newBoardVis && <NewBoard />}
     </>
   );
 }
@@ -50,9 +54,11 @@ export default function DashboardLayout({
 }) {
   return (
     <>
-      <UserProvider>
-        <DashboardContent>{children}</DashboardContent>
-      </UserProvider>
+      <FormsProvider>
+        <UserProvider>
+          <DashboardContent>{children}</DashboardContent>
+        </UserProvider>
+      </FormsProvider>
     </>
   );
 }
