@@ -11,7 +11,7 @@ export default function Boards() {
   const { setNewBoardVis } = useForms();
   return (
     <>
-      <div className="flex flex-col gap-4.75">
+      <div className="flex flex-col gap-4.75 max-h-150 overflow-scroll">
         <p className="text-[#828FA3] text-[12px] tracking-[2.4px] px-6 xl:px-8">
           ALL BOARDS ({boards.length})
         </p>

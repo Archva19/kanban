@@ -13,6 +13,7 @@ interface UserContextType {
   userData: any;
   boards: any[];
   addBoard: (newBoard: any) => void;
+  handleDeleteBoard: (deletedBoard: any) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -31,8 +32,12 @@ export default function UserProvider({ children }: { children: ReactNode }) {
     setBoards((prev) => [...prev, newBoard]);
   }
 
+  function handleDeleteBoard(deletedId:string){
+    setBoards((prev) => prev.filter((board) => board._id !== deletedId));
+  }
+
   return (
-    <UserContext.Provider value={{ userData, boards, addBoard }}>
+    <UserContext.Provider value={{ userData, boards, addBoard, handleDeleteBoard }}>
       {children}
     </UserContext.Provider>
   );

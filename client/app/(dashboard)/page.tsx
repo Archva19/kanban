@@ -1,5 +1,6 @@
 "use client";
-import GetStarted from "@/components/GetStarted/GetStarted";
+
+import GetStarted from "@/components/EmptyMessages/GetStarted";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -9,14 +10,10 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    if (userData) {
-      if (boards && boards.length > 0) {
-        router.push(`/boards/${boards[0]._id}`);
-      }
+    if (userData && boards && boards.length > 0) {
+      router.push(`/boards/${boards[0]._id}`);
     }
-  }, [userData, router]);
-
-  if (!userData) return null;
+  }, [userData, boards,router]);
 
   if (userData.boards?.length === 0) {
     return <GetStarted />;
