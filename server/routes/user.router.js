@@ -50,7 +50,7 @@ usersRouter.delete("/:id", async (req, res) => {
     return res.status(400).json({ message: "invalid id", data: null });
   }
 
-  await boardsModel.deleteMany({ userId: id });
+  await boardsModel.deleteMany({ user: id });
   const findUserBydId = await usersModel.findByIdAndDelete(id);
 
   res.json({

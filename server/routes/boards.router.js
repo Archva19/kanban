@@ -46,4 +46,17 @@ boardsRouter.post("/", isAuth, async (req, res) => {
   res.json({ message: "creating board was successful", data: newBoard });
 });
 
+boardsRouter.delete("/:id", isAuth, async (req, res) => {
+    const {id} = req.params;
+    const userId = req.userId;
+
+    const deletedBoard = await boardsModel.findByIdAndDelete(id);
+
+    await usersModel.findByIdAndDelete(userId, {
+        $pull: {boards: deletedBoard._id}
+    })
+
+    res.json({ message: "Deleting board was successful", data: deletedBoard });
+})
+
 module.exports = boardsRouter;
