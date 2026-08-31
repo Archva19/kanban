@@ -1,18 +1,20 @@
 import { useForms } from "@/context/FormsContext";
 import EmptyMessageModel from "../models/EmptyMessageModel";
 
-export default function GetStarted() {
-  const { setNewBoardVis } = useForms();
+export default function EmptyBoard() {
+  const { setEditBoardVis, setAutoAddColumn } = useForms();
 
-  function handleOnClick() {
-    setNewBoardVis(true);
+  function handleOnClickNewColumn() {
+    setEditBoardVis(true);
+    setAutoAddColumn(true);
   }
+
   return (
     <>
       <EmptyMessageModel
         title={"This board is empty. Create a new column to get started."}
         btnTxt={"+ Add New Column"}
-        onClickFun={handleOnClick}
+        onClickFun={handleOnClickNewColumn}
       />
     </>
   );

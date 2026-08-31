@@ -13,10 +13,15 @@ export default function BoardDropDown({
   setBoardDropDownVis: (value: boolean) => void;
 }) {
   const { startTimer, stopTimer } = useTimer({ onClose });
-  const { setDeleteBoardVis } = useForms();
+  const { setDeleteBoardVis, setEditBoardVis } = useForms();
 
   function handleOnClickDelete() {
     setDeleteBoardVis(true);
+    setBoardDropDownVis(false);
+  }
+
+  function handleOnClickEdit() {
+    setEditBoardVis(true);
     setBoardDropDownVis(false);
   }
 
@@ -31,7 +36,12 @@ export default function BoardDropDown({
         onMouseLeave={startTimer}
         className="boardDropDown"
       >
-        <button className="w-40 text-left text-[#828FA3]">Edit Board</button>
+        <button
+          onClick={handleOnClickEdit}
+          className="w-40 text-left text-[#828FA3]"
+        >
+          Edit Board
+        </button>
         <button
           onClick={handleOnClickDelete}
           className="w-40 text-left text-[#EA5555]"

@@ -2,9 +2,11 @@
 
 import EmptyBoard from "@/components/EmptyMessages/EmptyBoard";
 import { useActiveBoard } from "@/context/ActiveBoardContext";
+import { useForms } from "@/context/FormsContext";
 
 export default function Board({}) {
   const { activeBoard } = useActiveBoard();
+  const { setEditBoardVis, setAutoAddColumn } = useForms();
 
   const COLUMN_COLORS = [
     "#49C4E5",
@@ -21,6 +23,11 @@ export default function Board({}) {
 
   if (activeBoard.columns.length === 0) {
     return <EmptyBoard />;
+  }
+
+  function handleOnClickNewColumn() {
+    setEditBoardVis(true);
+    setAutoAddColumn(true);
   }
 
   return (
@@ -48,7 +55,10 @@ export default function Board({}) {
           ))}
           <div className="min-w-70 flex flex-col gap-6 h-full">
             <div className="h-3.74 w-full"></div>
-            <button className="BgGradient text-[#828FA3] text-[24px] font-bold leading-[100%] min-w-70 h-full rounded-md flex items-center justify-center hover:text-[#635FC7]">
+            <button
+              onClick={handleOnClickNewColumn}
+              className="BgGradient text-[#828FA3] text-[24px] font-bold leading-[100%] min-w-70 h-full rounded-md flex items-center justify-center hover:text-[#635FC7]"
+            >
               + New Column
             </button>
           </div>

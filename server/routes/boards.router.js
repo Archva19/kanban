@@ -25,6 +25,23 @@ boardsRouter.delete("/:id", async (req, res) => {
   });
 });
 
+boardsRouter.put("/:id", isAuth, async (req, res) => {
+    const {id} = req.params;
+    const {title, columns} = req.body;
+    const userId = req.userId;
+
+    if (!title || !title.trim() === "") {
+    return res.status(400).json({ message: "Title is required" });
+  }
+
+  const editedBoard = await boardsModel.findByIdAndUpdate({ _id: id, userId: userId }, {title, columns}, {new:true});
+
+  res.json({
+    message: "გილოცავ შენ წარმატებით განაახლე მონაცემი",
+    data: editedBoard,
+  });
+})
+
 boardsRouter.post("/", isAuth, async (req, res) => {
   const { title, columns } = req.body;
   const userId = req.userId;

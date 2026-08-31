@@ -1,11 +1,12 @@
 import { useForms } from "@/context/FormsContext";
 import NewBoard from "./NewBoard";
 import DeleteBoard from "./DeleteBoard";
+import EditBoard from "./EditBoard";
 import useTimer from "@/hooks/WindowTimer/useTimer";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function AllForms() {
-  const { newBoardVis, deleteBoardVis, deleteMessageVis, setDeleteMessageVis } =
+  const { newBoardVis, deleteBoardVis, deleteMessageVis, setDeleteMessageVis, editBoardVis } =
     useForms();
 
   function onCloseDeleteMessage() {
@@ -33,6 +34,7 @@ export default function AllForms() {
           </motion.div>
         )}
       </AnimatePresence>
+      {editBoardVis && <EditBoard/>}
     </>
   );
 }
