@@ -8,17 +8,22 @@
   --card-background: #ffffff;
   --lightPurpleBtn-background: #635fc71a;
   --lightPurpleBtn-hoverBg: #635fc740;
-  --borderLine-color: #E4EBFA;
+  --borderLine-color: #e4ebfa;
+  --linearGradient-background: #e9effa;
+  --boardDropDown-background: white;
 }
 
-.dark, [data-theme="dark"] {
+.dark,
+[data-theme="dark"] {
   --bg-color: #20212c;
   --text-color: #ffffff;
   --formTitle-color: #ffffff;
   --card-background: #2b2c37;
   --lightPurpleBtn-background: white;
   --lightPurpleBtn-hoverBg: white;
-  --borderLine-color: #3E3F4E;
+  --borderLine-color: #3e3f4e;
+  --linearGradient-background: #2b2c37;
+  --boardDropDown-background: #20212c;
 }
 
 body {
@@ -37,38 +42,45 @@ a {
   cursor: pointer;
 }
 
-input{
-  font-weight:500;
-  border: 1px solid #828FA340;
+input {
+  font-weight: 500;
+  border: 1px solid #828fa340;
   border-radius: 4px;
-  padding-top:8px;
-  padding-bottom:9px;
-  padding-left:16px;
-  outline:1px;
-  outline:transparent;
-  width:100%;
-  line-height:23px;
+  padding-top: 8px;
+  padding-bottom: 9px;
+  padding-left: 16px;
+  outline: 1px;
+  outline: transparent;
+  width: 100%;
+  line-height: 23px;
   font-size: 13px;
 }
 
 input::placeholder {
   color: var(--text-color);
   opacity: 0.25;
-  font-weight:500;
-  line-height:23px;
+  font-weight: 500;
+  line-height: 23px;
   font-size: 13px;
 }
 
 @layer components {
-  .bodyBg{
+  .bodyBg {
     background-color: var(--bg-color);
   }
 
-  .logo{
+  .BgGradient {
+    background: linear-gradient(
+      var(--linearGradient-background),
+      color-mix(in srgb, var(--linearGradient-background) 50%, transparent)
+    );
+  }
+
+  .logo {
     fill: var(--text-color);
   }
 
-  .borderLineColor{
+  .borderLineColor {
     border-color: var(--borderLine-color);
   }
 
@@ -110,11 +122,21 @@ input::placeholder {
     @apply bg-[#635FC7] text-[white] hover:bg-[#A8A4FF];
   }
 
-  .formBg{
-    @apply absolute top-0 left-0 w-screen h-screen max-h-screen overflow-scroll bg-[#000000]/50 flex items-center justify-center
+  .redBtn{
+    @apply bg-[#EA5555] text-[white] hover:bg-[#FF9898]
   }
 
-  .formWindow{
-    @apply w-[91.46%] max-w-120 pt-6 px-6 pb-8 md:p-8 rounded-md max-h-[80%] overflow-auto
+
+  .formBg {
+    @apply absolute top-0 left-0 w-screen h-screen max-h-screen overflow-scroll bg-[#000000]/50 flex items-center justify-center;
+  }
+
+  .formWindow {
+    @apply w-[91.46%] max-w-120 pt-6 px-6 pb-8 md:p-8 rounded-md max-h-[80%] overflow-auto;
+  }
+
+  .boardDropDown {
+    background-color: var(--boardDropDown-background);
+    @apply drop-shadow-[0_10px_20px_0_rgba(54,78,126,0.25)] rounded-lg p-4 flex flex-col items-start gap-4 absolute z-99 top-14 right-3 md:top-19 md:right-6 xl:top-22.5 font-medium text-[13px] leading-5.75;
   }
 }

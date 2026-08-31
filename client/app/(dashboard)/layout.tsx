@@ -1,10 +1,11 @@
 "use client";
 
-import NewBoard from "@/components/forms/NewBoard";
+import AllForms from "@/components/forms/AllForms";
 import Header from "@/components/Header/Header";
 import SideLogo from "@/components/Header/SideLogo";
 import EyeVisBtn from "@/components/models/EyeVisBtn";
 import Sidebar from "@/components/Sidebar/Sidebar";
+import ActiveBoardProvider from "@/context/ActiveBoardContext";
 import FormsProvider, { useForms } from "@/context/FormsContext";
 import UserProvider, { useUser } from "@/context/UserContext";
 import { AnimatePresence } from "motion/react";
@@ -13,7 +14,6 @@ import { useState } from "react";
 function DashboardContent({ children }: { children: React.ReactNode }) {
   const [sidebarVis, setSidebarVis] = useState(true);
   const { userData } = useUser();
-  const { newBoardVis } = useForms();
 
   if (!userData) {
     return (
@@ -25,24 +25,22 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <div className="flex">
+      <div className="flex w-screen h-screen">
         <AnimatePresence>
           {sidebarVis && (
             <Sidebar sidebarVis={sidebarVis} setSidebarVis={setSidebarVis} />
           )}
         </AnimatePresence>
-        <div className="flex-1 flex flex-col h-screen">
+        <div className="flex-1 flex flex-col h-full min-w-0">
           <div className="flex w-full">
             {!sidebarVis && <SideLogo />}
             <Header />
           </div>
-          <main className="h-full w-full flex items-center justify-center">
-            {children}
-          </main>
+          <main className="w-full h-full overflow-hidden">{children}</main>
         </div>
         {!sidebarVis && <EyeVisBtn setSidebarVis={setSidebarVis} />}
       </div>
-      {newBoardVis && <NewBoard />}
+      <AllForms />
     </>
   );
 }
@@ -56,7 +54,9 @@ export default function DashboardLayout({
     <>
       <FormsProvider>
         <UserProvider>
-          <DashboardContent>{children}</DashboardContent>
+          <ActiveBoardProvider>
+            <DashboardContent>{children}</DashboardContent>
+          </ActiveBoardProvider>
         </UserProvider>
       </FormsProvider>
     </>

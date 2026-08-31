@@ -65,6 +65,10 @@ export default function NewBoard() {
                   placeholder="e.g. Web Design"
                   {...register("title", {
                     required: "Can’t be empty",
+                    maxLength: {
+                      value: 15,
+                      message: "Input is too long",
+                    },
                   })}
                 />
                 <p className="inputErrorMessage">{errors.title?.message}</p>

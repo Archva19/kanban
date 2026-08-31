@@ -11,7 +11,6 @@ interface SideBarProps {
 }
 
 export default function Sidebar({ setSidebarVis }: SideBarProps) {
-  const isDesktop = useDesktop();
   return (
     <motion.div
       initial={{ width: 0 }}
