@@ -1,6 +1,6 @@
 "use client";
 
-import AllForms from "@/components/forms/AllForms";
+import AllForms from "@/components/forms/AllForms/AllForms";
 import Header from "@/components/Header/Header";
 import SideLogo from "@/components/Header/SideLogo";
 import EyeVisBtn from "@/components/models/EyeVisBtn";

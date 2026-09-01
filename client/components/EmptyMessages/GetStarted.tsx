@@ -10,7 +10,7 @@ export default function GetStarted() {
   return (
     <>
       <EmptyMessageModel
-        title={"Your Boards are empty. Create a board to get started."}
+        title={"Welcome to Kanban. Create your very first board to get started!"}
         btnTxt={"+ Add New Board"}
         onClickFun={handleOnClick}
       />

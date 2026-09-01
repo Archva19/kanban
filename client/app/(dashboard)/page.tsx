@@ -13,9 +13,9 @@ export default function Home() {
     if (userData && boards && boards.length > 0) {
       router.push(`/boards/${boards[0]._id}`);
     }
-  }, [userData, boards,router]);
+  }, [userData, boards, router]);
 
-  if (userData.boards?.length === 0) {
+  if (boards.length === 0) {
     return <GetStarted />;
   }
 
