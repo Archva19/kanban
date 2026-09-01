@@ -47,17 +47,32 @@ export default function Board({}) {
                   }}
                   className="rounded-full w-3.75 h-3.75"
                 ></div>
-                <p className="text-[12px] leading-[100%] tracking-[2.4px] font-bold text-[#828FA3]">
+                <p className="text-[12px] tracking-[2.4px] font-bold text-[#828FA3]">
                   {column.title} ({column.tasks.length})
                 </p>
+              </div>
+              <div className="flex flex-col gap-5 w-full">
+                {column.tasks.map((task: any) => (
+                  <div
+                    key={task._id}
+                    className="group cardBgColor rounded-lg py-5.75 px-4 flex flex-col gap-2 cursor-pointer wrap-break-word"
+                  >
+                    <p className="text-[15px] group-hover:text-[#635FC7]">
+                      {task.title}
+                    </p>
+                    <p className="text-[12px] text-[#828FA3]">
+                      0 of {task.subTasks.length} subtasks
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
           ))}
           <div className="min-w-70 flex flex-col gap-6 h-full">
-            <div className="h-3.74 w-full"></div>
+            <div className="h-3.75 w-full"></div>
             <button
               onClick={handleOnClickNewColumn}
-              className="BgGradient text-[#828FA3] text-[24px] font-bold leading-[100%] min-w-70 h-full rounded-md flex items-center justify-center hover:text-[#635FC7]"
+              className="BgGradient text-[#828FA3] text-[24px] font-bold min-w-70 h-full rounded-md flex items-center justify-center hover:text-[#635FC7]"
             >
               + New Column
             </button>

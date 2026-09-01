@@ -26,13 +26,13 @@ export default function Sidebar({ setSidebarVis }: SideBarProps) {
           </div>
           <Boards />
         </div>
-        <div className="flex flex-col gap-4 xl:gap-5.5">
+        <div className="flex flex-col gap-2">
           <div className="px-[12.5px] xl:px-6">
             <ThemeToggle />
           </div>
           <button
             onClick={() => setSidebarVis(false)}
-            className="flex gap-2.5 px-6 items-center xl:gap-3.75 xl:px-7.75"
+            className="flex w-60 gap-2.5 pt-3.5 pb-3.75 rounded-tr-[100px] rounded-br-[100px] items-center xl:w-69 xl:gap-3.75 xl:px-7.75 sideBarHideBtnBgHover"
           >
             <Image src="/icons/eye-slash.svg" alt="" width={18} height={16} />
             <p className="text-[#828FA3] text-[15px]">Hide Sidebar</p>
