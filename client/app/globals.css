@@ -4,7 +4,7 @@
 :root {
   --bg-color: #f4f7fd;
   --text-color: #000112;
-  --formTitle-color: #828fa3;
+  --inputTitle-color: #828fa3;
   --card-background: #ffffff;
   --lightPurpleBtn-background: #635fc71a;
   --lightPurpleBtn-hoverBg: #635fc740;
@@ -17,7 +17,7 @@
 [data-theme="dark"] {
   --bg-color: #20212c;
   --text-color: #ffffff;
-  --formTitle-color: #ffffff;
+  --inputTitle-color: #ffffff;
   --card-background: #2b2c37;
   --lightPurpleBtn-background: white;
   --lightPurpleBtn-hoverBg: white;
@@ -42,7 +42,9 @@ a {
   cursor: pointer;
 }
 
-input,textarea, select {
+input,
+textarea,
+select {
   border: 1px solid #828fa340;
   border-radius: 4px;
   padding-top: 8px;
@@ -56,7 +58,8 @@ input,textarea, select {
   font-weight: 500;
 }
 
-input::placeholder, textarea::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: var(--text-color);
   opacity: 0.25;
   font-weight: 500;
@@ -89,7 +92,11 @@ input::placeholder, textarea::placeholder {
   }
 
   .formTitle {
-    color: var(--formTitle-color);
+    @apply text-[18px];
+  }
+
+  .inputTitle {
+    color: var(--inputTitle-color);
     @apply text-[12px];
   }
 
@@ -106,7 +113,7 @@ input::placeholder, textarea::placeholder {
   }
 
   .formBtn {
-    @apply pt-2 pb-2.25 rounded-[20px] w-full text-[13px] leading-5.75 flex items-center justify-center;
+    @apply pt-2 pb-2.25 rounded-[20px] w-full text-[13px] leading-5.75! flex items-center justify-center;
   }
 
   .lightPurpleBtn {
@@ -131,15 +138,41 @@ input::placeholder, textarea::placeholder {
   }
 
   .formWindow {
-    @apply w-[91.46%] max-w-120 pt-6 px-6 pb-8 md:p-8 rounded-md max-h-[80%] overflow-auto;
+    @apply w-[91.46%] max-w-120 p-6 md:p-8 rounded-md max-h-[80%] overflow-auto flex flex-col gap-6;
   }
 
-  .boardDropDown {
+  .modifyDropDown {
     background-color: var(--boardDropDown-background);
-    @apply drop-shadow-[0_10px_20px_0_rgba(54,78,126,0.25)] rounded-lg p-4 flex flex-col items-start gap-4 absolute z-99 top-14 right-3 md:top-19 md:right-6 xl:top-22.5 font-medium text-[13px] leading-5.75;
+    @apply drop-shadow-[0_10px_20px_0_rgba(54,78,126,0.25)] rounded-lg p-4 flex flex-col items-start gap-4 z-99 font-medium text-[13px] leading-5.75!;
   }
 
-  .sideBarHideBtnBgHover:hover{
+  .sideBarHideBtnBgHover:hover {
     background-color: var(--lightPurpleBtn-background);
+  }
+
+  .scrollable-container {
+    overflow-y: auto;
+
+    background:
+      linear-gradient(white 30%, rgba(255, 255, 255, 0)),
+      linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%,
+      radial-gradient(
+        farthest-corner at 50% 0,
+        rgba(0, 0, 0, 0.2),
+        rgba(0, 0, 0, 0)
+      ),
+      radial-gradient(
+          farthest-corner at 50% 100%,
+          rgba(0, 0, 0, 0.2),
+          rgba(0, 0, 0, 0)
+        )
+        0 100%;
+    background-repeat: no-repeat;
+    background-size:
+      100% 40px,
+      100% 40px,
+      100% 14px,
+      100% 14px;
+    background-attachment: local, local, scroll, scroll;
   }
 }

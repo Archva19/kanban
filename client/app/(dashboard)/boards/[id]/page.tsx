@@ -6,7 +6,7 @@ import { useForms } from "@/context/FormsContext";
 
 export default function Board({}) {
   const { activeBoard } = useActiveBoard();
-  const { setEditBoardVis, setAutoAddColumn, setEditTaskVis, setActiveTask } = useForms();
+  const { setEditBoardVis, setAutoAddColumn, setTaskWindowVis, setActiveTask } = useForms();
 
   const COLUMN_COLORS = [
     "#49C4E5",
@@ -31,8 +31,8 @@ export default function Board({}) {
   }
 
   function handleOnClickTask(task:any){
-    setEditTaskVis(true);
-    setActiveTask(task)
+    setTaskWindowVis(true);
+    setActiveTask(task);
   }
 
   return (

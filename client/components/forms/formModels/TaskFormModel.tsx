@@ -38,11 +38,11 @@ export default function TaskFormModel(props: TaskFormModelProps) {
     <>
       <div className="formBg" onClick={() => windowVisState(false)}>
         <div
-          className="cardBgColor formWindow pb-6 flex flex-col gap-6 md:pb-10"
+          className="cardBgColor formWindow"
           onClick={(e) => e.stopPropagation()}
         >
           <div>
-            <p className="text-[18px]">
+            <p className="formTitle">
               {windowType === "create" ? "Add New Task" : "Edit Task"}
             </p>
           </div>
@@ -51,7 +51,7 @@ export default function TaskFormModel(props: TaskFormModelProps) {
             className="flex flex-col gap-6"
           >
             <div className="flex flex-col gap-2">
-              <p className="formTitle">Title</p>
+              <p className="inputTitle">Title</p>
               <div className="relative">
                 <input
                   className={`${errors.title ? "border-red-500!" : "focusOnInput"}`}
@@ -67,7 +67,7 @@ export default function TaskFormModel(props: TaskFormModelProps) {
               </div>
             </div>
             <div className="flex flex-col gap-2">
-              <p className="formTitle">Description</p>
+              <p className="inputTitle">Description</p>
               <div className="relative">
                 <textarea
                   className="h-28 focusOnInput resize-none"
@@ -78,7 +78,7 @@ export default function TaskFormModel(props: TaskFormModelProps) {
             </div>
 
             <div className="flex flex-col gap-2">
-              <p className="formTitle">Subtasks</p>
+              <p className="inputTitle">Subtasks</p>
               <div className="flex flex-col gap-3">
                 <div className="flex flex-col gap-3">
                   {fields.map((field, index) => (
@@ -109,11 +109,11 @@ export default function TaskFormModel(props: TaskFormModelProps) {
             </div>
 
             <div className="flex flex-col gap-2">
-              <p className="formTitle">Status</p>
+              <p className="inputTitle">Status</p>
               <div className="relative">
                 <select
                   {...register("columnId")}
-                  className="w-full p-3 border border-[#E4EBFA] rounded text-[13px] font-medium bg-transparent appearance-none cursor-pointer focusOnInput outline-none"
+                  className="focusOnInput"
                 >
                   {activeBoard?.columns.map((col: any) => (
                     <option

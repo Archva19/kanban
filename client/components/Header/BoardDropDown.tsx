@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 import { useForms } from "@/context/FormsContext";
 import useTimer from "@/hooks/WindowTimer/useTimer";
+import ModifyDropDownModel from "../models/ModifyDropDownModel";
 
 export default function BoardDropDown({
   onClose,
@@ -13,7 +12,7 @@ export default function BoardDropDown({
   setBoardDropDownVis: (value: boolean) => void;
 }) {
   const { startTimer, stopTimer } = useTimer({ onClose });
-  const { setDeleteBoardVis, setEditBoardVis } = useForms();
+  const { setDeleteBoardVis, setEditBoardVis} = useForms();
 
   function handleOnClickDelete() {
     setDeleteBoardVis(true);
@@ -27,28 +26,15 @@ export default function BoardDropDown({
 
   return (
     <>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2, ease: "easeInOut" }}
-        onMouseEnter={stopTimer}
-        onMouseLeave={startTimer}
-        className="boardDropDown"
-      >
-        <button
-          onClick={handleOnClickEdit}
-          className="w-40 text-left text-[#828FA3]"
-        >
-          Edit Board
-        </button>
-        <button
-          onClick={handleOnClickDelete}
-          className="w-40 text-left text-[#EA5555]"
-        >
-          Delete Board
-        </button>
-      </motion.div>
+      <div className="absolute top-14 right-3 md:top-19 md:right-6 xl:top-22.5">
+        <ModifyDropDownModel
+          subject={"Board"}
+          stopTimer={stopTimer}
+          startTimer={startTimer}
+          handleOnClickEdit={handleOnClickEdit}
+          handleOnClickDelete={handleOnClickDelete}
+        />
+      </div>
     </>
   );
 }

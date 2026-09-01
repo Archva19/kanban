@@ -17,7 +17,7 @@ interface BoardFormModelProps {
   fields: FieldArrayWithId<any, "columns", "id">[];
   append: UseFieldArrayAppend<any, "columns">;
   remove: UseFieldArrayRemove;
-  autoAddColumn?: boolean
+  autoAddColumn?: boolean;
 }
 
 export default function BoardFormModel(props: BoardFormModelProps) {
@@ -31,24 +31,26 @@ export default function BoardFormModel(props: BoardFormModelProps) {
     fields,
     remove,
     append,
-    autoAddColumn = false
+    autoAddColumn = false,
   } = props;
   return (
     <>
       <div className="formBg" onClick={handleOnClickBg}>
         <div
-          className="cardBgColor formWindow flex flex-col gap-6"
+          className="cardBgColor formWindow"
           onClick={(e) => e.stopPropagation()}
         >
           <div>
-            <p className="text-[18px]">Add New Board</p>
+            <p className="formTitle">
+              {windowType === "create" ? "Add New Board" : "Edit Board"}
+            </p>
           </div>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-6"
           >
             <div className="flex flex-col gap-2">
-              <p className="formTitle">Board Name</p>
+              <p className="inputTitle">Board Name</p>
               <div className="relative">
                 <input
                   className={`${errors.title ? "border-red-500!" : "focusOnInput"}`}
@@ -68,14 +70,16 @@ export default function BoardFormModel(props: BoardFormModelProps) {
               </div>
             </div>
             <div className="flex flex-col gap-2">
-              <p>Board Columns</p>
+              <p className="inputTitle">Board Columns</p>
               <div className="flex flex-col gap-3">
                 <div className="flex flex-col gap-3">
                   {fields.map((field, index) => (
                     <div key={field.id} className="flex items-center gap-4">
                       <div className="flex-1">
                         <input
-                        autoFocus={autoAddColumn && index === fields.length - 1}
+                          autoFocus={
+                            autoAddColumn && index === fields.length - 1
+                          }
                           type="text"
                           {...register(`columns.${index}.title` as const)}
                           className="w-full p-2 border borderLineColor rounded bg-transparent"
@@ -100,7 +104,7 @@ export default function BoardFormModel(props: BoardFormModelProps) {
             </div>
             <div className="w-full">
               <button className="purpleBtn formBtn" type="submit">
-                Create New Board
+                {windowType === "create" ? "Create New Board" : "Save Changes"}
               </button>
             </div>
           </form>
