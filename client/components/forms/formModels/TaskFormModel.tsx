@@ -1,60 +1,50 @@
-"use client";
+import {
+  FieldArrayWithId,
+  FieldErrors,
+  UseFieldArrayAppend,
+  UseFieldArrayRemove,
+  UseFormRegister,
+} from "react-hook-form";
+import DeleteIcon from "../../models/DeleteIcon";
+import PurpleChevronDown from "../../models/PurpleChevronDown";
 
-import { useForms } from "@/context/FormsContext";
-import { useFieldArray, useForm } from "react-hook-form";
-import DeleteIcon from "../models/DeleteIcon";
-import useAddTask from "@/hooks/AddTask/useAddTask";
-import { useActiveBoard } from "@/context/ActiveBoardContext";
-import PurpleChevronDown from "../models/PurpleChevronDown";
+interface TaskFormModelProps {
+  windowType: "create" | "edit";
+  windowVisState: (value: boolean) => void;
+  handleSubmit: any;
+  onSubmit: (data: any) => void;
+  register: UseFormRegister<any>;
+  errors: FieldErrors<any>;
+  fields: FieldArrayWithId<any, "subTasks", "id">[];
+  append: UseFieldArrayAppend<any, "subTasks">;
+  remove: UseFieldArrayRemove;
+  activeBoard: any;
+}
 
-export default function NewTask() {
-  const { setNewTaskVis } = useForms();
-  const { handleCreateTask } = useAddTask();
-  const { activeBoard } = useActiveBoard();
-
+export default function TaskFormModel(props: TaskFormModelProps) {
   const {
+    windowType,
+    windowVisState,
     handleSubmit,
+    onSubmit,
     register,
-    control,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      title: "",
-      description: "",
-      subTasks: [{ title: "" }, { title: "" }],
-      columnId: activeBoard?.columns?.[0]?._id,
-    },
-  });
-
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "subTasks",
-  });
-
-  async function onSubmit(data: any) {
-    const formattedSubTasks = data.subTasks.filter(
-      (subTask: any) => subTask.title.trim() !== "",
-    );
-
-    await handleCreateTask(activeBoard._id, {
-      title: data.title,
-      description: data.description,
-      subTasks: formattedSubTasks,
-      columnId: data.columnId,
-    });
-
-    setNewTaskVis(false);
-  }
-
+    errors,
+    fields,
+    append,
+    remove,
+    activeBoard,
+  } = props;
   return (
     <>
-      <div className="formBg" onClick={() => setNewTaskVis(false)}>
+      <div className="formBg" onClick={() => windowVisState(false)}>
         <div
           className="cardBgColor formWindow pb-6 flex flex-col gap-6 md:pb-10"
           onClick={(e) => e.stopPropagation()}
         >
           <div>
-            <p className="text-[18px]">Add New Task</p>
+            <p className="text-[18px]">
+              {windowType === "create" ? "Add New Task" : "Edit Task"}
+            </p>
           </div>
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -71,7 +61,9 @@ export default function NewTask() {
                     required: "Can’t be empty",
                   })}
                 />
-                <p className="inputErrorMessage">{errors.title?.message}</p>
+                <p className="inputErrorMessage">
+                  {errors.title?.message as string}
+                </p>
               </div>
             </div>
             <div className="flex flex-col gap-2">
@@ -141,10 +133,9 @@ export default function NewTask() {
 
             <div className="w-full">
               <button className="purpleBtn formBtn" type="submit">
-                Create Task
+                {windowType === "create" ? "Create Task" : "Save Changes"}
               </button>
             </div>
-
           </form>
         </div>
       </div>

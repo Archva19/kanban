@@ -6,7 +6,7 @@ import { useForms } from "@/context/FormsContext";
 
 export default function Board({}) {
   const { activeBoard } = useActiveBoard();
-  const { setEditBoardVis, setAutoAddColumn } = useForms();
+  const { setEditBoardVis, setAutoAddColumn, setEditTaskVis, setActiveTask } = useForms();
 
   const COLUMN_COLORS = [
     "#49C4E5",
@@ -28,6 +28,11 @@ export default function Board({}) {
   function handleOnClickNewColumn() {
     setEditBoardVis(true);
     setAutoAddColumn(true);
+  }
+
+  function handleOnClickTask(task:any){
+    setEditTaskVis(true);
+    setActiveTask(task)
   }
 
   return (
@@ -54,6 +59,7 @@ export default function Board({}) {
               <div className="flex flex-col gap-5 w-full">
                 {column.tasks.map((task: any) => (
                   <div
+                  onClick={() => handleOnClickTask(task)}
                     key={task._id}
                     className="group cardBgColor rounded-lg py-5.75 px-4 flex flex-col gap-2 cursor-pointer wrap-break-word"
                   >

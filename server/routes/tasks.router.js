@@ -33,6 +33,44 @@ tasksRouter.post("/:boardId", isAuth, async (req, res) => {
   return res.json({message: "წარმატებით შეიქმნა task", data: activeBoard})
 });
 
+tasksRouter.put("/:boardId/:taskId", isAuth, async (req, res) => {
+    const { boardId, taskId } = req.params;
+    const {title, description, subTasks, targetedColumnId} = req.body;
+
+    const activeBoard = await boardsModel.findById(boardId);
+    if (!activeBoard) {
+      return res.status(404).json({ message: "Board not found" });
+    }
+
+    let currentTask = null;
+    let currentColumn = null;
+
+    for (let i = 0; i < activeBoard.columns.length; i++){
+        const foundTask = activeBoard.columns[i].tasks.id(taskId);
+        if (foundTask) {
+        currentTask = foundTask;
+        currentColumn = activeBoard.columns[i];
+        break;
+      }
+    }
+
+    if (!currentTask) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    currentTask.title = title || currentTask.title;
+    currentTask.description = description || currentTask.description;
+    currentTask.subTasks = subTasks || currentTask.subTasks;
+
+    if (currentColumn._id.toString() !== targetedColumnId){
+        const targetedColumn = activeBoard.columns.id(targetedColumnId);
+        currentColumn.tasks.pull(taskId);
+        currentTask.status = targetedColumn.title;
+        targetedColumn.tasks.push(currentTask);
+    }
+
+    await activeBoard.save();
+    return res.json({ message: "Task-ი წარმატებით განახლდა", data: activeBoard });
+})
+
 module.exports = tasksRouter;
-
-

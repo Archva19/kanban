@@ -1,10 +1,11 @@
 import { useForms } from "@/context/FormsContext";
-import NewBoard from "./NewBoard";
-import DeleteBoard from "./DeleteBoard";
-import EditBoard from "./EditBoard";
+import NewBoard from "../formItems/boards/NewBoard";
+import DeleteBoard from "../DeleteBoard";
+import EditBoard from "../formItems/boards/EditBoard";
 import useTimer from "@/hooks/WindowTimer/useTimer";
 import { AnimatePresence, motion } from "framer-motion";
-import NewTask from "./NewTask";
+import NewTask from "../formItems/tasks/NewTask";
+import EditTask from "../formItems/tasks/EditTask";
 
 export default function AllForms() {
   const {
@@ -14,6 +15,7 @@ export default function AllForms() {
     setDeleteMessageVis,
     editBoardVis,
     newTaskVis,
+    editTaskVis,
   } = useForms();
 
   function onCloseDeleteMessage() {
@@ -43,6 +45,7 @@ export default function AllForms() {
       </AnimatePresence>
       {editBoardVis && <EditBoard />}
       {newTaskVis && <NewTask />}
+      {editTaskVis && <EditTask />}
     </>
   );
 }
