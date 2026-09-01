@@ -50,7 +50,7 @@ export default function SignIn() {
           >
             <div className="flex flex-col gap-6 relative">
               <div className="flex flex-col gap-2">
-                <p className="formTitle">Email</p>
+                <p className="inputTitle">Email</p>
                 <div className="relative">
                   <input
                     className={`${errors.email ? "border-red-500!" : "focusOnInput"}`}
@@ -63,7 +63,7 @@ export default function SignIn() {
               </div>
 
               <div className="flex flex-col gap-2">
-                <p className="formTitle">Password</p>
+                <p className="inputTitle">Password</p>
                 <div className="relative">
                   <input
                     className={`${errors.password ? "border-red-500!" : "focusOnInput"}`}

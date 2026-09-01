@@ -19,6 +19,14 @@ interface FormsContextType {
   setEditTaskVis: (value: boolean) => void;
   activeTask: any;
   setActiveTask: (value: any) => void;
+  deleteTaskVis: any;
+  setDeleteTaskVis: (value: any) => void;
+  deleteTaskMessageVis: any;
+  setDeleteTaskMessageVis: (value: any) => void;
+  taskWindowVis: any;
+  setTaskWindowVis: (value: any) => void;
+  taskDropDownVis: any;
+  setTaskDropDownVis: (value: any) => void;
 }
 
 const FormsContext = createContext<FormsContextType | undefined>(undefined);
@@ -32,6 +40,10 @@ export default function FormsProvider({ children }: { children: ReactNode }) {
   const [newTaskVis, setNewTaskVis] = useState(false);
   const [editTaskVis, setEditTaskVis] = useState(false);
   const [activeTask, setActiveTask] = useState(null);
+  const [deleteTaskVis, setDeleteTaskVis] = useState(false);
+  const [deleteTaskMessageVis, setDeleteTaskMessageVis] = useState(false);
+  const [taskWindowVis, setTaskWindowVis] = useState(false);
+  const [taskDropDownVis, setTaskDropDownVis] = useState(false);
 
   return (
     <>
@@ -45,14 +57,22 @@ export default function FormsProvider({ children }: { children: ReactNode }) {
           setDeleteMessageVis,
           editBoardVis,
           setEditBoardVis,
-          autoAddColumn, 
+          autoAddColumn,
           setAutoAddColumn,
           newTaskVis,
           setNewTaskVis,
-          editTaskVis, 
+          editTaskVis,
           setEditTaskVis,
-          activeTask, 
-          setActiveTask
+          activeTask,
+          setActiveTask,
+          deleteTaskVis,
+          setDeleteTaskVis,
+          deleteTaskMessageVis,
+          setDeleteTaskMessageVis,
+          taskWindowVis, 
+          setTaskWindowVis,
+          taskDropDownVis,
+          setTaskDropDownVis
         }}
       >
         {children}

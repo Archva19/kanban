@@ -61,7 +61,7 @@ export default function NewBoard() {
   return (
     <>
       <BoardFormModel
-        windowType={"create"}
+        windowType={"edit"}
         handleOnClickBg={handleOnClose}
         register={register}
         handleSubmit={handleSubmit}
