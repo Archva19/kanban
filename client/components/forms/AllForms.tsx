@@ -4,10 +4,17 @@ import DeleteBoard from "./DeleteBoard";
 import EditBoard from "./EditBoard";
 import useTimer from "@/hooks/WindowTimer/useTimer";
 import { AnimatePresence, motion } from "framer-motion";
+import NewTask from "./NewTask";
 
 export default function AllForms() {
-  const { newBoardVis, deleteBoardVis, deleteMessageVis, setDeleteMessageVis, editBoardVis } =
-    useForms();
+  const {
+    newBoardVis,
+    deleteBoardVis,
+    deleteMessageVis,
+    setDeleteMessageVis,
+    editBoardVis,
+    newTaskVis,
+  } = useForms();
 
   function onCloseDeleteMessage() {
     setDeleteMessageVis(false);
@@ -34,7 +41,8 @@ export default function AllForms() {
           </motion.div>
         )}
       </AnimatePresence>
-      {editBoardVis && <EditBoard/>}
+      {editBoardVis && <EditBoard />}
+      {newTaskVis && <NewTask />}
     </>
   );
 }

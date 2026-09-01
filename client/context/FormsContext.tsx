@@ -13,6 +13,8 @@ interface FormsContextType {
   setEditBoardVis: (value: boolean) => void;
   autoAddColumn: boolean;
   setAutoAddColumn: (value: boolean) => void;
+  newTaskVis: boolean;
+  setNewTaskVis: (value: boolean) => void;
 }
 
 const FormsContext = createContext<FormsContextType | undefined>(undefined);
@@ -23,6 +25,7 @@ export default function FormsProvider({ children }: { children: ReactNode }) {
   const [deleteMessageVis, setDeleteMessageVis] = useState(false);
   const [editBoardVis, setEditBoardVis] = useState(false);
   const [autoAddColumn, setAutoAddColumn] = useState(false);
+  const [newTaskVis, setNewTaskVis] = useState(false);
 
   return (
     <>
@@ -37,7 +40,9 @@ export default function FormsProvider({ children }: { children: ReactNode }) {
           editBoardVis,
           setEditBoardVis,
           autoAddColumn, 
-          setAutoAddColumn
+          setAutoAddColumn,
+          newTaskVis,
+          setNewTaskVis
         }}
       >
         {children}

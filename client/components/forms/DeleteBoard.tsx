@@ -42,7 +42,7 @@ export default function DeleteBoard({
           className="cardBgColor formWindow pb-6 flex flex-col gap-6 md:pb-10"
           onClick={(e) => e.stopPropagation()}
         >
-          <p className="text-[18px] leading-[100%] font-bold text-[#EA5555]">
+          <p className="text-[18px] font-bold text-[#EA5555]">
             Delete this task?
           </p>
           <p className="text-[13px] leading-5.75 text-[#828FA3] font-medium">

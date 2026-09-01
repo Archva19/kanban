@@ -14,8 +14,11 @@ const tasksSchema = new mongoose.Schema({
   title: {
     type: String,
   },
-  desc: {
+  description: {
     type: String,
+  },
+  status:{
+    type:String
   },
   subTasks: {
     type: [subtasksSchema],

@@ -22,7 +22,7 @@ export default function Boards() {
               <Link
                 key={board._id}
                 href={`/boards/${board._id}`}
-                className={`w-60 rounded-tr-[100px] rounded-br-[100px] pt-3.5 pb-3.75 xl:w-69 ${isActive ? "bg-[#635FC7]" : "bg-transparent"}`}
+                className={`w-60 rounded-tr-[100px] rounded-br-[100px] pt-3.5 pb-3.75 xl:w-69 ${isActive ? "bg-[#635FC7]" : "bg-transparent hover:bg-[white]"}`}
               >
                 <div className="flex pl-6 gap-3 xl:pl-8 xl:gap-4">
                   <svg
