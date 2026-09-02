@@ -68,6 +68,20 @@ textarea::placeholder {
 }
 
 @layer components {
+  .inputStyles {
+    border: 1px solid #828fa340;
+    border-radius: 4px;
+    padding-top: 8px;
+    padding-bottom: 9px;
+    padding-inline: 16px;
+    outline: 1px;
+    outline: transparent;
+    width: 100%;
+    line-height: 23px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
   .bodyBg {
     background-color: var(--bg-color);
   }
@@ -102,6 +116,10 @@ textarea::placeholder {
 
   .focusOnInput {
     @apply focus:outline-[#635FC7];
+  }
+
+  .focusOnDiv {
+    @apply border-[#635FC7]
   }
 
   .inputErrorMessage {
@@ -148,31 +166,5 @@ textarea::placeholder {
 
   .sideBarHideBtnBgHover:hover {
     background-color: var(--lightPurpleBtn-background);
-  }
-
-  .scrollable-container {
-    overflow-y: auto;
-
-    background:
-      linear-gradient(white 30%, rgba(255, 255, 255, 0)),
-      linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%,
-      radial-gradient(
-        farthest-corner at 50% 0,
-        rgba(0, 0, 0, 0.2),
-        rgba(0, 0, 0, 0)
-      ),
-      radial-gradient(
-          farthest-corner at 50% 100%,
-          rgba(0, 0, 0, 0.2),
-          rgba(0, 0, 0, 0)
-        )
-        0 100%;
-    background-repeat: no-repeat;
-    background-size:
-      100% 40px,
-      100% 40px,
-      100% 14px,
-      100% 14px;
-    background-attachment: local, local, scroll, scroll;
   }
 }

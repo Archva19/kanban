@@ -4,9 +4,12 @@ import {
   UseFieldArrayAppend,
   UseFieldArrayRemove,
   UseFormRegister,
+  UseFormSetValue,
+  UseFormWatch,
 } from "react-hook-form";
 import DeleteIcon from "../../models/DeleteIcon";
-import PurpleChevronDown from "../../models/PurpleChevronDown";
+import SelectColumnModel from "../FormItemModels/SelectColumnModel";
+import { useState } from "react";
 
 interface TaskFormModelProps {
   windowType: "create" | "edit";
@@ -19,6 +22,8 @@ interface TaskFormModelProps {
   append: UseFieldArrayAppend<any, "subTasks">;
   remove: UseFieldArrayRemove;
   activeBoard: any;
+  watch: UseFormWatch<any>;
+  setValue: UseFormSetValue<any>;
 }
 
 export default function TaskFormModel(props: TaskFormModelProps) {
@@ -33,13 +38,24 @@ export default function TaskFormModel(props: TaskFormModelProps) {
     append,
     remove,
     activeBoard,
+    watch,
+    setValue,
   } = props;
+
+  const [isOpen, setIsOpen] = useState(false);
+  const selectedColumnId = watch("columnId") || activeBoard?.columns[0]?._id;
+
+  function onClickWindow(e: React.MouseEvent<HTMLDivElement>) {
+    e.stopPropagation();
+    setIsOpen(false);
+  }
+
   return (
     <>
       <div className="formBg" onClick={() => windowVisState(false)}>
         <div
-          className="cardBgColor formWindow"
-          onClick={(e) => e.stopPropagation()}
+          className={`cardBgColor formWindow relative`}
+          onClick={onClickWindow}
         >
           <div>
             <p className="formTitle">
@@ -110,25 +126,13 @@ export default function TaskFormModel(props: TaskFormModelProps) {
 
             <div className="flex flex-col gap-2">
               <p className="inputTitle">Status</p>
-              <div className="relative">
-                <select
-                  {...register("columnId")}
-                  className="focusOnInput"
-                >
-                  {activeBoard?.columns.map((col: any) => (
-                    <option
-                      key={col._id}
-                      value={col._id}
-                      className="cardBgColor"
-                    >
-                      {col.title}
-                    </option>
-                  ))}
-                </select>
-                <div className="absolute top-1/2 -translate-y-1/2 right-4">
-                  <PurpleChevronDown />
-                </div>
-              </div>
+              <SelectColumnModel
+                columns={activeBoard.columns}
+                selectedColumnId={selectedColumnId}
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                handleOnSelect={(colId) => setValue("columnId", colId)}
+              />
             </div>
 
             <div className="w-full">

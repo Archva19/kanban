@@ -1,9 +1,7 @@
-import Image from "next/image";
 import Logo from "../Logo/Logo";
 import Boards from "../models/Boards";
 import ThemeToggle from "../models/ThemeToggle";
 import { motion } from "framer-motion";
-import useDesktop from "@/hooks/useDesktop/useDesktop";
 
 interface SideBarProps {
   sidebarVis: boolean;

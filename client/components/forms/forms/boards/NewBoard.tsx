@@ -3,7 +3,6 @@
 import useAddBoard from "@/hooks/AddBoard/useAddBoard";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import DeleteIcon from "../../../models/DeleteIcon";
 import { useForms } from "@/context/FormsContext";
 import BoardFormModel from "../../formModels/BoardFormModel";
 
