@@ -5,14 +5,58 @@ import { useForms } from "@/context/FormsContext";
 import { AnimatePresence } from "motion/react";
 import Image from "next/image";
 import TaskDropDown from "./TaskDropDown";
+import useToggleSubtask from "@/hooks/ToggleSubtask/useToggleSubtask";
+import useEditTask from "@/hooks/EditTask/useEditTask";
 
 export default function TaskWindow() {
-  const { activeTask, setTaskWindowVis, taskDropDownVis, setTaskDropDownVis } =
-    useForms();
+  const { handleEditTask } = useEditTask();
+  const { handleToggleSubtask } = useToggleSubtask();
+  const {
+    activeTask,
+    setTaskWindowVis,
+    taskDropDownVis,
+    setTaskDropDownVis,
+    setActiveTask,
+  } = useForms();
   const { activeBoard } = useActiveBoard();
 
   function onClickMenu() {
     setTaskDropDownVis(!taskDropDownVis);
+  }
+
+  const completedSubTasksLength = activeTask.subTasks.filter(
+    (subTask: any) => subTask.isCompleted,
+  ).length;
+
+  function handleOnClickTask(subTaskId: string) {
+    if (!activeTask) return;
+    const updatedSubtasks = activeTask.subTasks.map((subTask: any) =>
+      subTask._id === subTaskId
+        ? { ...subTask, isCompleted: !subTask.isCompleted }
+        : subTask,
+    );
+    const updatedTask = { ...activeTask, subTasks: updatedSubtasks };
+    setActiveTask(updatedTask);
+    handleToggleSubtask(activeBoard._id, activeTask._id, subTaskId).catch(
+      () => {
+        setActiveTask(activeTask);
+      },
+    );
+  }
+
+  const currentColumn = activeBoard?.columns.find((column: any) =>
+    column.tasks.some((task: any) => task._id === activeTask._id),
+  );
+  const currentColumnId = currentColumn?._id;
+
+  async function handleChangeColumn(e: React.ChangeEvent<HTMLSelectElement>) {
+    const newColumnId = e.target.value;
+    await handleEditTask(activeBoard._id, activeTask._id, {
+      title: activeTask.title,
+      description: activeTask.description,
+      subTasks: activeTask.subTasks,
+      targetedColumnId: newColumnId,
+    });
   }
 
   return (
@@ -27,18 +71,24 @@ export default function TaskWindow() {
             <ThreeDotsBtnModel onClick={onClickMenu} />
           </div>
           <div className="text-[13px] leading-5.75! text-[#828FA3]">
-            <p className = "wrap-break-word">{activeTask.description === "" ? "No Description" : activeTask.description}</p>
+            <p className="wrap-break-word">
+              {activeTask.description === ""
+                ? "No Description"
+                : activeTask.description}
+            </p>
           </div>
           {activeTask.subTasks.length === 0 ? (
-            <p className = "inputTitle">No Subtasks</p>
+            <p className="inputTitle">No Subtasks</p>
           ) : (
             <div className="flex flex-col gap-4">
               <p className="inputTitle">
-                Subtasks 0 of {activeTask.subTasks.length}
+                Subtasks {completedSubTasksLength} of{" "}
+                {activeTask.subTasks.length}
               </p>
               <div className="flex flex-col gap-2 max-h-50 overflow-y-scroll">
                 {activeTask.subTasks.map((subTask: any) => (
                   <button
+                    onClick={() => handleOnClickTask(subTask._id)}
                     key={subTask._id}
                     className="bodyBg p-3 flex items-center gap-4 rounded-sm hover:bg-[#635FC7]/25"
                   >
@@ -66,11 +116,14 @@ export default function TaskWindow() {
               </div>
             </div>
           )}
-
           <div className="flex flex-col gap-2">
             <p className="inputTitle">Status</p>
             <div className="relative">
-              <select className="focusOnInput">
+              <select
+                className="focusOnInput"
+                value={currentColumnId}
+                onChange={handleChangeColumn}
+              >
                 {activeBoard?.columns.map((col: any) => (
                   <option key={col._id} value={col._id} className="cardBgColor">
                     {col.title}
