@@ -6,16 +6,27 @@ import { useForms } from "@/context/FormsContext";
 
 export default function Board({}) {
   const { activeBoard } = useActiveBoard();
-  const { setEditBoardVis, setAutoAddColumn, setTaskWindowVis, setActiveTask } = useForms();
+  const { setEditBoardVis, setAutoAddColumn, setTaskWindowVis, setActiveTask } =
+    useForms();
 
-  const COLUMN_COLORS = [
-    "#49C4E5",
-    "#8471F2",
-    "#67E2AE",
-    "#FF9800",
-    "#E91E63",
-    "#00BCD4",
-  ];
+const COLUMN_COLORS = [
+  "#49C4E5",
+  "#8471F2",
+  "#67E2AE", 
+  "#FF9800",
+  "#E91E63",
+  "#00BCD4",
+  "#9C27B0",
+  "#FFC107", 
+  "#00E676", 
+  "#FF5722", 
+  "#3F51B5",
+  "#F44336", 
+  "#00E5FF",
+  "#AB47BC",
+  "#8BC34A",
+  "#FF4081",
+];
 
   if (!activeBoard) {
     return null;
@@ -30,19 +41,26 @@ export default function Board({}) {
     setAutoAddColumn(true);
   }
 
-  function handleOnClickTask(task:any){
+  function handleOnClickTask(task: any) {
     setTaskWindowVis(true);
     setActiveTask(task);
   }
 
+  function getCompletedSubTasksLength(task:any) {
+    const completedSubTasksLength = task.subTasks.filter(
+      (subTask: any) => subTask.isCompleted,
+    ).length;
+    return completedSubTasksLength;
+  }
+
   return (
     <>
-      <div className="w-full h-full overflow-scroll">
+      <div className="w-full h-full">
         <div className="h-full pt-6 flex gap-6 px-6 after:content-[''] after:w-px after:shrink-0">
           {activeBoard?.columns.map((column: any, index: number) => (
             <div
               key={column._id}
-              className="min-w-70 flex flex-col gap-6 h-full"
+              className="min-w-70 flex flex-col gap-6 h-full overflow-scroll"
             >
               <div className="flex gap-3 items-center">
                 <div
@@ -59,7 +77,7 @@ export default function Board({}) {
               <div className="flex flex-col gap-5 w-full">
                 {column.tasks.map((task: any) => (
                   <div
-                  onClick={() => handleOnClickTask(task)}
+                    onClick={() => handleOnClickTask(task)}
                     key={task._id}
                     className="group cardBgColor rounded-lg py-5.75 px-4 flex flex-col gap-2 cursor-pointer wrap-break-word"
                   >
@@ -67,7 +85,7 @@ export default function Board({}) {
                       {task.title}
                     </p>
                     <p className="text-[12px] text-[#828FA3]">
-                      0 of {task.subTasks.length} subtasks
+                     {getCompletedSubTasksLength(task)} of {task.subTasks.length} subtasks
                     </p>
                   </div>
                 ))}
