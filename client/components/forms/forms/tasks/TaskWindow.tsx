@@ -7,6 +7,8 @@ import Image from "next/image";
 import TaskDropDown from "./TaskDropDown";
 import useToggleSubtask from "@/hooks/ToggleSubtask/useToggleSubtask";
 import useEditTask from "@/hooks/EditTask/useEditTask";
+import SelectColumnModel from "../../FormItemModels/SelectColumnModel";
+import { useState } from "react";
 
 export default function TaskWindow() {
   const { handleEditTask } = useEditTask();
@@ -30,6 +32,7 @@ export default function TaskWindow() {
 
   function handleOnClickTask(subTaskId: string) {
     if (!activeTask) return;
+
     const updatedSubtasks = activeTask.subTasks.map((subTask: any) =>
       subTask._id === subTaskId
         ? { ...subTask, isCompleted: !subTask.isCompleted }
@@ -49,8 +52,8 @@ export default function TaskWindow() {
   );
   const currentColumnId = currentColumn?._id;
 
-  async function handleChangeColumn(e: React.ChangeEvent<HTMLSelectElement>) {
-    const newColumnId = e.target.value;
+  async function handleChangeColumn(newColumnId: string) {
+    if (newColumnId === currentColumnId) return;
     await handleEditTask(activeBoard._id, activeTask._id, {
       title: activeTask.title,
       description: activeTask.description,
@@ -59,12 +62,19 @@ export default function TaskWindow() {
     });
   }
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  function onClickWindow(e: React.MouseEvent<HTMLDivElement>) {
+    e.stopPropagation();
+    setIsOpen(false);
+  }
+
   return (
     <>
       <div className="formBg" onClick={() => setTaskWindowVis(false)}>
         <div
           className="cardBgColor relative formWindow overflow-visible!"
-          onClick={(e) => e.stopPropagation()}
+          onClick={onClickWindow}
         >
           <div className="flex items-center justify-between">
             <p className="formTitle">{activeTask.title}</p>
@@ -118,22 +128,13 @@ export default function TaskWindow() {
           )}
           <div className="flex flex-col gap-2">
             <p className="inputTitle">Status</p>
-            <div className="relative">
-              <select
-                className="focusOnInput"
-                value={currentColumnId}
-                onChange={handleChangeColumn}
-              >
-                {activeBoard?.columns.map((col: any) => (
-                  <option key={col._id} value={col._id} className="cardBgColor">
-                    {col.title}
-                  </option>
-                ))}
-              </select>
-              <div className="absolute top-1/2 -translate-y-1/2 right-4">
-                <PurpleChevronDown />
-              </div>
-            </div>
+            <SelectColumnModel
+              columns={activeBoard.columns}
+              selectedColumnId={currentColumnId}
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+              handleOnSelect={handleChangeColumn}
+            />
           </div>
           <AnimatePresence>
             {taskDropDownVis && <TaskDropDown />}

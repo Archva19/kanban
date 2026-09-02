@@ -2,10 +2,8 @@
 
 import { useForms } from "@/context/FormsContext";
 import { useFieldArray, useForm } from "react-hook-form";
-import DeleteIcon from "../../../models/DeleteIcon";
 import useAddTask from "@/hooks/AddTask/useAddTask";
 import { useActiveBoard } from "@/context/ActiveBoardContext";
-import PurpleChevronDown from "../../../models/PurpleChevronDown";
 import TaskFormModel from "../../formModels/TaskFormModel";
 
 export default function NewTask() {
@@ -18,6 +16,8 @@ export default function NewTask() {
     register,
     control,
     formState: { errors },
+    watch,
+    setValue,
   } = useForm({
     defaultValues: {
       title: "",
@@ -60,6 +60,8 @@ export default function NewTask() {
         append={append}
         remove={remove}
         activeBoard={activeBoard}
+        watch={watch}
+        setValue={setValue}
       />
     </>
   );

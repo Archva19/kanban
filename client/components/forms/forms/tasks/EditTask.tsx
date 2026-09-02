@@ -2,9 +2,7 @@
 
 import { useForms } from "@/context/FormsContext";
 import { useFieldArray, useForm } from "react-hook-form";
-import DeleteIcon from "../../../models/DeleteIcon";
 import { useActiveBoard } from "@/context/ActiveBoardContext";
-import PurpleChevronDown from "../../../models/PurpleChevronDown";
 import useEditTask from "@/hooks/EditTask/useEditTask";
 import TaskFormModel from "../../formModels/TaskFormModel";
 
@@ -22,6 +20,8 @@ export default function EditTask() {
     register,
     control,
     formState: { errors },
+    watch,
+    setValue
   } = useForm({
     values: {
       title: activeTask?.title || "",
@@ -54,19 +54,6 @@ export default function EditTask() {
     setEditTaskVis(false);
   }
 
-  const TaskFormModelProps = {
-    windowVisState: setEditTaskVis,
-    register,
-    handleSubmit,
-    onSubmit,
-    control,
-    errors,
-    fields,
-    append,
-    remove,
-    activeBoard,
-  };
-
   return (
     <>
       <TaskFormModel
@@ -80,6 +67,8 @@ export default function EditTask() {
         append={append}
         remove={remove}
         activeBoard={activeBoard}
+        watch={watch}
+        setValue={setValue}
       />
     </>
   );

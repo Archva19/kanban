@@ -1,14 +1,13 @@
 import { useForms } from "@/context/FormsContext";
-import NewBoard from "../formItems/boards/NewBoard";
-import EditBoard from "../formItems/boards/EditBoard";
+import NewBoard from "../forms/boards/NewBoard";
+import EditBoard from "../forms/boards/EditBoard";
 import useTimer from "@/hooks/WindowTimer/useTimer";
-import { AnimatePresence, motion } from "framer-motion";
-import NewTask from "../formItems/tasks/NewTask";
-import EditTask from "../formItems/tasks/EditTask";
-import DeleteBoard from "../formItems/boards/DeleteBoard";
-import DeleteTask from "../formItems/tasks/DeleteTask";
+import NewTask from "../forms/tasks/NewTask";
+import EditTask from "../forms/tasks/EditTask";
+import DeleteBoard from "../forms/boards/DeleteBoard";
+import DeleteTask from "../forms/tasks/DeleteTask";
 import DeleteMessageModel from "@/components/models/DeleteMessageModel";
-import TaskWindow from "../formItems/tasks/TaskWindow";
+import TaskWindow from "../forms/tasks/TaskWindow";
 
 export default function AllForms() {
   const {
