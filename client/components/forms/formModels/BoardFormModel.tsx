@@ -53,7 +53,7 @@ export default function BoardFormModel(props: BoardFormModelProps) {
               <p className="inputTitle">Board Name</p>
               <div className="relative">
                 <input
-                  className={`${errors.title ? "border-red-500!" : "focusOnInput"}`}
+                  className={`${errors.title ? "errorOnInput pr-28.75!" : "focusOnInput"}`}
                   type="text"
                   placeholder="e.g. Web Design"
                   {...register("title", {
@@ -75,17 +75,32 @@ export default function BoardFormModel(props: BoardFormModelProps) {
                 <div className="flex flex-col gap-3">
                   {fields.map((field, index) => (
                     <div key={field.id} className="flex items-center gap-4">
-                      <div className="flex-1">
+                      <div className="flex-1 relative">
                         <input
                           autoFocus={
                             autoAddColumn && index === fields.length - 1
                           }
                           type="text"
-                          {...register(`columns.${index}.title` as const)}
-                          className="w-full p-2 border borderLineColor rounded bg-transparent"
+                          {...register(`columns.${index}.title` as const, {
+                            maxLength: {
+                              value: 15,
+                              message: "Input is too long",
+                            },
+                          })}
+                          className={`${(errors.columns as any)?.[index]?.title ? "errorOnInput pr-28.75!" : "focusOnInput"}`}
                         />
+                        <p className="inputErrorMessage">
+                          {
+                            (errors.columns as any)?.[index]?.title
+                              ?.message as string
+                          }
+                        </p>
                       </div>
-                      <button type="button" onClick={() => remove(index)}>
+                      <button
+                        className={`${(errors.columns as any)?.[index]?.title ? "fill-[#EA5555]" : "fill-[#828FA3]"}`}
+                        type="button"
+                        onClick={() => remove(index)}
+                      >
                         <DeleteIcon />
                       </button>
                     </div>

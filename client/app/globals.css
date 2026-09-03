@@ -33,29 +33,31 @@ body {
   font-weight: 700;
 }
 
-p {
-  line-height: 100%;
-}
-
 button,
 a {
   cursor: pointer;
 }
 
 input,
-textarea,
-select {
+textarea {
   border: 1px solid #828fa340;
   border-radius: 4px;
   padding-top: 8px;
   padding-bottom: 9px;
   padding-inline: 16px;
-  outline: 1px;
-  outline: transparent;
+  outline: none;
   width: 100%;
   line-height: 23px;
   font-size: 13px;
   font-weight: 500;
+}
+
+input{
+  height:40px;
+}
+
+textarea{
+  height:112px;
 }
 
 input::placeholder,
@@ -69,13 +71,13 @@ textarea::placeholder {
 
 @layer components {
   .inputStyles {
+    height:40px;
     border: 1px solid #828fa340;
     border-radius: 4px;
     padding-top: 8px;
     padding-bottom: 9px;
     padding-inline: 16px;
-    outline: 1px;
-    outline: transparent;
+    outline: none;
     width: 100%;
     line-height: 23px;
     font-size: 13px;
@@ -102,24 +104,28 @@ textarea::placeholder {
   }
 
   .heading {
-    @apply text-[18px] md:text-[20px] lg:text-[24px];
+    @apply text-[18px] md:text-[20px] xl:text-[24px];
   }
 
   .formTitle {
-    @apply text-[18px];
+    @apply text-[18px] leading-5.75;
   }
 
   .inputTitle {
     color: var(--inputTitle-color);
-    @apply text-[12px];
+    @apply text-[12px] leading-3.75;
+  }
+
+  .errorOnInput {
+    @apply border-[#EA5555]!;
   }
 
   .focusOnInput {
-    @apply focus:outline-[#635FC7];
+    @apply focus:border-[#635FC7]!;
   }
 
   .focusOnDiv {
-    @apply border-[#635FC7]
+    @apply border-[#635FC7];
   }
 
   .inputErrorMessage {
@@ -131,7 +137,7 @@ textarea::placeholder {
   }
 
   .formBtn {
-    @apply pt-2 pb-2.25 rounded-[20px] w-full text-[13px] leading-5.75! flex items-center justify-center;
+    @apply pt-2 pb-2.25 rounded-[20px] w-full text-[13px] leading-5.75 flex items-center justify-center;
   }
 
   .lightPurpleBtn {
@@ -156,12 +162,12 @@ textarea::placeholder {
   }
 
   .formWindow {
-    @apply w-[91.46%] max-w-120 p-6 md:p-8 rounded-md max-h-[80%] overflow-auto flex flex-col gap-6;
+    @apply w-[91.46%] max-w-120 p-6 md:p-8 rounded-md max-h-[90%] overflow-auto flex flex-col gap-6;
   }
 
   .modifyDropDown {
     background-color: var(--boardDropDown-background);
-    @apply drop-shadow-[0_10px_20px_0_rgba(54,78,126,0.25)] rounded-lg p-4 flex flex-col items-start gap-4 z-99 font-medium text-[13px] leading-5.75!;
+    @apply shadow-[0_10px_20px_0_rgba(54,78,126,0.25)] rounded-lg p-4 flex flex-col items-start gap-4 z-99 font-medium text-[13px] leading-5.75;
   }
 
   .sideBarHideBtnBgHover:hover {

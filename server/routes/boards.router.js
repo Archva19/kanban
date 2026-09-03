@@ -15,7 +15,7 @@ boardsRouter.delete("/:id", async (req, res) => {
   const findBoardAndDelete = await boardsModel.findByIdAndDelete(id);
 
   await usersModel.updateOne(
-    { _id: findBoardAndDelete.user},
+    { _id: findBoardAndDelete.user },
     { $pull: { boards: id } },
   );
 
@@ -25,28 +25,11 @@ boardsRouter.delete("/:id", async (req, res) => {
   });
 });
 
-boardsRouter.put("/:id", isAuth, async (req, res) => {
-    const {id} = req.params;
-    const {title, columns} = req.body;
-    const userId = req.userId;
-
-    if (!title || !title.trim() === "") {
-    return res.status(400).json({ message: "Title is required" });
-  }
-
-  const editedBoard = await boardsModel.findByIdAndUpdate({ _id: id, userId: userId }, {title, columns}, {new:true});
-
-  res.json({
-    message: "გილოცავ შენ წარმატებით განაახლე მონაცემი",
-    data: editedBoard,
-  });
-})
-
 boardsRouter.post("/", isAuth, async (req, res) => {
   const { title, columns } = req.body;
   const userId = req.userId;
 
-  if (!title || !title.trim() === "") {
+  if (!title || title.trim() === "") {
     return res.status(400).json({ message: "Title is required" });
   }
 
@@ -63,17 +46,65 @@ boardsRouter.post("/", isAuth, async (req, res) => {
   res.json({ message: "creating board was successful", data: newBoard });
 });
 
+
+boardsRouter.put("/:id", isAuth, async (req, res) => {
+  const { id } = req.params;
+  const { title, columns } = req.body;
+  const userId = req.userId;
+
+  if (!title || title.trim() === "") {
+    return res.status(400).json({ message: "Title is required" });
+  }
+
+  const currentBoard = await boardsModel.findOne({ _id: id, user: userId });
+
+  if (!currentBoard) {
+    return res.status(404).json({ message: "Board not found" });
+  }
+
+  const existingColumnsMap = new Map(
+    currentBoard.columns.map((col) => [col._id.toString(), col]),
+  );
+
+  const updatedColumns = (columns || []).map((col) => {
+    const colId = col._id ? col._id.toString() : null;
+
+    if (colId && existingColumnsMap.has(colId)) {
+      const existingCol = existingColumnsMap.get(colId);
+      return {
+        _id: existingCol._id,
+        title: col.title,
+        tasks: existingCol.tasks || [],
+      };
+    }
+
+    return {
+      title: col.title,
+      tasks: [],
+    };
+  });
+
+  currentBoard.title = title;
+  currentBoard.columns = updatedColumns;
+  await currentBoard.save();
+
+  return res.json({
+    message: "გილოცავ შენ წარმატებით განაახლე მონაცემი",
+    data: currentBoard,
+  });
+});
+
 boardsRouter.delete("/:id", isAuth, async (req, res) => {
-    const {id} = req.params;
-    const userId = req.userId;
+  const { id } = req.params;
+  const userId = req.userId;
 
-    const deletedBoard = await boardsModel.findByIdAndDelete(id);
+  const deletedBoard = await boardsModel.findByIdAndDelete(id);
 
-    await usersModel.findByIdAndDelete(userId, {
-        $pull: {boards: deletedBoard._id}
-    })
+  await usersModel.findByIdAndDelete(userId, {
+    $pull: { boards: deletedBoard._id },
+  });
 
-    res.json({ message: "Deleting board was successful", data: deletedBoard });
-})
+  res.json({ message: "Deleting board was successful", data: deletedBoard });
+});
 
 module.exports = boardsRouter;

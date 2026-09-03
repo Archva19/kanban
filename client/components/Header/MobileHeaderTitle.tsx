@@ -18,7 +18,7 @@ export default function MobileHeaderTitle({
         onClick={handleOnClick}
         className="flex items-center gap-2 cursor-pointer md:hidden"
       >
-        <p className="heading">{headerTitle}</p>
+        <p className="heading leading-5.75">{headerTitle}</p>
         <motion.div
           initial={{ rotate: -45 }}
           animate={{ rotate: dropDownVis ? -225 : -45 }}

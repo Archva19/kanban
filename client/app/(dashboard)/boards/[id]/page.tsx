@@ -55,12 +55,12 @@ const COLUMN_COLORS = [
 
   return (
     <>
-      <div className="w-full h-full">
+      <div className="w-full h-full overflow-x-scroll">
         <div className="h-full pt-6 flex gap-6 px-6 after:content-[''] after:w-px after:shrink-0">
           {activeBoard?.columns.map((column: any, index: number) => (
             <div
               key={column._id}
-              className="min-w-70 flex flex-col gap-6 h-full overflow-scroll"
+              className="w-70 shrink-0 flex flex-col gap-6 h-full"
             >
               <div className="flex gap-3 items-center">
                 <div
@@ -70,21 +70,21 @@ const COLUMN_COLORS = [
                   }}
                   className="rounded-full w-3.75 h-3.75"
                 ></div>
-                <p className="text-[12px] tracking-[2.4px] font-bold text-[#828FA3]">
+                <p className="leading-3.75 w-full text-[12px] tracking-[2.4px] text-[#828FA3] wrap-break-word">
                   {column.title} ({column.tasks.length})
                 </p>
               </div>
-              <div className="flex flex-col gap-5 w-full">
+              <div className="flex flex-col gap-5 w-full overflow-scroll">
                 {column.tasks.map((task: any) => (
                   <div
                     onClick={() => handleOnClickTask(task)}
                     key={task._id}
-                    className="group cardBgColor rounded-lg py-5.75 px-4 flex flex-col gap-2 cursor-pointer wrap-break-word"
+                    className="group cardBgColor shadow-[0_4px_6px_0_rgba(54,78,126,0.1)] rounded-lg py-5.75 px-4 flex flex-col gap-2 cursor-pointer wrap-break-word"
                   >
-                    <p className="text-[15px] group-hover:text-[#635FC7]">
+                    <p className="text-[15px] group-hover:text-[#635FC7] leading-4.75">
                       {task.title}
                     </p>
-                    <p className="text-[12px] text-[#828FA3]">
+                    <p className="text-[12px] text-[#828FA3] leading-3.75">
                      {getCompletedSubTasksLength(task)} of {task.subTasks.length} subtasks
                     </p>
                   </div>
@@ -96,7 +96,7 @@ const COLUMN_COLORS = [
             <div className="h-3.75 w-full"></div>
             <button
               onClick={handleOnClickNewColumn}
-              className="BgGradient text-[#828FA3] text-[24px] font-bold min-w-70 h-full rounded-md flex items-center justify-center hover:text-[#635FC7]"
+              className="leading-7.5 h-[92%] max-h-203.5 BgGradient text-[#828FA3] text-[24px] font-bold min-w-70 rounded-md flex items-center justify-center hover:text-[#635FC7]"
             >
               + New Column
             </button>
