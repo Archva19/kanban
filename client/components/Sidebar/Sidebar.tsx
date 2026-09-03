@@ -46,7 +46,7 @@ export default function Sidebar({ setSidebarVis }: SideBarProps) {
               />
             </svg>
 
-            <p className="text-[#828FA3] text-[15px] group-hover:text-[#635FC7]">
+            <p className="text-[#828FA3] text-[15px] group-hover:text-[#635FC7] leading-4.75">
               Hide Sidebar
             </p>
           </button>

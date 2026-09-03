@@ -77,11 +77,11 @@ export default function TaskWindow() {
           onClick={onClickWindow}
         >
           <div className="flex items-center justify-between">
-            <p className="formTitle">{activeTask.title}</p>
+            <p className="formTitle max-w-[86%] wrap-break-word leading-5.75">{activeTask.title}</p>
             <ThreeDotsBtnModel onClick={onClickMenu} />
           </div>
-          <div className="text-[13px] leading-5.75! text-[#828FA3]">
-            <p className="wrap-break-word">
+          <div>
+            <p className="wrap-break-word leading-5.75 text-[13px] text-[#828FA3] font-medium">
               {activeTask.description === ""
                 ? "No Description"
                 : activeTask.description}
@@ -114,9 +114,9 @@ export default function TaskWindow() {
                         />
                       )}
                     </div>
-                    <div>
+                    <div className = "max-w-[85.57%] text-left">
                       <p
-                        className={`text-[12px] ${subTask.isCompleted ? "line-through opacity-50" : ""}`}
+                        className={`text-[12px] wrap-break-word leading-3.75 ${subTask.isCompleted ? "line-through opacity-50" : ""}`}
                       >
                         {subTask.title}
                       </p>
@@ -127,7 +127,7 @@ export default function TaskWindow() {
             </div>
           )}
           <div className="flex flex-col gap-2">
-            <p className="inputTitle">Status</p>
+            <p className="inputTitle">Current Status</p>
             <SelectColumnModel
               columns={activeBoard.columns}
               selectedColumnId={currentColumnId}

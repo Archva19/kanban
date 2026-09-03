@@ -6,12 +6,13 @@ const tasksRouter = Router();
 tasksRouter.post("/:boardId", isAuth, async (req, res) => {
   const { boardId } = req.params;
   const { title, description, subTasks, columnId } = req.body;
+  const userId = req.userId;
 
   if (!title || !title.trim()) {
     return res.status(400).json({ message: "Task title is required" });
   }
 
-  const activeBoard = await boardsModel.findById(boardId);
+  const activeBoard = await boardsModel.findOne({ _id: boardId, user: userId });
   if (!activeBoard) {
     return res.status(404).json({ message: "Board not found" });
   }
@@ -25,7 +26,7 @@ tasksRouter.post("/:boardId", isAuth, async (req, res) => {
     title,
     description,
     status: column.title,
-    subTasks,
+    subTasks: subTasks || [],
   };
 
   column.tasks.push(newTask);
@@ -36,8 +37,9 @@ tasksRouter.post("/:boardId", isAuth, async (req, res) => {
 tasksRouter.put("/:boardId/:taskId", isAuth, async (req, res) => {
   const { boardId, taskId } = req.params;
   const { title, description, subTasks, targetedColumnId } = req.body;
+  const userId = req.userId;
 
-  const activeBoard = await boardsModel.findById(boardId);
+  const activeBoard = await boardsModel.findOne({ _id: boardId, user: userId });
   if (!activeBoard) {
     return res.status(404).json({ message: "Board not found" });
   }
@@ -60,7 +62,30 @@ tasksRouter.put("/:boardId/:taskId", isAuth, async (req, res) => {
 
   currentTask.title = title || currentTask.title;
   currentTask.description = description || currentTask.description;
-  currentTask.subTasks = subTasks || currentTask.subTasks;
+
+  if (subTasks) {
+    const existingSubTasksMap = new Map(
+      currentTask.subTasks.map((st) => [st._id.toString(), st]),
+    );
+
+    currentTask.subTasks = subTasks.map((subTask) => {
+      const subTaskId = subTask._id ? subTask._id.toString() : null;
+
+      if (subTaskId && existingSubTasksMap.has(subTaskId)) {
+        const existingSubTask = existingSubTasksMap.get(subTaskId);
+        return {
+          _id: existingSubTask._id,
+          title: subTask.title,
+          isCompleted: existingSubTask.isCompleted,
+        };
+      }
+
+      return {
+        title: subTask.title,
+        isCompleted: subTask.isCompleted || false,
+      };
+    });
+  }
 
   if (targetedColumnId && currentColumn._id.toString() !== targetedColumnId) {
     const targetedColumn = activeBoard.columns.id(targetedColumnId);
@@ -75,8 +100,9 @@ tasksRouter.put("/:boardId/:taskId", isAuth, async (req, res) => {
 
 tasksRouter.delete("/:boardId/:taskId", isAuth, async (req, res) => {
   const { boardId, taskId } = req.params;
+  const userId = req.userId;
 
-  const activeBoard = await boardsModel.findById(boardId);
+  const activeBoard = await boardsModel.findOne({ _id: boardId, user: userId });
   if (!activeBoard) {
     return res.status(404).json({ message: "Board not found" });
   }
@@ -107,8 +133,12 @@ tasksRouter.patch(
   isAuth,
   async (req, res) => {
     const { boardId, taskId, subTaskId } = req.params;
+    const userId = req.userId;
 
-    const activeBoard = await boardsModel.findById(boardId);
+    const activeBoard = await boardsModel.findOne({
+      _id: boardId,
+      user: userId,
+    });
     if (!activeBoard) {
       return res.status(404).json({ message: "board not found" });
     }

@@ -59,16 +59,16 @@ export default function SelectColumnModel({
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ height: 0,opacity:0}}
-              animate={{ height: "auto", opacity:1}}
-              exit={{ height: 0, }}
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0 }}
               transition={{ duration: 0.2, ease: "easeInOut" }}
               style={{
                 top: `${coords.top}px`,
                 left: `${coords.left}px`,
                 width: `${coords.width}px`,
               }}
-              className="modifyDropDown gap-2! fixed p-4 rounded-lg overflow-hidden"
+              className="modifyDropDown gap-2! fixed overflow-hidden"
             >
               {columns.map((col: any) => (
                 <button

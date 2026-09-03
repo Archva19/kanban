@@ -70,7 +70,7 @@ export default function TaskFormModel(props: TaskFormModelProps) {
               <p className="inputTitle">Title</p>
               <div className="relative">
                 <input
-                  className={`${errors.title ? "border-red-500!" : "focusOnInput"}`}
+                  className={`${errors.title ? "errorOnInput" : "focusOnInput"}`}
                   type="text"
                   placeholder="e.g. Take coffee break"
                   {...register("title", {
@@ -84,9 +84,9 @@ export default function TaskFormModel(props: TaskFormModelProps) {
             </div>
             <div className="flex flex-col gap-2">
               <p className="inputTitle">Description</p>
-              <div className="relative">
+              <div className="relative h-28">
                 <textarea
-                  className="h-28 focusOnInput resize-none"
+                  className="focusOnInput resize-none"
                   placeholder="e.g. It’s always good to take a break. This 15 minute break will  recharge the batteries a little."
                   {...register("description")}
                 />
@@ -101,12 +101,17 @@ export default function TaskFormModel(props: TaskFormModelProps) {
                     <div key={field.id} className="flex items-center gap-4">
                       <div className="flex-1">
                         <input
+                        placeholder={index === 0 ? "e.g. Make coffee" : "e.g. Drink coffee & smile"}
                           type="text"
                           {...register(`subTasks.${index}.title` as const)}
                           className="w-full p-2 border borderLineColor rounded bg-transparent"
                         />
                       </div>
-                      <button type="button" onClick={() => remove(index)}>
+                      <button
+                        className="fill-[#828FA3]"
+                        type="button"
+                        onClick={() => remove(index)}
+                      >
                         <DeleteIcon />
                       </button>
                     </div>

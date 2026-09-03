@@ -31,7 +31,7 @@ export default function Header() {
           />
           <DesktopHeaderTitle />
         </div>
-        <div className="flex items-center gap-[13.69px] md:gap-[22.62px]">
+        <div className="flex items-center gap-4 md:gap-6">
           <NewTaskBtn />
           <ThreeDots onClick={() => setBoardDropDownVis(!boardDropDownVis)} />
         </div>
