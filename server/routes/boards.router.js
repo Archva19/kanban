@@ -46,7 +46,6 @@ boardsRouter.post("/", isAuth, async (req, res) => {
   res.json({ message: "creating board was successful", data: newBoard });
 });
 
-
 boardsRouter.put("/:id", isAuth, async (req, res) => {
   const { id } = req.params;
   const { title, columns } = req.body;
@@ -105,6 +104,24 @@ boardsRouter.delete("/:id", isAuth, async (req, res) => {
   });
 
   res.json({ message: "Deleting board was successful", data: deletedBoard });
+});
+
+boardsRouter.patch("/:id/drag", isAuth, async (req, res) => {
+  const { id } = req.params;
+  const userId = req.userId;
+  const { columns } = req.body;
+
+  const updatedBoard = await boardsModel.findOneAndUpdate(
+    { _id: id, user: userId },
+    { columns },
+    { new: true },
+  );
+
+  if (!updatedBoard) {
+    return res.status(404).json({ message: "Board not found" });
+  }
+
+  return res.json({ message: "Board updated", data: updatedBoard });
 });
 
 module.exports = boardsRouter;
