@@ -1,32 +1,27 @@
 "use client";
 
+import ColumnItem from "@/components/Dashboard/ColumnItem";
+import NewColumnBtn from "@/components/Dashboard/NewColumnBtn";
+import TaskCard from "@/components/Dashboard/TaskCard";
 import EmptyBoard from "@/components/EmptyMessages/EmptyBoard";
 import { useActiveBoard } from "@/context/ActiveBoardContext";
-import { useForms } from "@/context/FormsContext";
+import useDragAndDrop from "@/hooks/DragAndDrop/useDragAndDrop";
+import {
+    closestCenter,
+  closestCorners,
+  DndContext,
+  DragOverlay,
+  pointerWithin,
+} from "@dnd-kit/core";
+import {
+  horizontalListSortingStrategy,
+  SortableContext,
+} from "@dnd-kit/sortable";
 
-export default function Board({}) {
+export default function Board() {
   const { activeBoard } = useActiveBoard();
-  const { setEditBoardVis, setAutoAddColumn, setTaskWindowVis, setActiveTask } =
-    useForms();
-
-const COLUMN_COLORS = [
-  "#49C4E5",
-  "#8471F2",
-  "#67E2AE", 
-  "#FF9800",
-  "#E91E63",
-  "#00BCD4",
-  "#9C27B0",
-  "#FFC107", 
-  "#00E676", 
-  "#FF5722", 
-  "#3F51B5",
-  "#F44336", 
-  "#00E5FF",
-  "#AB47BC",
-  "#8BC34A",
-  "#FF4081",
-];
+  const { activeItem, sensors, handleDragStart, handleDragEnd } =
+    useDragAndDrop();
 
   if (!activeBoard) {
     return null;
@@ -36,73 +31,54 @@ const COLUMN_COLORS = [
     return <EmptyBoard />;
   }
 
-  function handleOnClickNewColumn() {
-    setEditBoardVis(true);
-    setAutoAddColumn(true);
+  function customCollisionDetection(args: any) {
+  if (activeItem?.type === "Column") {
+    return closestCorners(args);
   }
 
-  function handleOnClickTask(task: any) {
-    setTaskWindowVis(true);
-    setActiveTask(task);
+  const pointerCollisions = pointerWithin(args);
+  if (pointerCollisions.length > 0) {
+    return pointerCollisions;
   }
 
-  function getCompletedSubTasksLength(task:any) {
-    const completedSubTasksLength = task.subTasks.filter(
-      (subTask: any) => subTask.isCompleted,
-    ).length;
-    return completedSubTasksLength;
-  }
+  return pointerCollisions;
+}
 
   return (
     <>
-      <div className="w-full h-full overflow-x-scroll">
-        <div className="h-full pt-6 flex gap-6 px-6 after:content-[''] after:w-px after:shrink-0">
-          {activeBoard?.columns.map((column: any, index: number) => (
-            <div
-              key={column._id}
-              className="w-70 shrink-0 flex flex-col gap-6 h-full"
+      <DndContext
+        sensors={sensors}
+        collisionDetection={customCollisionDetection}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+      >
+        <div className="w-full h-full overflow-x-scroll">
+          <div className="h-full pt-6 flex gap-6 px-6 after:content-[''] after:w-px after:shrink-0">
+            <SortableContext
+              items={activeBoard.columns.map((col: any) => col._id)}
+              strategy={horizontalListSortingStrategy}
             >
-              <div className="flex gap-3 items-center">
-                <div
-                  style={{
-                    backgroundColor:
-                      COLUMN_COLORS[index % COLUMN_COLORS.length],
-                  }}
-                  className="rounded-full w-3.75 h-3.75"
-                ></div>
-                <p className="leading-3.75 w-full text-[12px] tracking-[2.4px] text-[#828FA3] wrap-break-word">
-                  {column.title} ({column.tasks.length})
-                </p>
-              </div>
-              <div className="flex flex-col gap-5 w-full overflow-scroll">
-                {column.tasks.map((task: any) => (
-                  <div
-                    onClick={() => handleOnClickTask(task)}
-                    key={task._id}
-                    className="group cardBgColor shadow-[0_4px_6px_0_rgba(54,78,126,0.1)] rounded-lg py-5.75 px-4 flex flex-col gap-2 cursor-pointer wrap-break-word"
-                  >
-                    <p className="text-[15px] group-hover:text-[#635FC7] leading-4.75">
-                      {task.title}
-                    </p>
-                    <p className="text-[12px] text-[#828FA3] leading-3.75">
-                     {getCompletedSubTasksLength(task)} of {task.subTasks.length} subtasks
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-          <div className="min-w-70 flex flex-col gap-6 h-full">
-            <div className="h-3.75 w-full"></div>
-            <button
-              onClick={handleOnClickNewColumn}
-              className="leading-7.5 h-[92%] max-h-203.5 BgGradient text-[#828FA3] text-[24px] font-bold min-w-70 rounded-md flex items-center justify-center hover:text-[#635FC7]"
-            >
-              + New Column
-            </button>
+              {activeBoard?.columns.map((column: any, index: number) => (
+                <ColumnItem key={column._id} column={column} index={index} />
+              ))}
+            </SortableContext>
+
+            <NewColumnBtn />
           </div>
         </div>
-      </div>
+
+        <DragOverlay>
+          {activeItem?.type === "Task" ? (
+            <div className="shadow-[0_10px_20px_0_rgba(54,78,126,0.25)] cursor-grabbing opacity-90 scale-105">
+              <TaskCard task={activeItem.data} />
+            </div>
+          ) : activeItem?.type === "Column" ? (
+            <div className="w-70 opacity-80 cursor-grabbing">
+              <ColumnItem column={activeItem.data} index={0} />
+            </div>
+          ) : null}
+        </DragOverlay>
+      </DndContext>
     </>
   );
 }
