@@ -10,6 +10,7 @@ import {
 import DeleteIcon from "../../models/DeleteIcon";
 import SelectColumnModel from "../FormItemModels/SelectColumnModel";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 interface TaskFormModelProps {
   windowType: "create" | "edit";
@@ -53,7 +54,11 @@ export default function TaskFormModel(props: TaskFormModelProps) {
   return (
     <>
       <div className="formBg" onClick={() => windowVisState(false)}>
-        <div
+        <motion.div
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2, ease: "easeInOut" }}
           className={`cardBgColor formWindow relative`}
           onClick={onClickWindow}
         >
@@ -101,7 +106,11 @@ export default function TaskFormModel(props: TaskFormModelProps) {
                     <div key={field.id} className="flex items-center gap-4">
                       <div className="flex-1">
                         <input
-                        placeholder={index === 0 ? "e.g. Make coffee" : "e.g. Drink coffee & smile"}
+                          placeholder={
+                            index === 0
+                              ? "e.g. Make coffee"
+                              : "e.g. Drink coffee & smile"
+                          }
                           type="text"
                           {...register(`subTasks.${index}.title` as const)}
                           className="w-full p-2 border borderLineColor rounded bg-transparent"
@@ -146,7 +155,7 @@ export default function TaskFormModel(props: TaskFormModelProps) {
               </button>
             </div>
           </form>
-        </div>
+        </motion.div>
       </div>
     </>
   );

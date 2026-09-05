@@ -26,7 +26,7 @@ export default function ThemeToggle() {
         <Image src="/icons/sun.svg" alt="light" width={18} height={18} />
         <button
           onClick={handleOnToggle}
-          className="w-10 h-5 rounded-xl bg-[#635FC7] relative hover:bg-[#A8A4FF]"
+          className="w-10 h-5 rounded-xl bg-[#635FC7] relative hover:bg-[#A8A4FF] transition-colors duration-200"
         >
           <motion.div
           initial={{right: isDark ? "auto" : 3, left: isDark ? 3 : "auto"}}

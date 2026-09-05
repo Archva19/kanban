@@ -7,7 +7,6 @@ import EmptyBoard from "@/components/EmptyMessages/EmptyBoard";
 import { useActiveBoard } from "@/context/ActiveBoardContext";
 import useDragAndDrop from "@/hooks/DragAndDrop/useDragAndDrop";
 import {
-    closestCenter,
   closestCorners,
   DndContext,
   DragOverlay,
@@ -20,7 +19,7 @@ import {
 
 export default function Board() {
   const { activeBoard } = useActiveBoard();
-  const { activeItem, sensors, handleDragStart, handleDragEnd } =
+  const { activeItem, sensors, handleDragStart, handleDragOver, handleDragEnd } =
     useDragAndDrop();
 
   if (!activeBoard) {
@@ -50,6 +49,7 @@ export default function Board() {
         sensors={sensors}
         collisionDetection={customCollisionDetection}
         onDragStart={handleDragStart}
+        onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
       >
         <div className="w-full h-full overflow-x-scroll">

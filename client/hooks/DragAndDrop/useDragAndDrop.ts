@@ -2,6 +2,7 @@ import { useActiveBoard } from "@/context/ActiveBoardContext";
 import { useUser } from "@/context/UserContext";
 import {
   DragEndEvent,
+  DragOverEvent,
   DragStartEvent,
   KeyboardSensor,
   PointerSensor,
@@ -47,9 +48,8 @@ function useDragAndDrop() {
     }
   }
 
-  async function handleDragEnd(event: DragEndEvent) {
+  async function handleDragOver(event: DragOverEvent) {
     const { active, over } = event;
-    setActiveItem(null);
 
     if (!over) return;
 
@@ -67,9 +67,18 @@ function useDragAndDrop() {
       const oldIndex = updatedColumns.findIndex(
         (column: any) => column._id === activeId,
       );
-      const newIndex = updatedColumns.findIndex(
-        (column: any) => column._id === overId,
-      );
+
+      let newIndex;
+
+      if (over.data.current?.type === "Column") {
+        newIndex = updatedColumns.findIndex(
+          (column: any) => column._id === overId,
+        );
+      } else {
+        newIndex = updatedColumns.findIndex((column: any) =>
+          column.tasks.some((task: any) => task._id === overId),
+        );
+      }
 
       if (oldIndex !== -1 && newIndex !== -1) {
         const [movedCol] = updatedColumns.splice(oldIndex, 1);
@@ -168,13 +177,19 @@ function useDragAndDrop() {
 
     const updatedBoard = { ...activeBoard, columns: updatedColumns };
     handleEditBoard(updatedBoard);
+  }
+
+
+  async function handleDragEnd(event: DragEndEvent) {
+    setActiveItem(null);
+    if (!event.over) return;
 
     try {
       const token = getCookie("accesstoken");
 
       const res = await axios.patch(
         `http://localhost:3030/boards/${activeBoard._id}/drag`,
-        { columns: updatedColumns },
+        { columns: activeBoard.columns },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -187,7 +202,13 @@ function useDragAndDrop() {
     }
   }
 
-  return { activeItem, sensors, handleDragStart, handleDragEnd };
+  return {
+    activeItem,
+    sensors,
+    handleDragStart,
+    handleDragOver,
+    handleDragEnd,
+  };
 }
 
 export default useDragAndDrop;
