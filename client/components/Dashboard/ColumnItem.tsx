@@ -47,11 +47,6 @@ export default function ColumnItem({ column, index }: ColumnItemProps) {
     data: { type: "Column", column },
   });
 
-  const { setNodeRef: setDroppableRef} = useDroppable({
-    id: column._id,
-    data: { type: "Column", column },
-  });
-
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -87,7 +82,6 @@ export default function ColumnItem({ column, index }: ColumnItemProps) {
           strategy={verticalListSortingStrategy}
         >
           <div
-            ref={setDroppableRef}
             className={`flex flex-col gap-5 w-full overflow-scroll h-full min-h-37.5 rounded-lg ${
               active?.data.current?.type === "Task" &&
               (isOver ||

@@ -1,4 +1,3 @@
-import PurpleChevronDown from "@/components/models/PurpleChevronDown";
 import ThreeDotsBtnModel from "@/components/models/ThreeDotsBtnModel";
 import { useActiveBoard } from "@/context/ActiveBoardContext";
 import { useForms } from "@/context/FormsContext";
@@ -9,6 +8,7 @@ import useToggleSubtask from "@/hooks/ToggleSubtask/useToggleSubtask";
 import useEditTask from "@/hooks/EditTask/useEditTask";
 import SelectColumnModel from "../../FormItemModels/SelectColumnModel";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function TaskWindow() {
   const { handleEditTask } = useEditTask();
@@ -32,6 +32,15 @@ export default function TaskWindow() {
 
   function handleOnClickTask(subTaskId: string) {
     if (!activeTask) return;
+
+    const subTask = activeTask.subTasks.find((st: any) => st._id === subTaskId);
+
+    const audio = new Audio("/sounds/taskCheckSoundEffect.MP3");
+    audio.volume = 0.4;
+
+    if (!subTask.isCompleted) {
+      audio.play().catch(() => {});
+    }
 
     const updatedSubtasks = activeTask.subTasks.map((subTask: any) =>
       subTask._id === subTaskId
@@ -72,12 +81,18 @@ export default function TaskWindow() {
   return (
     <>
       <div className="formBg" onClick={() => setTaskWindowVis(false)}>
-        <div
+        <motion.div
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2, ease: "easeInOut" }}
           className="cardBgColor relative formWindow overflow-visible!"
           onClick={onClickWindow}
         >
           <div className="flex items-center justify-between">
-            <p className="formTitle max-w-[86%] wrap-break-word leading-5.75">{activeTask.title}</p>
+            <p className="formTitle max-w-[86%] wrap-break-word leading-5.75">
+              {activeTask.title}
+            </p>
             <ThreeDotsBtnModel onClick={onClickMenu} />
           </div>
           <div>
@@ -100,7 +115,7 @@ export default function TaskWindow() {
                   <button
                     onClick={() => handleOnClickTask(subTask._id)}
                     key={subTask._id}
-                    className="bodyBg p-3 flex items-center gap-4 rounded-sm hover:bg-[#635FC7]/25"
+                    className="bodyBg p-3 flex items-center gap-4 rounded-sm hover:bg-[#635FC7]/25 transition-colors duration-200"
                   >
                     <div
                       className={`w-4 h-4 rounded-xs flex items-center justify-center pt-[5.82px] pb-[5.18px] pr-[3.97px] pl-[4.28px] ${subTask.isCompleted ? "bg-[#635FC7]" : "cardBgColor  border border-[#828FA33F]"}`}
@@ -114,7 +129,7 @@ export default function TaskWindow() {
                         />
                       )}
                     </div>
-                    <div className = "max-w-[85.57%] text-left">
+                    <div className="max-w-[85.57%] text-left">
                       <p
                         className={`text-[12px] wrap-break-word leading-3.75 ${subTask.isCompleted ? "line-through opacity-50" : ""}`}
                       >
@@ -139,7 +154,7 @@ export default function TaskWindow() {
           <AnimatePresence>
             {taskDropDownVis && <TaskDropDown />}
           </AnimatePresence>
-        </div>
+        </motion.div>
       </div>
     </>
   );

@@ -68,7 +68,7 @@ export default function SelectColumnModel({
                 left: `${coords.left}px`,
                 width: `${coords.width}px`,
               }}
-              className="modifyDropDown gap-2! fixed overflow-hidden"
+              className="modifyDropDown gap-2! fixed overflow-scroll max-h-30.5"
             >
               {columns.map((col: any) => (
                 <button

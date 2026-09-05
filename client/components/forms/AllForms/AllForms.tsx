@@ -8,6 +8,7 @@ import DeleteBoard from "../forms/boards/DeleteBoard";
 import DeleteTask from "../forms/tasks/DeleteTask";
 import DeleteMessageModel from "@/components/models/DeleteMessageModel";
 import TaskWindow from "../forms/tasks/TaskWindow";
+import { AnimatePresence } from "motion/react";
 
 export default function AllForms() {
   const {
@@ -42,25 +43,30 @@ export default function AllForms() {
 
   return (
     <>
-      {newBoardVis && <NewBoard />}
-      {deleteBoardVis && <DeleteBoard startTimer={startBoardTimer} />}
-      <DeleteMessageModel
-        content={"Board Was Deleted"}
-        deleteMessageVis={deleteMessageVis}
-        startTimer={startBoardTimer}
-        stopTimer={stopBoardTimer}
-      />
-      {editBoardVis && <EditBoard />}
-      {newTaskVis && <NewTask />}
-      {editTaskVis && <EditTask />}
-      {deleteTaskVis && <DeleteTask startTimer={startTaskTimer} />}
-      <DeleteMessageModel
-        content={"Task Was Deleted"}
-        deleteMessageVis={deleteTaskMessageVis}
-        startTimer={startTaskTimer}
-        stopTimer={stopTaskTimer}
-      />
-      {taskWindowVis && <TaskWindow />}
+      <AnimatePresence>
+        {newBoardVis && <NewBoard />}
+        {deleteBoardVis && <DeleteBoard startTimer={startBoardTimer} />}
+
+        {deleteMessageVis && (
+          <DeleteMessageModel
+            content={"Board Was Deleted"}
+            startTimer={startBoardTimer}
+            stopTimer={stopBoardTimer}
+          />
+        )}
+        {editBoardVis && <EditBoard />}
+        {newTaskVis && <NewTask />}
+        {editTaskVis && <EditTask />}
+        {deleteTaskVis && <DeleteTask startTimer={startTaskTimer} />}
+        {deleteTaskMessageVis && (
+          <DeleteMessageModel
+            content={"Task Was Deleted"}
+            startTimer={startTaskTimer}
+            stopTimer={stopTaskTimer}
+          />
+        )}
+        {taskWindowVis && <TaskWindow />}
+      </AnimatePresence>
     </>
   );
 }

@@ -146,15 +146,16 @@ textarea::placeholder {
   }
 
   .lightPurpleBtn:hover {
+    @apply transition-colors duration-200;
     background-color: var(--lightPurpleBtn-hoverBg);
   }
 
   .purpleBtn {
-    @apply bg-[#635FC7] text-[white] hover:bg-[#A8A4FF];
+    @apply bg-[#635FC7] text-[white] hover:bg-[#A8A4FF] transition-colors duration-200;
   }
 
   .redBtn {
-    @apply bg-[#EA5555] text-[white] hover:bg-[#FF9898];
+    @apply bg-[#EA5555] text-[white] hover:bg-[#FF9898] transition-colors duration-200;
   }
 
   .formBg {
@@ -162,7 +163,7 @@ textarea::placeholder {
   }
 
   .formWindow {
-    @apply w-[91.46%] max-w-120 p-6 md:p-8 rounded-md max-h-[90%] overflow-auto flex flex-col gap-6;
+    @apply w-[91.46%] max-w-120 p-6 md:p-8 rounded-md max-h-[81%] overflow-auto flex flex-col gap-6;
   }
 
   .modifyDropDown {
@@ -171,6 +172,7 @@ textarea::placeholder {
   }
 
   .sideBarHideBtnBgHover:hover {
+    @apply transition-colors duration-200;
     background-color: var(--lightPurpleBtn-background);
   }
 }

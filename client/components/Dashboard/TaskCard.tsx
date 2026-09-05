@@ -43,7 +43,7 @@ export default function TaskCard({ task }: { task: any }) {
         onClick={() => handleOnClickTask(task)}
         className="group cardBgColor shadow-[0_4px_6px_0_rgba(54,78,126,0.1)] rounded-lg py-5.75 px-4 flex flex-col gap-2 cursor-pointer wrap-break-word"
       >
-        <p className="text-[15px] group-hover:text-[#635FC7] leading-4.75">
+        <p className="text-[15px] group-hover:text-[#635FC7] leading-4.75 transition-colors duration-200">
           {task.title}
         </p>
         <p className="text-[12px] text-[#828FA3] leading-3.75">
