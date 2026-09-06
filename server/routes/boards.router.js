@@ -33,10 +33,13 @@ boardsRouter.post("/", isAuth, async (req, res) => {
     return res.status(400).json({ message: "Title is required" });
   }
 
+  const currentUser = await usersModel.findById(userId);
+
   const newBoard = await boardsModel.create({
     title,
     columns: columns || [],
     user: userId,
+    isGuest: currentUser?.isGuest || false,
   });
 
   await usersModel.findByIdAndUpdate(userId, {

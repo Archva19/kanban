@@ -75,4 +75,17 @@ authRouter.post("/sign-in", signInLimiter, async (req, res) => {
   res.json({ message: "ტოკენი", data: token });
 });
 
+authRouter.post("/guest-sign-in", async (req, res) => {
+  const guestUser = await usersModel.create({
+    fullName: "Guest User",
+    email: `guest_${Date.now()}@kanban.temp`,
+    isGuest: true,
+  });
+
+  const payload = { userId: guestUser._id, isGuest: true };
+  const token = jwt.sign(payload, process.env.JWT_SECRET);
+
+  res.json({ message: "Guest login is successful", data: token });
+});
+
 module.exports = authRouter;

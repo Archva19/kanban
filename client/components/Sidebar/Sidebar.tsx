@@ -16,7 +16,7 @@ export default function Sidebar({ setSidebarVis }: SideBarProps) {
       animate={{ width: "auto" }}
       exit={{ width: 0 }}
       transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-      className="cardBgColor overflow-hidden whitespace-nowrap hidden md:flex md:h-screen  md:py-8 md:border-r borderLineColor "
+      className="cardBgColor whitespace-nowrap hidden md:flex md:h-full  md:py-8 md:border-r borderLineColor "
     >
       <div className="h-full flex justify-between flex-col md:w-65.25 xl:w-75">
         <div className="flex flex-col gap-13.5 w-full">

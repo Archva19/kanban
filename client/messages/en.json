@@ -9,11 +9,12 @@
     "userExists": "User with this email already exists",
     "serverError": "Server error, try again later",
     "fullNameRequired": "Full Name is required",
-     "emailRequired": "Email is required",
+    "emailRequired": "Email is required",
     "invalidEmail": "Invalid email",
     "passwordRequired": "Password is required",
     "min6char": "minimum 6 character",
-    "max20char":"maximum 20 character"
+    "max20char": "maximum 20 character",
+    "continueAsGuest": "Continue As Guest"
   },
 
   "SignInPage": {
@@ -27,11 +28,17 @@
     "emailRequired": "Email is required",
     "invalidEmail": "Invalid email",
     "passwordRequired": "Password is required",
-    "tooManyAttempts": "Too many login attempts, please try again after 15 minutes."
+    "tooManyAttempts": "Too many login attempts, please try again after 15 minutes.",
+    "continueAsGuest": "Continue As Guest"
   },
 
-  "GetStarted":{
-    "message":"Welcome to Kanban. Perfect way to organize your tasks. Create your very first board to get started!",
+  "AuthTxts": {
+    "title": "Welcome to Kanban",
+    "description": "This is the perfect way to organize your tasks. Sign Up or Sign In to get started. You can also continue as guest if you like."
+  },
+
+  "GetStarted": {
+    "message": "Welcome to Kanban. Create your very first board to get started!",
     "btnTxt": "+ Add New Board"
   },
 
@@ -40,9 +47,9 @@
     "btnTxt": "+ Add New Column"
   },
 
-  "DeleteMessages":{
-    "deleteBoard":"Board Was Deleted",
-    "deleteTask":"Task Was Deleted"
+  "DeleteMessages": {
+    "deleteBoard": "Board Was Deleted",
+    "deleteTask": "Task Was Deleted"
   },
 
   "Header": {
@@ -98,8 +105,8 @@
     "currentStatus": "Current Status"
   },
 
-  "DeleteForm":{
-    "deleteBoardQuest":"Delete this board?",
+  "DeleteForm": {
+    "deleteBoardQuest": "Delete this board?",
     "deleteTaskQuest": "Delete this task?",
     "delete": "Delete",
     "cancel": "Cancel"
