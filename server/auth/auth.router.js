@@ -2,8 +2,18 @@ const { Router } = require("express");
 const authRouter = Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
 const usersModel = require("../models/users.model");
+const rateLimit = require("express-rate-limit");
+
+const signInLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: {
+    message: "Too many login attempts, please try again after 15 minutes.",
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 authRouter.post("/sign-up", async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -13,7 +23,9 @@ authRouter.post("/sign-up", async (req, res) => {
       .json({ message: "Full Name, Email and Password are required fields" });
   }
 
-  const existingUser = await usersModel.findOne({ email: email });
+  const existingUser = await usersModel.findOne({
+    email: email.toLowerCase().trim(),
+  });
 
   if (existingUser) {
     return res
@@ -23,12 +35,16 @@ authRouter.post("/sign-up", async (req, res) => {
 
   const hashedPass = await bcrypt.hash(password, 10);
 
-  await usersModel.create({ fullName, email, password: hashedPass });
+  await usersModel.create({
+    fullName,
+    email: email.toLowerCase().trim(),
+    password: hashedPass,
+  });
 
   res.json({ message: "Registration successful" });
 });
 
-authRouter.post("/sign-in", async (req, res) => {
+authRouter.post("/sign-in", signInLimiter, async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res
@@ -36,7 +52,9 @@ authRouter.post("/sign-in", async (req, res) => {
       .json({ message: "Email and Password are required fields" });
   }
 
-  const existingUser = await usersModel.findOne({ email: email });
+  const existingUser = await usersModel.findOne({
+    email: email.toLowerCase().trim(),
+  });
 
   if (!existingUser) {
     return res.status(400).json({ message: "Email or Password is incorrect" });

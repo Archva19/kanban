@@ -26,7 +26,8 @@
     "serverError": "სერვერის ხარვეზი, სცადეთ მოგვიანებით",
     "emailRequired": "ელ-ფოსტა აუცილებელია",
     "invalidEmail": "არასწორი ელ-ფოსტა",
-    "passwordRequired": "პაროლი აუცილებელია"
+    "passwordRequired": "პაროლი აუცილებელია",
+    "tooManyAttempts": "ძალიან ბევრი მცდელობა. სცადეთ მოგვიანებით 15 წუთში."
   },
 
   "GetStarted": {
