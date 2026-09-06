@@ -42,6 +42,11 @@ export default function SignIn() {
           backendMessage === "Email and Password are required fields"
         ) {
           setServerError(t("requiredFields"));
+        } else if (
+          backendMessage ===
+          "Too many login attempts, please try again after 15 minutes."
+        ) {
+          setServerError(t("tooManyAttempts")); // 👈 დაემატა rate limit-ის თარგმანი
         } else {
           setServerError(t("serverError"));
         }

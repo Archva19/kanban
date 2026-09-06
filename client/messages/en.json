@@ -26,7 +26,8 @@
     "serverError": "Server error, try again later",
     "emailRequired": "Email is required",
     "invalidEmail": "Invalid email",
-    "passwordRequired": "Password is required"
+    "passwordRequired": "Password is required",
+    "tooManyAttempts": "Too many login attempts, please try again after 15 minutes."
   },
 
   "GetStarted":{
