@@ -1,0 +1,115 @@
+{
+  "SignUpPage": {
+    "title": "რეგისტრაცია",
+    "fullName": "სრული სახელი",
+    "email": "ელ-ფოსტა",
+    "password": "პაროლი",
+    "haveAnAccount": "უკვე მაქვს ანგარიში",
+    "requiredFields": "სახელი, ელ-ფოსტა და პაროლი აუცილებელი ველებია",
+    "userExists": "მომხმარებელი ამ ელ-ფოსტით უკვე არსებობს",
+    "serverError": "სერვერის ხარვეზი, სცადეთ მოგვიანებით",
+    "fullNameRequired": "სახელი აუცილებელია",
+    "emailRequired": "ელ-ფოსტა აუცილებელია",
+    "invalidEmail": "არასწორი ელ-ფოსტა",
+    "passwordRequired": "პაროლი აუცილებელია",
+    "min6char": "მინიმუმ 6 სიმბოლო",
+    "max20char": "მაქსიმუმ 20 სიმბოლო"
+  },
+
+  "SignInPage": {
+    "title": "ავტორიზაცია",
+    "email": "ელ-ფოსტა",
+    "password": "პაროლი",
+    "newAccount": "ახალი მომხმარებლის შექმნა",
+    "requiredFields": "ელ-ფოსტა და პაროლი აუცილებელი ველებია",
+    "invalidCredentials": "ელ-ფოსტა ან პაროლი არასწორია",
+    "serverError": "სერვერის ხარვეზი, სცადეთ მოგვიანებით",
+    "emailRequired": "ელ-ფოსტა აუცილებელია",
+    "invalidEmail": "არასწორი ელ-ფოსტა",
+    "passwordRequired": "პაროლი აუცილებელია"
+  },
+
+  "GetStarted": {
+    "message": "მოგესალმებით კანბანში. ეს არის იდეალური გზა თქვენი დავალებების ორგანიზებისათვის. დასაწყებად შექმენით თქვენი პირველი დაფა.",
+    "btnTxt": "+ ახალი დაფა"
+  },
+
+  "EmptyBoard": {
+    "message": "დაფა ცარიელია, დასაწყებად შექმენი ახალი სვეტი.",
+    "btnTxt": "+ ახალი სვეტი"
+  },
+
+  "DeleteMessages": {
+    "deleteBoard": "დაფა წაიშალა",
+    "deleteTask": "დავალება წაიშალა"
+  },
+
+  "Header": {
+    "newTaskBtn": "+ ახალი დავალება"
+  },
+
+  "Boards": {
+    "allBoards": "ყველა დაფა",
+    "newBoard": "+ ახალი დაფა"
+  },
+
+  "ModifyDropDown": {
+    "deleteBoard": "დაფის წაშლა",
+    "editBoard": "დაფის რედაქტირება",
+    "deleteTask": "დავალების წაშლა",
+    "editTask": "დავალების რედაქტირება"
+  },
+
+  "HideSideBar": {
+    "hide": "პანელის დამალვა"
+  },
+
+  "BoardForm": {
+    "addBoard": "ახალი დაფა",
+    "editBoard": "დაფის რედაქტირება",
+    "boardName": "დაფის სახელი",
+    "boardNameEx": "მაგ. ვებ დიზაინი",
+    "boardColumns": "დაფის სვეტები",
+    "addNewColumn": "+ ახალი სვეტის დამატება",
+    "createBoard": "დაფის შექმნა",
+    "saveChanges": "ცვლილებების შენახვა"
+  },
+
+  "TaskForm": {
+    "addTask": "ახალი დავალება",
+    "editTask": "დავალების რედაქტირება",
+    "title": "სათაური",
+    "titleEx": "საიტის UI-ს აწყობა",
+    "description": "აღწერა",
+    "descriptionEx": "მაგ. საიტი უნდა იყოს მარტივად აღსაქმელი და ფერები კარგად უნდა იყოს დასმული.",
+    "subtasks": "ქვედავალებები",
+    "subtaskEx1": "მაგ. თავსართის დიზაინის აწყობა",
+    "subtaskEx2": "მაგ. გვერდითა პანელის დიზაინის აწყობა",
+    "addSubtask": "+ ახალი ქვედავალების დამატება",
+    "status": "სტატუსი",
+    "createTask": "დავალების შექმნა",
+    "saveChanges": "ცვლილებების შენახვა"
+  },
+
+  "TaskWindow": {
+    "noDescription": "აღწერა არ არის",
+    "noSubtasks": "ქვედავალებები არ არის",
+    "currentStatus": "მიმდინარე სტატუსი"
+  },
+
+  "DeleteForm": {
+    "deleteBoardQuest": "ნამდვილად გსურთ ამ დაფის წაშლა?",
+    "deleteTaskQuest": "ნამდვილად გსურთ ამ დავალების წაშლა?",
+    "delete": "წაშლა",
+    "cancel": "გაუქმება"
+  },
+
+  "FormErrors": {
+    "tooLong": "ძალიან გრძელია",
+    "required": "სავალდებულოა"
+  },
+
+  "NewColumnBtn": {
+    "newColumn": "+ ახალი სვეტი"
+  }
+}

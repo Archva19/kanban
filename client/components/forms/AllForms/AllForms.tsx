@@ -9,6 +9,7 @@ import DeleteTask from "../forms/tasks/DeleteTask";
 import DeleteMessageModel from "@/components/models/DeleteMessageModel";
 import TaskWindow from "../forms/tasks/TaskWindow";
 import { AnimatePresence } from "motion/react";
+import { useTranslations } from "next-intl";
 
 export default function AllForms() {
   const {
@@ -24,6 +25,8 @@ export default function AllForms() {
     setDeleteTaskMessageVis,
     taskWindowVis,
   } = useForms();
+  
+  const t= useTranslations("DeleteMessages");
 
   function onCloseDeleteMessage() {
     setDeleteMessageVis(false);
@@ -49,7 +52,7 @@ export default function AllForms() {
 
         {deleteMessageVis && (
           <DeleteMessageModel
-            content={"Board Was Deleted"}
+            content={t("deleteBoard")}
             startTimer={startBoardTimer}
             stopTimer={stopBoardTimer}
           />
@@ -60,7 +63,7 @@ export default function AllForms() {
         {deleteTaskVis && <DeleteTask startTimer={startTaskTimer} />}
         {deleteTaskMessageVis && (
           <DeleteMessageModel
-            content={"Task Was Deleted"}
+            content={t("deleteTask")}
             startTimer={startTaskTimer}
             stopTimer={stopTaskTimer}
           />

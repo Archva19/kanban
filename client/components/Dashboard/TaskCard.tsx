@@ -1,9 +1,11 @@
 import { useForms } from "@/context/FormsContext";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useLocale } from "next-intl";
 
 export default function TaskCard({ task }: { task: any }) {
   const { setTaskWindowVis, setActiveTask } = useForms();
+  const locale = useLocale();
 
   const {
     attributes,
@@ -12,7 +14,7 @@ export default function TaskCard({ task }: { task: any }) {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: task._id, data: { type: "Task", task },});
+  } = useSortable({ id: task._id, data: { type: "Task", task } });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -35,7 +37,7 @@ export default function TaskCard({ task }: { task: any }) {
   return (
     <>
       <div
-      id={`task-${task._id}`}
+        id={`task-${task._id}`}
         ref={setNodeRef}
         style={style}
         {...attributes}
@@ -47,7 +49,9 @@ export default function TaskCard({ task }: { task: any }) {
           {task.title}
         </p>
         <p className="text-[12px] text-[#828FA3] leading-3.75">
-          {getCompletedSubTasksLength(task)} of {task.subTasks.length} subtasks
+          {locale === "en"
+            ? `${getCompletedSubTasksLength(task)} of ${task.subTasks.length} subtasks`
+            : `${task.subTasks.length}-დან ${getCompletedSubTasksLength(task)} ქვედავალება`}
         </p>
       </div>
     </>

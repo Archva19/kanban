@@ -1,0 +1,115 @@
+{
+  "SignUpPage": {
+    "title": "Sign Up",
+    "fullName": "Full Name",
+    "email": "Email",
+    "password": "Password",
+    "haveAnAccount": "I already have an account",
+    "requiredFields": "Full Name, Email and Password are required fields",
+    "userExists": "User with this email already exists",
+    "serverError": "Server error, try again later",
+    "fullNameRequired": "Full Name is required",
+     "emailRequired": "Email is required",
+    "invalidEmail": "Invalid email",
+    "passwordRequired": "Password is required",
+    "min6char": "minimum 6 character",
+    "max20char":"maximum 20 character"
+  },
+
+  "SignInPage": {
+    "title": "Sign In",
+    "email": "Email",
+    "password": "Password",
+    "newAccount": "Create New Account",
+    "requiredFields": "Email and Password are required fields",
+    "invalidCredentials": "Email or Password is incorrect",
+    "serverError": "Server error, try again later",
+    "emailRequired": "Email is required",
+    "invalidEmail": "Invalid email",
+    "passwordRequired": "Password is required"
+  },
+
+  "GetStarted":{
+    "message":"Welcome to Kanban. Perfect way to organize your tasks. Create your very first board to get started!",
+    "btnTxt": "+ Add New Board"
+  },
+
+  "EmptyBoard": {
+    "message": "This board is empty. Create a new column to get started.",
+    "btnTxt": "+ Add New Column"
+  },
+
+  "DeleteMessages":{
+    "deleteBoard":"Board Was Deleted",
+    "deleteTask":"Task Was Deleted"
+  },
+
+  "Header": {
+    "newTaskBtn": "+ Add New Task"
+  },
+
+  "Boards": {
+    "allBoards": "ALL BOARDS",
+    "newBoard": "+ Create New Board"
+  },
+
+  "ModifyDropDown": {
+    "deleteBoard": "Delete Board",
+    "editBoard": "Edit Board",
+    "deleteTask": "Delete Task",
+    "editTask": "Edit Task"
+  },
+
+  "HideSideBar": {
+    "hide": "Hide Sidebar"
+  },
+
+  "BoardForm": {
+    "addBoard": "Add New Board",
+    "editBoard": "Edit Board",
+    "boardName": "Board Name",
+    "boardNameEx": "e.g. Web Design",
+    "boardColumns": "Board Columns",
+    "addNewColumn": "+ Add New Column",
+    "createBoard": "Create New Board",
+    "saveChanges": "Save Changes"
+  },
+
+  "TaskForm": {
+    "addTask": "Add New Task",
+    "editTask": "Edit Task",
+    "title": "Title",
+    "titleEx": "e.g. Take coffee break",
+    "description": "Descrition",
+    "descriptionEx": "e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little.",
+    "subtasks": "Subtasks",
+    "subtaskEx1": "e.g. Make coffee",
+    "subtaskEx2": "e.g. Drink coffee & smile",
+    "addSubtask": "+ Add New Subtask",
+    "status": "Status",
+    "createTask": "Create Task",
+    "saveChanges": "Save Changes"
+  },
+
+  "TaskWindow": {
+    "noDescription": "No Description",
+    "noSubtasks": "No Subtasks",
+    "currentStatus": "Current Status"
+  },
+
+  "DeleteForm":{
+    "deleteBoardQuest":"Delete this board?",
+    "deleteTaskQuest": "Delete this task?",
+    "delete": "Delete",
+    "cancel": "Cancel"
+  },
+
+  "FormErrors": {
+    "tooLong": "Input is too long",
+    "required": "Can’t be empty"
+  },
+
+  "NewColumnBtn": {
+    "newColumn": "+ New Column"
+  }
+}

@@ -1,10 +1,13 @@
 import { useActiveBoard } from "@/context/ActiveBoardContext";
 import { useForms } from "@/context/FormsContext";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 
 export default function NewTaskBtn() {
   const { activeBoard } = useActiveBoard();
   const { setNewTaskVis } = useForms();
+
+  const t = useTranslations("Header");
   return (
     <>
       {activeBoard && (
@@ -20,7 +23,7 @@ export default function NewTaskBtn() {
             width={12}
             height={12}
           />
-          <p className="hidden md:inline-block text-[15px]">+ Add New Task</p>
+          <p className="hidden md:inline-block text-[15px]">{t("newTaskBtn")}</p>
         </button>
       )}
     </>

@@ -6,7 +6,8 @@ import {
   UseFormRegister,
 } from "react-hook-form";
 import DeleteIcon from "../../models/DeleteIcon";
-import {motion} from "framer-motion"
+import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 interface BoardFormModelProps {
   windowType: string;
@@ -34,6 +35,10 @@ export default function BoardFormModel(props: BoardFormModelProps) {
     append,
     autoAddColumn = false,
   } = props;
+
+  const t = useTranslations("BoardForm");
+  const errorsT = useTranslations("FormErrors");
+
   return (
     <>
       <div className="formBg" onClick={handleOnClickBg}>
@@ -47,7 +52,7 @@ export default function BoardFormModel(props: BoardFormModelProps) {
         >
           <div>
             <p className="formTitle">
-              {windowType === "create" ? "Add New Board" : "Edit Board"}
+              {windowType === "create" ? t("addBoard") : t("editBoard")}
             </p>
           </div>
           <form
@@ -55,17 +60,17 @@ export default function BoardFormModel(props: BoardFormModelProps) {
             className="flex flex-col gap-6"
           >
             <div className="flex flex-col gap-2">
-              <p className="inputTitle">Board Name</p>
+              <p className="inputTitle">{t("boardName")}</p>
               <div className="relative">
                 <input
                   className={`${errors.title ? "errorOnInput pr-28.75!" : "focusOnInput"}`}
                   type="text"
-                  placeholder="e.g. Web Design"
+                  placeholder={t("boardNameEx")}
                   {...register("title", {
-                    required: "Can’t be empty",
+                    required: errorsT("required"),
                     maxLength: {
                       value: 15,
-                      message: "Input is too long",
+                      message: errorsT("tooLong"),
                     },
                   })}
                 />
@@ -75,7 +80,7 @@ export default function BoardFormModel(props: BoardFormModelProps) {
               </div>
             </div>
             <div className="flex flex-col gap-2">
-              <p className="inputTitle">Board Columns</p>
+              <p className="inputTitle">{t("boardColumns")}</p>
               <div className="flex flex-col gap-3">
                 <div className="flex flex-col gap-3">
                   {fields.map((field, index) => (
@@ -89,7 +94,7 @@ export default function BoardFormModel(props: BoardFormModelProps) {
                           {...register(`columns.${index}.title` as const, {
                             maxLength: {
                               value: 15,
-                              message: "Input is too long",
+                              message: errorsT("tooLong"),
                             },
                           })}
                           className={`${(errors.columns as any)?.[index]?.title ? "errorOnInput pr-28.75!" : "focusOnInput"}`}
@@ -117,14 +122,14 @@ export default function BoardFormModel(props: BoardFormModelProps) {
                     type="button"
                     onClick={() => append({ title: "" })}
                   >
-                    + Add New Column
+                    {t("addNewColumn")}
                   </button>
                 </div>
               </div>
             </div>
             <div className="w-full">
               <button className="purpleBtn formBtn" type="submit">
-                {windowType === "create" ? "Create New Board" : "Save Changes"}
+                {windowType === "create" ? t("createBoard") : t("saveChanges")}
               </button>
             </div>
           </form>
