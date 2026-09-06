@@ -9,6 +9,7 @@ import MobileHeaderTitle from "./MobileHeaderTitle";
 import DesktopHeaderTitle from "./DesktopHeaderTitle";
 import BoardDropDown from "./BoardDropDown";
 import { useActiveBoard } from "@/context/ActiveBoardContext";
+import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
 
 export default function Header() {
   const [dropDownVis, setDropDownVis] = useState(false);
@@ -32,6 +33,7 @@ export default function Header() {
           <DesktopHeaderTitle />
         </div>
         <div className="flex items-center gap-4 md:gap-6">
+          <LanguageSwitcher/>
           <NewTaskBtn />
           <ThreeDots onClick={() => setBoardDropDownVis(!boardDropDownVis)} />
         </div>

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 interface ModifyDropDownModelProps {
   subject: string;
@@ -14,7 +15,8 @@ export default function ModifyDropDownModel({
   startTimer,
   handleOnClickEdit,
   handleOnClickDelete,
-}:ModifyDropDownModelProps) {
+}: ModifyDropDownModelProps) {
+  const t = useTranslations("ModifyDropDown");
   return (
     <>
       <motion.div
@@ -28,15 +30,15 @@ export default function ModifyDropDownModel({
       >
         <button
           onClick={handleOnClickEdit}
-          className="w-40 text-left text-[#828FA3]"
+          className="min-w-40 text-left text-[#828FA3]"
         >
-          Edit {subject}
+          {subject === "Board" ? t("editBoard") : t("editTask")}
         </button>
         <button
           onClick={handleOnClickDelete}
-          className="w-40 text-left text-[#EA5555]"
+          className="min-w-40 text-left text-[#EA5555]"
         >
-          Delete {subject}
+          {subject === "Board" ? t("deleteBoard") : t("deleteTask")}
         </button>
       </motion.div>
     </>

@@ -11,6 +11,7 @@ import DeleteIcon from "../../models/DeleteIcon";
 import SelectColumnModel from "../FormItemModels/SelectColumnModel";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 interface TaskFormModelProps {
   windowType: "create" | "edit";
@@ -51,6 +52,9 @@ export default function TaskFormModel(props: TaskFormModelProps) {
     setIsOpen(false);
   }
 
+  const t = useTranslations("TaskForm");
+  const errorsT = useTranslations("FormErrors");
+
   return (
     <>
       <div className="formBg" onClick={() => windowVisState(false)}>
@@ -64,7 +68,7 @@ export default function TaskFormModel(props: TaskFormModelProps) {
         >
           <div>
             <p className="formTitle">
-              {windowType === "create" ? "Add New Task" : "Edit Task"}
+              {windowType === "create" ? t("addTask") : t("editTask")}
             </p>
           </div>
           <form
@@ -72,14 +76,14 @@ export default function TaskFormModel(props: TaskFormModelProps) {
             className="flex flex-col gap-6"
           >
             <div className="flex flex-col gap-2">
-              <p className="inputTitle">Title</p>
+              <p className="inputTitle">{t("title")}</p>
               <div className="relative">
                 <input
                   className={`${errors.title ? "errorOnInput" : "focusOnInput"}`}
                   type="text"
-                  placeholder="e.g. Take coffee break"
+                  placeholder={t("titleEx")}
                   {...register("title", {
-                    required: "Can’t be empty",
+                    required: errorsT("required"),
                   })}
                 />
                 <p className="inputErrorMessage">
@@ -88,18 +92,18 @@ export default function TaskFormModel(props: TaskFormModelProps) {
               </div>
             </div>
             <div className="flex flex-col gap-2">
-              <p className="inputTitle">Description</p>
+              <p className="inputTitle">{t("description")}</p>
               <div className="relative h-28">
                 <textarea
                   className="focusOnInput resize-none"
-                  placeholder="e.g. It’s always good to take a break. This 15 minute break will  recharge the batteries a little."
+                  placeholder={t("descriptionEx")}
                   {...register("description")}
                 />
               </div>
             </div>
 
             <div className="flex flex-col gap-2">
-              <p className="inputTitle">Subtasks</p>
+              <p className="inputTitle">{t("subtasks")}</p>
               <div className="flex flex-col gap-3">
                 <div className="flex flex-col gap-3">
                   {fields.map((field, index) => (
@@ -108,8 +112,8 @@ export default function TaskFormModel(props: TaskFormModelProps) {
                         <input
                           placeholder={
                             index === 0
-                              ? "e.g. Make coffee"
-                              : "e.g. Drink coffee & smile"
+                              ? t("subtaskEx1")
+                              : t("subtaskEx2")
                           }
                           type="text"
                           {...register(`subTasks.${index}.title` as const)}
@@ -132,14 +136,14 @@ export default function TaskFormModel(props: TaskFormModelProps) {
                     type="button"
                     onClick={() => append({ title: "" })}
                   >
-                    + Add New Subtask
+                    {t("addSubtask")}
                   </button>
                 </div>
               </div>
             </div>
 
             <div className="flex flex-col gap-2">
-              <p className="inputTitle">Status</p>
+              <p className="inputTitle">{t("status")}</p>
               <SelectColumnModel
                 columns={activeBoard.columns}
                 selectedColumnId={selectedColumnId}
@@ -151,7 +155,7 @@ export default function TaskFormModel(props: TaskFormModelProps) {
 
             <div className="w-full">
               <button className="purpleBtn formBtn" type="submit">
-                {windowType === "create" ? "Create Task" : "Save Changes"}
+                {windowType === "create" ? t("createTask") : t("saveChanges")}
               </button>
             </div>
           </form>

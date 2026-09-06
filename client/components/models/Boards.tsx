@@ -2,6 +2,7 @@
 
 import { useForms } from "@/context/FormsContext";
 import { useUser } from "@/context/UserContext";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -9,11 +10,12 @@ export default function Boards() {
   const pathname = usePathname();
   const { boards } = useUser();
   const { setNewBoardVis } = useForms();
+  const t = useTranslations("Boards");
   return (
     <>
       <div className="flex flex-col gap-4.75">
         <p className="text-[#828FA3] text-[12px] tracking-[2.4px] px-6 leading-3.75 xl:px-8">
-          ALL BOARDS ({boards.length})
+          {t("allBoards")} ({boards.length})
         </p>
         <div className="flex flex-col">
           <div className="flex flex-col max-h-103 overflow-scroll">
@@ -67,7 +69,7 @@ export default function Boards() {
               />
             </svg>
             <p className="text-[15px] text-[#635FC7] leading-4.75">
-              + Create New Board
+              {t("newBoard")}
             </p>
           </button>
         </div>

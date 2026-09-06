@@ -1,5 +1,6 @@
 import { useForms } from "@/context/FormsContext";
 import EmptyMessageModel from "../models/EmptyMessageModel";
+import { useTranslations } from "next-intl";
 
 export default function EmptyBoard() {
   const { setEditBoardVis, setAutoAddColumn } = useForms();
@@ -9,11 +10,13 @@ export default function EmptyBoard() {
     setAutoAddColumn(true);
   }
 
+  const t = useTranslations("EmptyBoard");
+
   return (
     <>
       <EmptyMessageModel
-        title={"This board is empty. Create a new column to get started."}
-        btnTxt={"+ Add New Column"}
+        title={t("message")}
+        btnTxt={t("btnTxt")}
         onClickFun={handleOnClickNewColumn}
       />
     </>

@@ -39,13 +39,13 @@ authRouter.post("/sign-in", async (req, res) => {
   const existingUser = await usersModel.findOne({ email: email });
 
   if (!existingUser) {
-    return res.status(400).json({ message: "email or password is incorrect" });
+    return res.status(400).json({ message: "Email or Password is incorrect" });
   }
 
   const isEqualPass = await bcrypt.compare(password, existingUser.password);
 
   if (!isEqualPass) {
-    return res.status(400).json({ message: "email or password is incorrect" });
+    return res.status(400).json({ message: "Email or Password is incorrect" });
   }
 
   const payload = {

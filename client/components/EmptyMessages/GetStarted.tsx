@@ -1,5 +1,6 @@
 import { useForms } from "@/context/FormsContext";
 import EmptyMessageModel from "../models/EmptyMessageModel";
+import { useTranslations } from "next-intl";
 
 export default function GetStarted() {
   const { setNewBoardVis } = useForms();
@@ -7,11 +8,13 @@ export default function GetStarted() {
   function handleOnClick() {
     setNewBoardVis(true);
   }
+
+  const t = useTranslations("GetStarted");
   return (
     <>
       <EmptyMessageModel
-        title={"Welcome to Kanban. Create your very first board to get started!"}
-        btnTxt={"+ Add New Board"}
+        title={t("message")}
+        btnTxt={t("btnTxt")}
         onClickFun={handleOnClick}
       />
     </>

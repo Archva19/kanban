@@ -1,8 +1,10 @@
 "use client";
 
+import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
 import { SignUpSchema } from "@/validators/signup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -19,6 +21,7 @@ export default function SignUp() {
   });
 
   const router = useRouter();
+  const t = useTranslations("SignUpPage");
 
   async function onSubmit(data: any) {
     try {
@@ -29,9 +32,19 @@ export default function SignUp() {
       }
     } catch (error: any) {
       if (error.response && error.response.data?.message) {
-        setServerError(error.response.data.message);
+        const backendMessage = error.response.data.message;
+
+        if (backendMessage === "User with this email already exists") {
+          setServerError(t("userExists"));
+        } else if (
+          backendMessage === "Full Name, Email and Password are required fields"
+        ) {
+          setServerError(t("requiredFields"));
+        } else {
+          setServerError(t("serverError"));
+        }
       } else {
-        setServerError("server error, try again later");
+        setServerError(t("serverError"));
       }
     }
   }
@@ -40,7 +53,7 @@ export default function SignUp() {
     <>
       <div className="h-screen w-screen flex items-center justify-center">
         <div className="flex flex-col gap-6 w-[91.466%] mx-auto max-w-120 items-center ">
-          <p className="heading">Sign Up</p>
+          <p className="heading">{t("title")}</p>
 
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -48,44 +61,48 @@ export default function SignUp() {
           >
             <div className="flex flex-col gap-6 relative">
               <div className="flex flex-col gap-2">
-                <p className="inputTitle">Full Name</p>
+                <p className="inputTitle">{t("fullName")}</p>
                 <div className="relative">
                   <input
-                    className={`${errors.fullName ? "border-red-500!" : "focusOnInput"}`}
+                    className={`${errors.fullName ? "errorOnInput" : "focusOnInput"}`}
                     type="text"
-                    placeholder="Full Name"
+                    placeholder={t("fullName")}
                     {...register("fullName")}
                   />
                   <p className="inputErrorMessage">
-                    {errors.fullName?.message}
+                    {errors.fullName?.message &&
+                      t(errors.fullName.message as any)}
                   </p>
                 </div>
               </div>
 
               <div className="flex flex-col gap-2">
-                <p className="inputTitle">Email</p>
+                <p className="inputTitle">{t("email")}</p>
                 <div className="relative">
                   <input
-                    className={`${errors.email ? "border-red-500!" : "focusOnInput"}`}
+                    className={`${errors.email ? "errorOnInput" : "focusOnInput"}`}
                     type="email"
-                    placeholder="Email"
+                    placeholder={t("email")}
                     {...register("email")}
                   />
-                  <p className="inputErrorMessage">{errors.email?.message}</p>
+                  <p className="inputErrorMessage">
+                    {errors.email?.message && t(errors.email.message as any)}
+                  </p>
                 </div>
               </div>
 
               <div className="flex flex-col gap-2">
-                <p className="inputTitle">Password</p>
+                <p className="inputTitle">{t("password")}</p>
                 <div className="relative">
                   <input
-                    className={`${errors.password ? "border-red-500!" : "focusOnInput"}`}
+                    className={`${errors.password ? "errorOnInput" : "focusOnInput"}`}
                     type="password"
-                    placeholder="Password"
+                    placeholder={t("password")}
                     {...register("password")}
                   />
                   <p className="inputErrorMessage">
-                    {errors.password?.message}
+                    {errors.password?.message &&
+                      t(errors.password.message as any)}
                   </p>
                 </div>
               </div>
@@ -99,15 +116,18 @@ export default function SignUp() {
             <div className="flex flex-col gap-3">
               <div>
                 <button type="submit" className="formBtn purpleBtn">
-                  Sign Up
+                  {t("title")}
                 </button>
               </div>
 
               <Link className="formBtn lightPurpleBtn" href={"/sign-in"}>
-                I already have an account
+                {t("haveAnAccount")}
               </Link>
             </div>
           </form>
+        </div>
+        <div className="absolute top-10 right-10">
+          <LanguageSwitcher />
         </div>
       </div>
     </>

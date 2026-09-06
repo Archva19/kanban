@@ -1,4 +1,5 @@
 import { useForms } from "@/context/FormsContext";
+import { useTranslations } from "next-intl";
 
 interface SideBarProps {
   setSidebarVis: (value: boolean) => void;
@@ -6,6 +7,8 @@ interface SideBarProps {
 
 
 export default function HideSidebarBtn({ setSidebarVis }: SideBarProps) {
+
+  const t = useTranslations("HideSideBar");
   return (
     <>
       <button
@@ -27,7 +30,7 @@ export default function HideSidebarBtn({ setSidebarVis }: SideBarProps) {
         </svg>
 
         <p className="text-[#828FA3] text-[15px] group-hover:text-[#635FC7] transition-colors duration-200 leading-4.75">
-          Hide Sidebar
+          {t("hide")}
         </p>
       </button>
     </>
