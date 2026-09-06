@@ -17,8 +17,8 @@ const tasksSchema = new mongoose.Schema({
   description: {
     type: String,
   },
-  status:{
-    type:String
+  status: {
+    type: String,
   },
   subTasks: {
     type: [subtasksSchema],
@@ -48,6 +48,7 @@ const boardsSchema = new mongoose.Schema(
       type: [columnsSchema],
       default: [],
     },
+    isGuest: { type: Boolean, default: false },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
@@ -55,6 +56,14 @@ const boardsSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+  },
+);
+
+boardsSchema.index(
+  { createdAt: 1 },
+  {
+    expireAfterSeconds: 86400,
+    partialFilterExpression: { isGuest: true },
   },
 );
 

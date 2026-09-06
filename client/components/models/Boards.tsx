@@ -18,7 +18,7 @@ export default function Boards() {
           {t("allBoards")} ({boards.length})
         </p>
         <div className="flex flex-col">
-          <div className="flex flex-col max-h-103 overflow-scroll">
+          <div className="flex flex-col max-h-42 md:max-h-102 overflow-scroll">
             {boards.map((board) => {
               const isActive = pathname === `/boards/${board._id}`;
               return (

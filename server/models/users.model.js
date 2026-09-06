@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
     },
+    isGuest: { type: Boolean, default: false },
     profilePicture: {
       type: String,
       default: function () {
@@ -28,6 +29,14 @@ const userSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+  },
+);
+
+userSchema.index(
+  { createdAt: 1 },
+  {
+    expireAfterSeconds: 86400,
+    partialFilterExpression: { isGuest: true },
   },
 );
 

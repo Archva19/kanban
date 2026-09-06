@@ -20,11 +20,11 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
     <>
       <Intro>
         <UserGuard>
-          <div className="flex w-screen h-screen">
+          <div className="flex w-screen min-h-screen">
             <AnimatePresence>
               {sidebarVis && <Sidebar setSidebarVis={setSidebarVis} />}
             </AnimatePresence>
-            <div className="flex-1 flex flex-col h-full min-w-0">
+            <div className="flex-1 flex flex-col h-screen min-w-0">
               <div className="flex w-full">
                 {!sidebarVis && <SideLogo />}
                 <Header />
