@@ -1,22 +1,23 @@
 import Logo from "../Logo/Logo";
-import Boards from "../models/Boards";
-import ThemeToggle from "../models/ThemeToggle";
+import Boards from "../models/Sections/Boards";
+import ThemeToggle from "../models/Sections/ThemeToggle";
 import { motion } from "framer-motion";
 import HideSidebarBtn from "./HideSidebarBtn";
 import ProfileBtn from "./ProfileBtn";
 
 interface SideBarProps {
   setSidebarVis: (value: boolean) => void;
+  setProfileWindowVis: (value: boolean) => void;
 }
 
-export default function Sidebar({ setSidebarVis }: SideBarProps) {
+export default function Sidebar({ setSidebarVis, setProfileWindowVis }: SideBarProps) {
   return (
     <motion.div
       initial={{ width: 0 }}
       animate={{ width: "auto" }}
       exit={{ width: 0 }}
       transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-      className="cardBgColor whitespace-nowrap hidden md:flex md:h-full  md:py-8 md:border-r borderLineColor "
+      className="cardBgColor whitespace-nowrap hidden md:flex md:h-full md:py-8 md:border-r borderLineColor overflow-scroll"
     >
       <div className="h-full flex justify-between flex-col md:w-65.25 xl:w-75">
         <div className="flex flex-col gap-13.5 w-full">
@@ -31,7 +32,7 @@ export default function Sidebar({ setSidebarVis }: SideBarProps) {
             <ThemeToggle />
           </div>
           <div className="px-[12.5px] xl:px-6">
-            <ProfileBtn />
+            <ProfileBtn setProfileWindowVis={setProfileWindowVis}/>
           </div>
           <HideSidebarBtn setSidebarVis={setSidebarVis} />
         </div>

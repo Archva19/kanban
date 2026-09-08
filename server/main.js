@@ -11,7 +11,8 @@ const tasksRouter = require("./routes/tasks.router");
 const app = express();
 const PORT = 3030;
 
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(cors());
 
 ConnectToMongo();

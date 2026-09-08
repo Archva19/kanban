@@ -11,6 +11,7 @@ import {
 
 interface UserContextType {
   userData: any;
+  setUserData:(value:any) => void,
   boards: any[];
   addBoard: (newBoard: any) => void;
   handleDeleteBoard: (deletedBoard: any) => void;
@@ -20,7 +21,7 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export default function UserProvider({ children }: { children: ReactNode }) {
-  const userData = useFetchUser();
+  const {userData, setUserData} = useFetchUser();
   const [boards, setBoards] = useState<any[]>([]);
 
   useEffect(() => {
@@ -47,7 +48,7 @@ export default function UserProvider({ children }: { children: ReactNode }) {
 
   return (
     <UserContext.Provider
-      value={{ userData, boards, addBoard, handleDeleteBoard, handleEditBoard}}
+      value={{ userData, setUserData, boards, addBoard, handleDeleteBoard, handleEditBoard}}
     >
       {children}
     </UserContext.Provider>

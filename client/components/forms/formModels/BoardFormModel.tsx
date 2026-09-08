@@ -5,7 +5,7 @@ import {
   UseFieldArrayRemove,
   UseFormRegister,
 } from "react-hook-form";
-import DeleteIcon from "../../models/DeleteIcon";
+import DeleteIcon from "../../models/Icons/DeleteIcon";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 
@@ -45,7 +45,7 @@ export default function BoardFormModel(props: BoardFormModelProps) {
         <motion.div
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          exit={{ opacity: 0 }}
+          exit={{ opacity: 0, transition: { duration: 0.1 } }}
           transition={{ duration: 0.2, ease: "easeInOut" }}
           className="cardBgColor formWindow"
           onClick={(e) => e.stopPropagation()}

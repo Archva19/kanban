@@ -2,7 +2,7 @@
 
 import { useForms } from "@/context/FormsContext";
 import useTimer from "@/hooks/WindowTimer/useTimer";
-import ModifyDropDownModel from "../models/ModifyDropDownModel";
+import ModifyDropDownModel from "../models/Sections/ModifyDropDownModel";
 
 export default function BoardDropDown({
   onClose,
@@ -12,7 +12,7 @@ export default function BoardDropDown({
   setBoardDropDownVis: (value: boolean) => void;
 }) {
   const { startTimer, stopTimer } = useTimer({ onClose });
-  const { setDeleteBoardVis, setEditBoardVis} = useForms();
+  const { setDeleteBoardVis, setEditBoardVis } = useForms();
 
   function handleOnClickDelete() {
     setDeleteBoardVis(true);

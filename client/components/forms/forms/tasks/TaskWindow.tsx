@@ -1,4 +1,4 @@
-import ThreeDotsBtnModel from "@/components/models/ThreeDotsBtnModel";
+import ThreeDotsBtnModel from "@/components/models/Buttons/ThreeDotsBtnModel";
 import { useActiveBoard } from "@/context/ActiveBoardContext";
 import { useForms } from "@/context/FormsContext";
 import { AnimatePresence } from "motion/react";
@@ -138,18 +138,9 @@ export default function TaskWindow() {
                     </div>
                     <div className="max-w-[85.57%] text-left">
                       <p
-                        className={`relative text-[12px] wrap-break-word leading-3.75 ${subTask.isCompleted ? " opacity-50" : ""}`}
+                        className={`relative text-[12px] wrap-break-word leading-3.75 ${subTask.isCompleted ? " opacity-50 line-through" : ""}`}
                       >
                         {subTask.title}
-
-                        <motion.span
-                          initial={{ width: "0%" }}
-                          animate={{
-                            width: subTask.isCompleted ? "100%" : "0%",
-                          }}
-                          transition={{ duration: 0.25, ease: "easeInOut" }}
-                          className="absolute left-0 top-1/2 -translate-y-1/2 h-px bg-current"
-                        />
                       </p>
                     </div>
                   </button>

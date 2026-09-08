@@ -70,7 +70,7 @@ authRouter.post("/sign-in", signInLimiter, async (req, res) => {
     userId: existingUser._id,
   };
 
-  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
+  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "24h" });
 
   res.json({ message: "ტოკენი", data: token });
 });
@@ -83,7 +83,7 @@ authRouter.post("/guest-sign-in", async (req, res) => {
   });
 
   const payload = { userId: guestUser._id, isGuest: true };
-  const token = jwt.sign(payload, process.env.JWT_SECRET);
+  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "24h" });
 
   res.json({ message: "Guest login is successful", data: token });
 });

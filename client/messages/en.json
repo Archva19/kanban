@@ -119,5 +119,26 @@
 
   "NewColumnBtn": {
     "newColumn": "+ New Column"
+  },
+
+  "ProfileWindow":{
+    "fullName": "Full Name",
+    "email": "Email Address",
+    "member": "Member Since",
+    "language":"Language",
+    "activeBoards": "Active Boards",
+    "totalTasks": "Total Tasks",
+    "profile": "Profile",
+    "logOut": "Log Out",
+    "guestMessage": "You are currently using a guest account. Register to save your boards permanently!",
+    "signIn": "Sign In",
+    "createAccount": "Create Account",
+    "dangerZone": "Danger Zone",
+    "deleteAccount": "Delete Account",
+    "deleteQuest": "Delete this account?",
+    "deleteDesc":"Are you sure you want to delete your account? This action cannot be undone and will permanently remove all your data and boards.",
+    "delete": "Delete",
+    "deleting": "Deleting...",
+    "cancel": "Cancel"
   }
 }
