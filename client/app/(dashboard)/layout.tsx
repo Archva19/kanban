@@ -4,7 +4,8 @@ import AllForms from "@/components/forms/AllForms/AllForms";
 import Header from "@/components/Header/Header";
 import SideLogo from "@/components/Header/SideLogo";
 import Intro from "@/components/Intro/Intro";
-import EyeVisBtn from "@/components/models/EyeVisBtn";
+import EyeVisBtn from "@/components/models/Buttons/EyeVisBtn";
+import ProfileWindow from "@/components/ProfileWindow/ProfileWindow";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import UserGuard from "@/components/UserGuard/UserGuard";
 import ActiveBoardProvider from "@/context/ActiveBoardContext";
@@ -15,16 +16,22 @@ import { useState } from "react";
 
 function DashboardContent({ children }: { children: React.ReactNode }) {
   const [sidebarVis, setSidebarVis] = useState(true);
+  const [profileWindowVis, setProfileWindowVis] = useState(false);
 
   return (
     <>
       <Intro>
         <UserGuard>
-          <div className="flex w-screen min-h-screen">
+          <div className="flex w-screen h-screen overflow-hidden">
             <AnimatePresence>
-              {sidebarVis && <Sidebar setSidebarVis={setSidebarVis} />}
+              {sidebarVis && (
+                <Sidebar
+                  setSidebarVis={setSidebarVis}
+                  setProfileWindowVis={setProfileWindowVis}
+                />
+              )}
             </AnimatePresence>
-            <div className="flex-1 flex flex-col h-screen min-w-0">
+            <div className="flex-1 flex flex-col h-full min-w-0">
               <div className="flex w-full">
                 {!sidebarVis && <SideLogo />}
                 <Header />
@@ -34,6 +41,11 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
             {!sidebarVis && <EyeVisBtn setSidebarVis={setSidebarVis} />}
           </div>
           <AllForms />
+          <AnimatePresence>
+            {profileWindowVis && (
+              <ProfileWindow setProfileWindowVis={setProfileWindowVis} />
+            )}
+          </AnimatePresence>
         </UserGuard>
       </Intro>
     </>

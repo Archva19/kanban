@@ -1,13 +1,7 @@
 import { useActiveBoard } from "@/context/ActiveBoardContext";
-import ThreeDotsBtnModel from "../models/ThreeDotsBtnModel";
+import ThreeDotsBtnModel from "../models/Buttons/ThreeDotsBtnModel";
 
 export default function ThreeDots({ onClick }: { onClick: () => void }) {
   const { activeBoard } = useActiveBoard();
-  return (
-    <>
-      {activeBoard && (
-        <ThreeDotsBtnModel onClick = {onClick}/>
-      )}
-    </>
-  );
+  return <>{activeBoard && <ThreeDotsBtnModel onClick={onClick} />}</>;
 }

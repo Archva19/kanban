@@ -1,12 +1,12 @@
-import Boards from "../models/Boards";
-import ThemeToggle from "../models/ThemeToggle";
+import Boards from "../models/Sections/Boards";
+import ThemeToggle from "../models/Sections/ThemeToggle";
 import { motion } from "framer-motion";
 
 interface DropDownProps {
   setDropDownVis: (value: boolean) => void;
 }
 
-export default function DropDown({ setDropDownVis}: DropDownProps) {
+export default function DropDown({ setDropDownVis }: DropDownProps) {
   return (
     <>
       <div
@@ -14,7 +14,7 @@ export default function DropDown({ setDropDownVis}: DropDownProps) {
         className="absolute h-screen w-screen bg-[#000000]/50 top-0 left-0"
       >
         <motion.div
-          initial={{ opacity: 0, height:0 }}
+          initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 322 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
           onClick={(e) => e.stopPropagation()}

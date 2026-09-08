@@ -16,7 +16,7 @@ export default function GuestBtn({
     try {
       const res = await axios.post("http://localhost:3030/auth/guest-sign-in");
       if (res.status === 200) {
-        setCookie("accesstoken", res.data.data, { maxAge: 60 * 60 });
+        setCookie("accesstoken", res.data.data, { maxAge: 60 * 60 * 24 });
         router.push("/");
       }
     } catch (error) {

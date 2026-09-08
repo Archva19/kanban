@@ -32,7 +32,7 @@ export default function SignInForm({
       setServerError(null);
       const res = await axios.post("http://localhost:3030/auth/sign-in", data);
       if (res.status === 200) {
-        setCookie("accesstoken", res.data.data, { maxAge: 60 * 60 });
+        setCookie("accesstoken", res.data.data, { maxAge: 60 * 60 * 24 });
         router.push("/");
       }
     } catch (error: any) {

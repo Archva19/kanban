@@ -84,7 +84,7 @@ export default function FormsProvider({ children }: { children: ReactNode }) {
 export function useForms() {
   const context = useContext(FormsContext);
   if (!context) {
-    throw new Error("useUser must be used within a UserProvider");
+    throw new Error("useForms must be used within a FormsProvider");
   }
   return context;
 }

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 function useFetchUser(url: string = "http://localhost:3030/users/me") {
-  const [userData, setUserdata] = useState<any>(null);
+  const [userData, setUserData] = useState<any>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -21,12 +21,12 @@ function useFetchUser(url: string = "http://localhost:3030/users/me") {
           },
         });
 
-        setUserdata(res.data.data);
+        setUserData(res.data.data);
       } catch (error: any) {
         console.log("failed to fetch user data", error);
         if (error.response?.status === 404 || error.response?.status === 401) {
           deleteCookie("accesstoken");
-          setUserdata(null);
+          setUserData(null);
           router.push("/sign-in");
           router.refresh();
         }
@@ -41,7 +41,7 @@ function useFetchUser(url: string = "http://localhost:3030/users/me") {
     return () => clearInterval(interval);
   }, [url, router]);
 
-  return userData;
+  return {userData, setUserData};
 }
 
 export default useFetchUser;

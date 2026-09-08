@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import PurpleChevronDown from "@/components/models/PurpleChevronDown";
+import PurpleChevronDown from "@/components/models/Icons/PurpleChevronDown";
 
 interface SelectColumnModelProps {
   columns: any;

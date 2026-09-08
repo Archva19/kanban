@@ -1,5 +1,5 @@
 import { useForms } from "@/context/FormsContext";
-import EmptyMessageModel from "../models/EmptyMessageModel";
+import EmptyMessageModel from "../models/Messages/EmptyMessageModel";
 import { useTranslations } from "next-intl";
 
 export default function GetStarted() {

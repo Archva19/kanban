@@ -7,7 +7,7 @@ import {
   UseFormSetValue,
   UseFormWatch,
 } from "react-hook-form";
-import DeleteIcon from "../../models/DeleteIcon";
+import DeleteIcon from "../../models/Icons/DeleteIcon";
 import SelectColumnModel from "../FormItemModels/SelectColumnModel";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -61,7 +61,7 @@ export default function TaskFormModel(props: TaskFormModelProps) {
         <motion.div
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          exit={{ opacity: 0 }}
+          exit={{ opacity: 0, transition: { duration: 0.1 } }}
           transition={{ duration: 0.2, ease: "easeInOut" }}
           className={`cardBgColor formWindow relative`}
           onClick={onClickWindow}
@@ -111,9 +111,7 @@ export default function TaskFormModel(props: TaskFormModelProps) {
                       <div className="flex-1">
                         <input
                           placeholder={
-                            index === 0
-                              ? t("subtaskEx1")
-                              : t("subtaskEx2")
+                            index === 0 ? t("subtaskEx1") : t("subtaskEx2")
                           }
                           type="text"
                           {...register(`subTasks.${index}.title` as const)}

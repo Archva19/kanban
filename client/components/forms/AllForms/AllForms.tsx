@@ -6,7 +6,7 @@ import NewTask from "../forms/tasks/NewTask";
 import EditTask from "../forms/tasks/EditTask";
 import DeleteBoard from "../forms/boards/DeleteBoard";
 import DeleteTask from "../forms/tasks/DeleteTask";
-import DeleteMessageModel from "@/components/models/DeleteMessageModel";
+import DeleteMessageModel from "@/components/models/Messages/DeleteMessageModel";
 import TaskWindow from "../forms/tasks/TaskWindow";
 import { AnimatePresence } from "motion/react";
 import { useTranslations } from "next-intl";

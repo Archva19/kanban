@@ -159,7 +159,7 @@ textarea::placeholder {
   }
 
   .formBg {
-    @apply absolute top-0 left-0 w-screen h-screen max-h-screen overflow-scroll bg-[#000000]/50 flex items-center justify-center;
+    @apply absolute top-0 left-0 w-screen h-screen max-h-screen overflow-scroll bg-[#000000]/50 flex items-center justify-center z-99;
   }
 
   .formWindow {

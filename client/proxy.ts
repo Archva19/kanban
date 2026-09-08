@@ -7,10 +7,6 @@ export function proxy(request: NextRequest) {
   if (!token && (pathname === "/" || pathname.startsWith("/boards"))){
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
-  
-  if (token && (pathname === "/sign-in" || pathname === "/sign-up")) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
 
   return NextResponse.next();
 }
