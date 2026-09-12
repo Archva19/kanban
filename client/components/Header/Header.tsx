@@ -10,8 +10,13 @@ import DesktopHeaderTitle from "./DesktopHeaderTitle";
 import BoardDropDown from "./BoardDropDown";
 import { useActiveBoard } from "@/context/ActiveBoardContext";
 import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
+import HeaderProfileBtn from "./HeaderProfileBtn";
 
-export default function Header() {
+export default function Header({
+  setProfileWindowVis,
+}: {
+  setProfileWindowVis: (value: boolean) => void;
+}) {
   const [dropDownVis, setDropDownVis] = useState(false);
   const [boardDropDownVis, setBoardDropDownVis] = useState(false);
 
@@ -33,9 +38,12 @@ export default function Header() {
           <DesktopHeaderTitle />
         </div>
         <div className="flex items-center gap-4 md:gap-6">
-          <LanguageSwitcher/>
+          <LanguageSwitcher />
           <NewTaskBtn />
           <ThreeDots onClick={() => setBoardDropDownVis(!boardDropDownVis)} />
+          <div className="md:hidden flex items-center">
+            <HeaderProfileBtn setProfileWindowVis={setProfileWindowVis} />
+          </div>
         </div>
       </div>
       <AnimatePresence>

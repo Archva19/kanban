@@ -5,15 +5,15 @@ const jwt = require("jsonwebtoken");
 const usersModel = require("../models/users.model");
 const rateLimit = require("express-rate-limit");
 
-const signInLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 5,
-  message: {
-    message: "Too many login attempts, please try again after 15 minutes.",
-  },
-  standardHeaders: true,
-  legacyHeaders: false,
-});
+// const signInLimiter = rateLimit({
+//   windowMs: 15 * 60 * 1000,
+//   max: 5,
+//   message: {
+//     message: "Too many login attempts, please try again after 15 minutes.",
+//   },
+//   standardHeaders: true,
+//   legacyHeaders: false,
+// });
 
 authRouter.post("/sign-up", async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -44,7 +44,7 @@ authRouter.post("/sign-up", async (req, res) => {
   res.json({ message: "Registration successful" });
 });
 
-authRouter.post("/sign-in", signInLimiter, async (req, res) => {
+authRouter.post("/sign-in", async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res
@@ -72,7 +72,16 @@ authRouter.post("/sign-in", signInLimiter, async (req, res) => {
 
   const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "24h" });
 
-  res.json({ message: "ტოკენი", data: token });
+  res.json({
+    message: "ტოკენი",
+    data: token,
+    user: {
+      id: existingUser._id,
+      email: existingUser.email,
+      fullName: existingUser.fullName,
+      profilePicture: existingUser.profilePicture || "",
+    },
+  });
 });
 
 authRouter.post("/guest-sign-in", async (req, res) => {

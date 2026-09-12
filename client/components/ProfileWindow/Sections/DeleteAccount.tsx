@@ -1,4 +1,6 @@
+import { useRecentLogins } from "@/context/RecentLoginsContext";
 import { useUser } from "@/context/UserContext";
+import { getRecentLogins, removeRecentUser } from "@/utils/recentLogins";
 import axios from "axios";
 import { getCookie, deleteCookie } from "cookies-next";
 import { Trash2, AlertTriangle, X } from "lucide-react";
@@ -12,6 +14,7 @@ export default function DeleteAccount() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { setRecentUsers } = useRecentLogins();
 
   async function handleDelete() {
     try {
@@ -26,6 +29,8 @@ export default function DeleteAccount() {
       });
       deleteCookie("accesstoken");
       router.push("/sign-in");
+      removeRecentUser(userData.email);
+      setRecentUsers(getRecentLogins());
     } catch (error) {
       console.error("Error deleting account:", error);
     } finally {
@@ -71,9 +76,7 @@ export default function DeleteAccount() {
 
             <div className="flex flex-col gap-1">
               <h3 className="text-lg">{t("deleteQuest")}</h3>
-              <p className="text-xs text-[#828FA3]">
-                {t("deleteDesc")}
-              </p>
+              <p className="text-xs text-[#828FA3]">{t("deleteDesc")}</p>
             </div>
 
             <div className="flex items-center gap-3 mt-2">

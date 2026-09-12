@@ -1,17 +1,16 @@
 "use client";
-import CloseBtn from "./Buttons/CloseBtn";
+import CloseBtn from "../models/Buttons/CloseBtn";
 import { motion } from "framer-motion";
-import { useState } from "react";
-import SandwichMenuBtn from "./Buttons/SandwichMenuBtn";
-import Menu from "./Sections/Menu";
 import Profile from "./Sections/Profile";
+import LogOutBnt from "./Buttons/LogOutBnt";
+import { useUser } from "@/context/UserContext";
 
 export default function ProfileWindow({
   setProfileWindowVis,
 }: {
   setProfileWindowVis: (value: boolean) => void;
 }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const { userData } = useUser();
 
   return (
     <div
@@ -24,19 +23,15 @@ export default function ProfileWindow({
         exit={{ opacity: 0, transition: { duration: 0.1 } }}
         transition={{ duration: 0.2, ease: "easeInOut" }}
         onClick={(e) => e.stopPropagation()}
-        className="flex w-[90%] max-w-4xl cardBgColor rounded-2xl relative"
+        className="flex w-[90%] h-[90%] max-h-200 md:h-auto max-w-4xl cardBgColor rounded-2xl relative overflow-scroll"
       >
-        {isOpen && <Menu />}
-        <div className="hidden md:inline-block">
-          <Menu />
-        </div>
-        <div
-          className={`w-full md:opacity-100 ${isOpen ? "opacity-0" : "opacity-100"}`}
-        >
-          <Profile />
-        </div>
-        <SandwichMenuBtn setIsOpen={setIsOpen} isOpen={isOpen} />
-        <CloseBtn setProfileWindowVis={setProfileWindowVis} />
+        <Profile />
+        <CloseBtn onClickFun={() => setProfileWindowVis(false)} />
+        {!userData.isGuest && (
+          <div className="absolute top-4 left-5">
+            <LogOutBnt />
+          </div>
+        )}
       </motion.div>
     </div>
   );

@@ -16,8 +16,8 @@ export default function ProfileBtn({setProfileWindowVis}:{setProfileWindowVis: (
         />
       </div>
 
-      <div className="flex flex-col min-w-0 w-full flex-1">
-        <p className="text-[15px] font-semibold group-hover:text-[#635fc7] transition-colors duration-200">
+      <div className="flex flex-col min-w-0 w-full flex-1 max-w-full">
+        <p className="text-[15px] font-semibold group-hover:text-[#635fc7] transition-colors duration-200 truncate">
           {userData.fullName}
         </p>
         <p className="text-[12px] text-[#828fa3] truncate">{userData?.email}</p>

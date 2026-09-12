@@ -34,7 +34,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
             <div className="flex-1 flex flex-col h-full min-w-0">
               <div className="flex w-full">
                 {!sidebarVis && <SideLogo />}
-                <Header />
+                <Header setProfileWindowVis={setProfileWindowVis}/>
               </div>
               <main className="w-full h-full overflow-hidden">{children}</main>
             </div>

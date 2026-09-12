@@ -23,6 +23,7 @@
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "react-hook-form": "^7.86.0",
+    "vaul": "^1.1.2",
     "yup": "^1.7.1"
   },
   "devDependencies": {
