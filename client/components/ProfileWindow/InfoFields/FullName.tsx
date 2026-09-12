@@ -1,4 +1,5 @@
 import { useUser } from "@/context/UserContext";
+import { updateRecentUser } from "@/utils/recentLogins";
 import axios from "axios";
 import { getCookie } from "cookies-next";
 import { Check, PencilSparkles, User, X } from "lucide-react";
@@ -31,15 +32,16 @@ export default function FullName() {
         fullName: res.data?.data?.fullName,
       }));
 
+      updateRecentUser(userData.email, { fullName: res.data?.data?.fullName });
       setIsEditing(false);
     } catch (error) {
       console.error("Error updating Full Name", error);
     }
   }
 
-  function handleCancel(){
+  function handleCancel() {
     setIsEditing(false);
-    setFullName(userData.fullName)
+    setFullName(userData.fullName);
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -63,10 +65,10 @@ export default function FullName() {
                 onKeyDown={handleKeyDown}
                 type="text"
                 autoFocus
-                className="py-0! px-1! w-auto! h-5! text-[14px]!"
+                className="inputStyles py-0! px-1! w-auto! h-5! text-[14px]!"
               />
             ) : (
-              <p className="font-medium text-sm truncate">
+              <p className="font-medium text-sm whitespace-nowrap max-w-48 overflow-scroll">
                 {userData?.fullName}
               </p>
             )}

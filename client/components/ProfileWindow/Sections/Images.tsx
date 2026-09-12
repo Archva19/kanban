@@ -1,4 +1,5 @@
 import { useUser } from "@/context/UserContext";
+import { updateRecentUser } from "@/utils/recentLogins";
 import axios from "axios";
 import { getCookie } from "cookies-next";
 import { Camera, Loader2, Trash } from "lucide-react";
@@ -43,6 +44,8 @@ export default function Images() {
           ...prev,
           profilePicture: res.data.data.profilePicture,
         }));
+
+        updateRecentUser(userData.email, { avatar: res.data.data.profilePicture });
       }
     } catch (error) {
       console.error("Error updating profile picture:", error);
@@ -73,6 +76,8 @@ export default function Images() {
         ...prev,
         profilePicture: res.data?.data?.profilePicture,
       }));
+      
+      updateRecentUser(userData.email, { avatar: res.data.data.profilePicture });
     } catch (error) {
       console.error("Error updating profile picture:", error);
     } finally {

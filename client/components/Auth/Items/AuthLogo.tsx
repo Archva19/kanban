@@ -1,20 +1,18 @@
-import Logo from "../Logo/Logo";
-
 export default function AuthLogo() {
   return (
     <>
       <div className="flex items-center gap-[15.76px]">
-        <div className="h-12.5 flex gap-1.5">
-          <div className="bg-[#635FC7] w-3 h-full rounded-sm"></div>
-          <div className="bg-[#635FC7] w-3 h-full rounded-sm opacity-75"></div>
-          <div className="bg-[#635FC7] w-3 h-full rounded-sm opacity-50"></div>
+        <div className="h-6.25 gap-0.75 md:h-12.5 flex md:gap-1.5">
+          <div className="bg-[#635FC7] w-1.5 md:w-3 h-full rounded-sm"></div>
+          <div className="bg-[#635FC7] w-1.5 md:w-3 h-full rounded-sm opacity-75"></div>
+          <div className="bg-[#635FC7] w-1.5 md:w-3 h-full rounded-sm opacity-50"></div>
         </div>
         <svg
-          width="226"
-          height="50"
+          width="113"
+          height="25"
           viewBox="0 0 113 25"
           xmlns="http://www.w3.org/2000/svg"
-          className="logo hidden lg:inline-block"
+          className="logo w-28.25 h-6.25 md:w-56.5 md:h-12.5"
         >
           <path
             fillRule="evenodd"

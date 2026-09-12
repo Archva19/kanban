@@ -63,7 +63,7 @@ export default function BoardFormModel(props: BoardFormModelProps) {
               <p className="inputTitle">{t("boardName")}</p>
               <div className="relative">
                 <input
-                  className={`${errors.title ? "errorOnInput pr-28.75!" : "focusOnInput"}`}
+                  className={`inputStyles ${errors.title ? "errorOnInput pr-28.75!" : "focusOnInput"}`}
                   type="text"
                   placeholder={t("boardNameEx")}
                   {...register("title", {
@@ -97,7 +97,7 @@ export default function BoardFormModel(props: BoardFormModelProps) {
                               message: errorsT("tooLong"),
                             },
                           })}
-                          className={`${(errors.columns as any)?.[index]?.title ? "errorOnInput pr-28.75!" : "focusOnInput"}`}
+                          className={`inputStyles ${(errors.columns as any)?.[index]?.title ? "errorOnInput pr-28.75!" : "focusOnInput"}`}
                         />
                         <p className="inputErrorMessage">
                           {

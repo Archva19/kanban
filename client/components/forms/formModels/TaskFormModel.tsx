@@ -79,7 +79,7 @@ export default function TaskFormModel(props: TaskFormModelProps) {
               <p className="inputTitle">{t("title")}</p>
               <div className="relative">
                 <input
-                  className={`${errors.title ? "errorOnInput" : "focusOnInput"}`}
+                  className={`inputStyles ${errors.title ? "errorOnInput" : "focusOnInput"}`}
                   type="text"
                   placeholder={t("titleEx")}
                   {...register("title", {
@@ -95,7 +95,7 @@ export default function TaskFormModel(props: TaskFormModelProps) {
               <p className="inputTitle">{t("description")}</p>
               <div className="relative h-28">
                 <textarea
-                  className="focusOnInput resize-none"
+                  className="inputStyles h-28! focusOnInput resize-none"
                   placeholder={t("descriptionEx")}
                   {...register("description")}
                 />
@@ -115,7 +115,7 @@ export default function TaskFormModel(props: TaskFormModelProps) {
                           }
                           type="text"
                           {...register(`subTasks.${index}.title` as const)}
-                          className="w-full p-2 border borderLineColor rounded bg-transparent"
+                          className="inputStyles"
                         />
                       </div>
                       <button
