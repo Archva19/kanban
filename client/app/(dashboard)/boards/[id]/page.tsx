@@ -6,6 +6,7 @@ import TaskCard from "@/components/Dashboard/TaskCard";
 import EmptyBoard from "@/components/EmptyMessages/EmptyBoard";
 import { useActiveBoard } from "@/context/ActiveBoardContext";
 import useDragAndDrop from "@/hooks/DragAndDrop/useDragAndDrop";
+import { Column, Task } from "@/types/types";
 import {
   closestCorners,
   DndContext,
@@ -19,8 +20,13 @@ import {
 
 export default function Board() {
   const { activeBoard } = useActiveBoard();
-  const { activeItem, sensors, handleDragStart, handleDragOver, handleDragEnd } =
-    useDragAndDrop();
+  const {
+    activeItem,
+    sensors,
+    handleDragStart,
+    handleDragOver,
+    handleDragEnd,
+  } = useDragAndDrop();
 
   if (!activeBoard) {
     return null;
@@ -31,17 +37,17 @@ export default function Board() {
   }
 
   function customCollisionDetection(args: any) {
-  if (activeItem?.type === "Column") {
-    return closestCorners(args);
-  }
+    if (activeItem?.type === "Column") {
+      return closestCorners(args);
+    }
 
-  const pointerCollisions = pointerWithin(args);
-  if (pointerCollisions.length > 0) {
+    const pointerCollisions = pointerWithin(args);
+    if (pointerCollisions.length > 0) {
+      return pointerCollisions;
+    }
+
     return pointerCollisions;
   }
-
-  return pointerCollisions;
-}
 
   return (
     <>
@@ -70,11 +76,11 @@ export default function Board() {
         <DragOverlay>
           {activeItem?.type === "Task" ? (
             <div className="shadow-[0_10px_20px_0_rgba(54,78,126,0.25)] cursor-grabbing opacity-90 scale-105">
-              <TaskCard task={activeItem.data} />
+              <TaskCard task={activeItem.data as Task} />
             </div>
           ) : activeItem?.type === "Column" ? (
             <div className="w-70 opacity-80 cursor-grabbing">
-              <ColumnItem column={activeItem.data} index={0} />
+              <ColumnItem column={activeItem.data as Column} index={0} />
             </div>
           ) : null}
         </DragOverlay>

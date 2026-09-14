@@ -16,6 +16,7 @@ interface FormInput {
 
 export default function RecentLoginModal() {
   const t = useTranslations("SignInPage");
+  const LoadingTxt = useTranslations("Loading");
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState<null | string>(null);
   const router = useRouter();
@@ -48,8 +49,8 @@ export default function RecentLoginModal() {
         setSelectedUser(null);
         router.push("/");
       }
-    } catch (error: any) {
-      if (error.response && error.response.data?.message) {
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.data?.message) {
         const backendMessage = error.response.data.message;
 
         if (backendMessage === "Email or Password is incorrect") {
@@ -75,7 +76,7 @@ export default function RecentLoginModal() {
   return (
     <>
       <motion.div
-        exit={{ opacity: 0, transition: { duration: 0.1 } }}
+        exit={{ opacity: 0, transition: { duration: 0.15 } }}
         onClick={() => setSelectedUser(null)}
         className="formBg backdrop-blur-sm"
       >
@@ -97,7 +98,7 @@ export default function RecentLoginModal() {
 
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-7"
+            className="flex flex-col gap-8"
           >
             <div className="flex flex-col gap-2">
               <label htmlFor="password" className="authInputTitle">
@@ -129,7 +130,7 @@ export default function RecentLoginModal() {
                     )}
                   </button>
                 )}
-                <p className="authInputErrorMessage">
+                <p className="authServerErrorMessage">
                   {errors.password
                     ? t("passwordRequired")
                     : serverError
@@ -144,7 +145,7 @@ export default function RecentLoginModal() {
               disabled={isSubmitting}
               className="authBtnStyles authPurpleBtn"
             >
-              {isSubmitting ? "..." : t("title")}
+              {isSubmitting ? LoadingTxt("processing") : t("title")}
             </button>
           </form>
 

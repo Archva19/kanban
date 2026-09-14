@@ -1,36 +1,44 @@
-"use client";
-
 import { useForms } from "@/context/FormsContext";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useActiveBoard } from "@/context/ActiveBoardContext";
 import useEditTask from "@/hooks/EditTask/useEditTask";
-import TaskFormModel from "../../formModels/TaskFormModel";
+import TaskFormModel, { TaskFormValues } from "../../FormModels/TaskFormModel";
+import { Column, Subtask, Task } from "@/types/types";
+
+export interface EditTaskFormInputs {
+  title: string;
+  description: string;
+  subTasks: { _id?: string; title: string; isCompleted?: boolean }[];
+  columnId: string;
+}
 
 export default function EditTask() {
   const { setEditTaskVis, activeTask } = useForms();
   const { handleEditTask } = useEditTask();
   const { activeBoard } = useActiveBoard();
 
-  const currentColumn = activeBoard?.columns?.find((column: any) =>
-    column.tasks?.some((task: any) => task._id === activeTask?._id),
+  if (!activeBoard || !activeTask) return null;
+
+  const currentColumn = activeBoard?.columns?.find((column: Column) =>
+    column.tasks?.some((task: Task) => task._id === activeTask?._id),
   );
 
   const {
     handleSubmit,
     register,
     control,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     watch,
-    setValue
-  } = useForm({
+    setValue,
+  } = useForm<TaskFormValues>({
     values: {
       title: activeTask?.title || "",
       description: activeTask?.description,
-      subTasks: activeTask?.subTasks?.map((subtask: any) => ({
+      subTasks: activeTask?.subTasks?.map((subtask: Subtask) => ({
         _id: subtask?._id,
         title: subtask?.title,
       })),
-      columnId: currentColumn?._id,
+      columnId: currentColumn?._id || "",
     },
   });
 
@@ -39,9 +47,11 @@ export default function EditTask() {
     name: "subTasks",
   });
 
-  async function onSubmit(data: any) {
+  async function onSubmit(data: TaskFormValues) {
+    if (!activeBoard || !activeTask) return;
+
     const formattedSubTasks = data.subTasks.filter(
-      (subTask: any) => subTask.title.trim() !== "",
+      (subTask) => subTask.title.trim() !== "",
     );
 
     await handleEditTask(activeBoard._id, activeTask._id, {
@@ -63,6 +73,7 @@ export default function EditTask() {
         handleSubmit={handleSubmit}
         onSubmit={onSubmit}
         errors={errors}
+        isSubmitting={isSubmitting}
         fields={fields}
         append={append}
         remove={remove}

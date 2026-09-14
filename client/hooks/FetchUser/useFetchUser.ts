@@ -1,12 +1,13 @@
 "use client";
 
+import { User } from "@/types/types";
 import axios from "axios";
 import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 function useFetchUser(url: string = "http://localhost:3030/users/me") {
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<User | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -22,13 +23,16 @@ function useFetchUser(url: string = "http://localhost:3030/users/me") {
         });
 
         setUserData(res.data.data);
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.log("failed to fetch user data", error);
-        if (error.response?.status === 404 || error.response?.status === 401) {
-          deleteCookie("accesstoken");
-          setUserData(null);
-          router.push("/sign-in");
-          router.refresh();
+        if (axios.isAxiosError(error)) {
+          const status = error.response?.status;
+          if (status === 404 || status === 401) {
+            deleteCookie("accesstoken");
+            setUserData(null);
+            router.push("/sign-in");
+            router.refresh();
+          }
         }
       }
     }
@@ -41,7 +45,7 @@ function useFetchUser(url: string = "http://localhost:3030/users/me") {
     return () => clearInterval(interval);
   }, [url, router]);
 
-  return {userData, setUserData};
+  return { userData, setUserData };
 }
 
 export default useFetchUser;

@@ -1,9 +1,10 @@
 import { useForms } from "@/context/FormsContext";
+import { Task } from "@/types/types";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useLocale } from "next-intl";
 
-export default function TaskCard({ task }: { task: any }) {
+export default function TaskCard({ task }: { task: Task }) {
   const { setTaskWindowVis, setActiveTask } = useForms();
   const locale = useLocale();
 
@@ -22,14 +23,14 @@ export default function TaskCard({ task }: { task: any }) {
     opacity: isDragging ? 0.3 : 1,
   };
 
-  function handleOnClickTask(task: any) {
+  function handleOnClickTask(task: Task) {
     setTaskWindowVis(true);
     setActiveTask(task);
   }
 
-  function getCompletedSubTasksLength(task: any) {
+  function getCompletedSubTasksLength(task: Task) {
     const completedSubTasksLength = task.subTasks.filter(
-      (subTask: any) => subTask.isCompleted,
+      (subTask) => subTask.isCompleted,
     ).length;
     return completedSubTasksLength;
   }

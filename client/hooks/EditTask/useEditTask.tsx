@@ -1,11 +1,12 @@
 import { useUser } from "@/context/UserContext";
+import { EditTaskPayload } from "@/types/types";
 import axios from "axios";
 import { getCookie } from "cookies-next";
 
 function useEditTask() {
   const { handleEditBoard } = useUser();
 
-  async function handleEditTask(boardId: string, taskId: string, data: any) {
+  async function handleEditTask(boardId: string, taskId: string, data:EditTaskPayload) {
     try {
       const token = getCookie("accesstoken");
       const res = await axios.put(

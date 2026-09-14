@@ -15,7 +15,7 @@ export default function Profile() {
           <InfoFields />
           <Statistics />
           {userData?.isGuest && <GuestJoinBtns />}
-          {!userData.isGuest && <DeleteAccount />}
+          {!userData?.isGuest && <DeleteAccount />}
         </div>
       </div>
     </>

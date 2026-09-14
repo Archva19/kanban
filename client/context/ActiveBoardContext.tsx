@@ -3,8 +3,15 @@
 import { usePathname } from "next/navigation";
 import { createContext, ReactNode, useContext } from "react";
 import { useUser } from "./UserContext";
+import { Board } from "@/types/types";
 
-const ActiveBoardContext = createContext<any>(undefined);
+interface ActiveBoardContextType {
+  activeBoard: Board | undefined;
+}
+
+const ActiveBoardContext = createContext<ActiveBoardContextType | undefined>(
+  undefined,
+);
 
 export default function ActiveBoardProvider({
   children,
@@ -29,5 +36,10 @@ export default function ActiveBoardProvider({
 
 export function useActiveBoard() {
   const context = useContext(ActiveBoardContext);
+  if (!context) {
+    throw new Error(
+      "useActiveBoard must be used within an ActiveBoardProvider",
+    );
+  }
   return context;
 }

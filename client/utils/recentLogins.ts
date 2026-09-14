@@ -1,4 +1,4 @@
-import { RecentUser } from "@/types/auth";
+import { RecentUser } from "@/types/types";
 
 const STORAGE_KEY = "kanban_recent_logins";
 

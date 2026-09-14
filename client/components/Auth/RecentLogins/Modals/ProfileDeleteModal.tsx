@@ -2,6 +2,7 @@ import { Drawer } from "vaul";
 import { X } from "lucide-react";
 import { useRecentLogins } from "@/context/RecentLoginsContext";
 import { getRecentLogins, removeRecentUser } from "@/utils/recentLogins";
+import { useTranslations } from "next-intl";
 
 export default function ProfileDeleteModal({
   profileDeleteModalVis,
@@ -17,6 +18,7 @@ export default function ProfileDeleteModal({
     removeRecentUser(recentUsers[0].email);
     setRecentUsers!(getRecentLogins());
   }
+  const t = useTranslations("RecentLogins");
 
   return (
     <Drawer.Root
@@ -37,7 +39,7 @@ export default function ProfileDeleteModal({
               <X className="w-5 h-5" />
             </button>
             <Drawer.Title className="text-lg font-semibold tracking-wide">
-              Profiles
+              {t("profiles")}
             </Drawer.Title>
           </div>
 
@@ -47,7 +49,7 @@ export default function ProfileDeleteModal({
               onClick={handleOnClickRemove}
               className="w-full px-4 py-3 rounded-xl border borderLineColor bodyBg text-[#EA5555] font-medium text-left"
             >
-              Remove profile from this browser
+               {t("removeProfile")}
             </button>
           </div>
         </Drawer.Content>

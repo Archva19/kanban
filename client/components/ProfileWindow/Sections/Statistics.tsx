@@ -1,4 +1,5 @@
 import { useUser } from "@/context/UserContext";
+import { Column } from "@/types/types";
 import { useTranslations } from "next-intl";
 
 export default function Statistics() {
@@ -13,7 +14,7 @@ export default function Statistics() {
     return boards.reduce((acc, board) => {
       const boardTasksCount =
         board.columns?.reduce(
-          (sum: number, col: any) => sum + (col.tasks?.length || 0),
+          (sum: number, col) => sum + (col.tasks?.length || 0),
           0,
         ) || 0;
       return acc + boardTasksCount;

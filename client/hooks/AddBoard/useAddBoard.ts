@@ -1,11 +1,12 @@
 import { useUser } from "@/context/UserContext";
+import { CreateBoardPayload } from "@/types/types";
 import axios from "axios";
 import { getCookie } from "cookies-next";
 
 function useAddBoard() {
   const { addBoard } = useUser();
 
-  async function createBoard(data: any) {
+  async function createBoard(data: CreateBoardPayload) {
     try {
       const token = getCookie("accesstoken");
       const res = await axios.post("http://localhost:3030/boards", data, {
@@ -17,7 +18,7 @@ function useAddBoard() {
 
       addBoard(newBoard);
       return newBoard;
-    } catch (error: any) {
+    } catch (error) {
       console.log("failed to create board", error);
       return null;
     }

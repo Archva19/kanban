@@ -10,7 +10,7 @@ export default function FullName() {
   const t = useTranslations("ProfileWindow");
   const { userData, setUserData } = useUser();
   const [isEditing, setIsEditing] = useState(false);
-  const [fullName, setFullName] = useState(userData.fullName);
+  const [fullName, setFullName] = useState(userData?.fullName);
 
   async function handleSave() {
     try {
@@ -27,12 +27,18 @@ export default function FullName() {
         },
       );
 
-      setUserData((prev: any) => ({
-        ...prev,
-        fullName: res.data?.data?.fullName,
-      }));
+      const updatedName = res.data?.data?.fullName;
 
-      updateRecentUser(userData.email, { fullName: res.data?.data?.fullName });
+      if (updatedName) {
+        setUserData((prev) =>
+          prev ? { ...prev, fullName: updatedName } : prev,
+        );
+
+        if (userData?.email) {
+          updateRecentUser(userData.email, { fullName: updatedName });
+        }
+      }
+
       setIsEditing(false);
     } catch (error) {
       console.error("Error updating Full Name", error);
@@ -41,7 +47,7 @@ export default function FullName() {
 
   function handleCancel() {
     setIsEditing(false);
-    setFullName(userData.fullName);
+    setFullName(userData?.fullName);
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

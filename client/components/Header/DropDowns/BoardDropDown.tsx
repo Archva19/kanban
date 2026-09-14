@@ -2,7 +2,7 @@
 
 import { useForms } from "@/context/FormsContext";
 import useTimer from "@/hooks/WindowTimer/useTimer";
-import ModifyDropDownModel from "../models/Sections/ModifyDropDownModel";
+import ModifyDropDownModel from "../../models/Sections/ModifyDropDownModel";
 
 export default function BoardDropDown({
   onClose,

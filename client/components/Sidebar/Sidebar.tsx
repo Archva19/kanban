@@ -1,16 +1,20 @@
 import Logo from "../Logo/Logo";
-import Boards from "../models/Sections/Boards";
-import ThemeToggle from "../models/Sections/ThemeToggle";
+import Boards from "../CommonItems/BoardsList/Boards";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import { motion } from "framer-motion";
 import HideSidebarBtn from "./HideSidebarBtn";
-import ProfileBtn from "./ProfileBtn";
+import ProfileBtn from "../CommonItems/ProfileButton/ProfileBtn";
+import { Dispatch, SetStateAction } from "react";
 
 interface SideBarProps {
   setSidebarVis: (value: boolean) => void;
-  setProfileWindowVis: (value: boolean) => void;
+  setProfileWindowVis: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function Sidebar({ setSidebarVis, setProfileWindowVis }: SideBarProps) {
+export default function Sidebar({
+  setSidebarVis,
+  setProfileWindowVis,
+}: SideBarProps) {
   return (
     <motion.div
       initial={{ width: 0 }}
@@ -32,7 +36,7 @@ export default function Sidebar({ setSidebarVis, setProfileWindowVis }: SideBarP
             <ThemeToggle />
           </div>
           <div className="px-[12.5px] xl:px-6">
-            <ProfileBtn setProfileWindowVis={setProfileWindowVis}/>
+            <ProfileBtn setProfileWindowVis={setProfileWindowVis} />
           </div>
           <HideSidebarBtn setSidebarVis={setSidebarVis} />
         </div>

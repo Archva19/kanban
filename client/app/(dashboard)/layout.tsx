@@ -1,11 +1,11 @@
 "use client";
 
-import AllForms from "@/components/forms/AllForms/AllForms";
-import Header from "@/components/Header/Header";
-import SideLogo from "@/components/Header/SideLogo";
+import AllForms from "@/components/Forms/AllForms/AllForms";
+import Header from "@/components/Header/Header/Header";
+import SideLogo from "@/components/Header/HeaderItems/SideLogo";
 import Intro from "@/components/Intro/Intro";
-import EyeVisBtn from "@/components/models/Buttons/EyeVisBtn";
-import ProfileWindow from "@/components/ProfileWindow/ProfileWindow";
+import EyeVisBtn from "@/components/Sidebar/EyeVisBtn";
+import ProfileWindow from "@/components/ProfileWindow/ProfileWindow/ProfileWindow";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import UserGuard from "@/components/UserGuard/UserGuard";
 import ActiveBoardProvider from "@/context/ActiveBoardContext";
@@ -34,7 +34,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
             <div className="flex-1 flex flex-col h-full min-w-0">
               <div className="flex w-full">
                 {!sidebarVis && <SideLogo />}
-                <Header setProfileWindowVis={setProfileWindowVis}/>
+                <Header setProfileWindowVis={setProfileWindowVis} />
               </div>
               <main className="w-full h-full overflow-hidden">{children}</main>
             </div>

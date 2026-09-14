@@ -1,11 +1,12 @@
 import { useUser } from "@/context/UserContext";
+import { EditBoardPayload } from "@/types/types";
 import axios from "axios";
 import { getCookie } from "cookies-next";
 
 function useEditBoard() {
   const { handleEditBoard } = useUser();
 
-  async function editBoard(id: string, data: any) {
+  async function editBoard(id: string, data:EditBoardPayload) {
     try {
       const token = getCookie("accesstoken");
       const res = await axios.put(`http://localhost:3030/boards/${id}`, data, {

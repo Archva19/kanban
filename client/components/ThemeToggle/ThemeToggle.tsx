@@ -20,6 +20,7 @@ export default function ThemeToggle() {
   function handleOnToggle() {
     setTheme(isDark ? "light" : "dark");
   }
+  
   return (
     <>
       <div className="w-full bodyBg py-3.5 flex items-center justify-center gap-[23.67px] rounded-md">

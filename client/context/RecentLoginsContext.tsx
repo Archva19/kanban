@@ -1,6 +1,6 @@
 "use client";
 
-import { RecentUser } from "@/types/auth";
+import { RecentUser } from "@/types/types";
 import { getRecentLogins } from "@/utils/recentLogins";
 import {
   createContext,
@@ -52,9 +52,7 @@ export default function RecentLoginsProvider({
 export function useRecentLogins() {
   const context = useContext(RecentLoginsContext);
   if (!context) {
-    throw new Error(
-      "useRecentLogins must be used within a RecentLoginsProvider",
-    );
+    throw new Error("useRecentLogins must be used within a RecentLoginsProvider");
   }
   return context;
 }

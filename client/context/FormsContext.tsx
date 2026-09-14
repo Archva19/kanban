@@ -1,6 +1,14 @@
 "use client";
 
-import { createContext, ReactNode, useContext, useState } from "react";
+import { Task } from "@/types/types";
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useState,
+} from "react";
 
 interface FormsContextType {
   newBoardVis: boolean;
@@ -17,16 +25,16 @@ interface FormsContextType {
   setNewTaskVis: (value: boolean) => void;
   editTaskVis: boolean;
   setEditTaskVis: (value: boolean) => void;
-  activeTask: any;
-  setActiveTask: (value: any) => void;
-  deleteTaskVis: any;
-  setDeleteTaskVis: (value: any) => void;
-  deleteTaskMessageVis: any;
-  setDeleteTaskMessageVis: (value: any) => void;
-  taskWindowVis: any;
-  setTaskWindowVis: (value: any) => void;
-  taskDropDownVis: any;
-  setTaskDropDownVis: (value: any) => void;
+  activeTask: Task | null;
+  setActiveTask: Dispatch<SetStateAction<Task | null>>;
+  deleteTaskVis: boolean;
+  setDeleteTaskVis: (value: boolean) => void;
+  deleteTaskMessageVis: boolean;
+  setDeleteTaskMessageVis: (value: boolean) => void;
+  taskWindowVis: boolean;
+  setTaskWindowVis: (value: boolean) => void;
+  taskDropDownVis: boolean;
+  setTaskDropDownVis: (value: boolean) => void;
 }
 
 const FormsContext = createContext<FormsContextType | undefined>(undefined);
@@ -39,7 +47,7 @@ export default function FormsProvider({ children }: { children: ReactNode }) {
   const [autoAddColumn, setAutoAddColumn] = useState(false);
   const [newTaskVis, setNewTaskVis] = useState(false);
   const [editTaskVis, setEditTaskVis] = useState(false);
-  const [activeTask, setActiveTask] = useState(null);
+  const [activeTask, setActiveTask] = useState<Task | null>(null);
   const [deleteTaskVis, setDeleteTaskVis] = useState(false);
   const [deleteTaskMessageVis, setDeleteTaskMessageVis] = useState(false);
   const [taskWindowVis, setTaskWindowVis] = useState(false);
@@ -69,10 +77,10 @@ export default function FormsProvider({ children }: { children: ReactNode }) {
           setDeleteTaskVis,
           deleteTaskMessageVis,
           setDeleteTaskMessageVis,
-          taskWindowVis, 
+          taskWindowVis,
           setTaskWindowVis,
           taskDropDownVis,
-          setTaskDropDownVis
+          setTaskDropDownVis,
         }}
       >
         {children}

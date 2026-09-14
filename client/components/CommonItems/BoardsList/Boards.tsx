@@ -6,11 +6,25 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function Boards() {
+interface BoardsProps {
+  onClose?: () => void;
+}
+
+export default function Boards({ onClose }: BoardsProps) {
   const pathname = usePathname();
   const { boards } = useUser();
   const { setNewBoardVis } = useForms();
   const t = useTranslations("Boards");
+
+  function handleBoardClick() {
+    if (onClose) onClose();
+  }
+
+  function handleNewBoardClick() {
+    setNewBoardVis(true);
+    if (onClose) onClose();
+  }
+
   return (
     <>
       <div className="flex flex-col gap-4.75">
@@ -18,14 +32,15 @@ export default function Boards() {
           {t("allBoards")} ({boards.length})
         </p>
         <div className="flex flex-col">
-          <div className="flex flex-col max-h-42 md:max-h-102 overflow-scroll">
+          <div className="flex flex-col max-h-42 md:max-h-67 overflow-scroll">
             {boards.map((board) => {
               const isActive = pathname === `/boards/${board._id}`;
               return (
                 <Link
                   key={board._id}
                   href={`/boards/${board._id}`}
-                  className={`w-60 rounded-tr-[100px] rounded-br-[100px] pt-3.5 pb-3.75 xl:w-69 ${isActive ? "bg-[#635FC7]" : "bg-transparent hover:bg-[white] transition-colors duration-200"}`}
+                  onClick={handleBoardClick}
+                  className={`group w-60 rounded-tr-[100px] rounded-br-[100px] pt-3.5 pb-3.75 xl:w-69 ${isActive ? "bg-[#635FC7]" : "bg-transparent hover:bg-(--boardButton-hoverBg) transition-colors duration-200"}`}
                 >
                   <div className="flex pl-6 gap-3 items-center xl:pl-8 xl:gap-4">
                     <svg
@@ -33,7 +48,7 @@ export default function Boards() {
                       height="16"
                       viewBox="0 0 16 16"
                       xmlns="http://www.w3.org/2000/svg"
-                      className={`${isActive ? "fill-white" : "fill-[#828FA3]"}`}
+                      className={`${isActive ? "fill-white" : "fill-[#828FA3] group-hover:fill-[#635FC7]"}`}
                     >
                       <path
                         fillRule="evenodd"
@@ -42,7 +57,7 @@ export default function Boards() {
                       />
                     </svg>
                     <p
-                      className={`leading-4.75 ${isActive ? "text-white" : "text-[#828FA3]"}`}
+                      className={`leading-4.75 ${isActive ? "text-white" : "text-[#828FA3] group-hover:text-[#635FC7]"}`}
                     >
                       {board.title}
                     </p>
@@ -52,7 +67,7 @@ export default function Boards() {
             })}
           </div>
           <button
-            onClick={() => setNewBoardVis(true)}
+            onClick={handleNewBoardClick}
             className="pt-3.5 pb-3.75 px-6 items-center flex gap-3 xl:gap-4 xl:px-8"
           >
             <svg

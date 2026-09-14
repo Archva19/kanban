@@ -29,9 +29,9 @@ export default function GuestBtn({
       <button
         type="button"
         onClick={handleOnGuestSignIn}
-        className="group bg-[#059669] hover:bg-[#059669]/75 flex items-center justify-center gap-2 text-white py-3 px-6 rounded-[35px] text-[13px] leading-5.75 hover:-translate-y-0.75 shadow-[0_4px_6px_0_rgba(54,78,126,0.1)] hover:shadow-[0_4px_6px_0_rgba(54,78,126,0.5)] transition-all duration-200"
+        className="group bg-[#059669] hover:bg-[#059669]/75 flex items-center justify-center gap-2 text-white py-3 px-6 rounded-[35px] text-[10px] sm:text-[13px] leading-5.75 hover:-translate-y-0.75 shadow-[0_4px_6px_0_rgba(54,78,126,0.1)] hover:shadow-[0_4px_6px_0_rgba(54,78,126,0.5)] transition-all duration-200"
       >
-        <HatGlasses color="white"/>
+        <HatGlasses color="white" className = "w-4 h-4 sm:w-auto sm:h-auto"/>
         <span>{t("continueAsGuest")}</span>
       </button>
 

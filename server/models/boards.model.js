@@ -30,9 +30,6 @@ const columnsSchema = new mongoose.Schema({
   title: {
     type: String,
   },
-  color: {
-    type: String,
-  },
   tasks: {
     type: [tasksSchema],
     default: [],
