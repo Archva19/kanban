@@ -51,7 +51,7 @@ export default function EditTask() {
     if (!activeBoard || !activeTask) return;
 
     const formattedSubTasks = data.subTasks.filter(
-      (subTask) => subTask.title.trim() !== "",
+      (subTask:{ title: string }) => subTask.title.trim() !== "",
     );
 
     await handleEditTask(activeBoard._id, activeTask._id, {

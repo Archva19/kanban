@@ -52,7 +52,7 @@ export default function NewTask() {
     if (!activeBoard?._id) return;
 
     const formattedSubTasks = data.subTasks.filter(
-      (subTask) => subTask.title.trim() !== "",
+      (subTask:{ title: string }) => subTask.title.trim() !== "",
     );
 
     await handleCreateTask(activeBoard._id, {
