@@ -1,8 +1,10 @@
 import {
   FieldArrayWithId,
   FieldErrors,
+  FieldValues,
   UseFieldArrayAppend,
   UseFieldArrayRemove,
+  UseFormHandleSubmit,
   UseFormRegister,
   UseFormSetValue,
   UseFormWatch,
@@ -12,20 +14,29 @@ import SelectColumnModel from "../FormItemModels/SelectColumnModel";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
+import { Board } from "@/types/types";
+
+export interface TaskFormValues extends FieldValues {
+  title: string;
+  description?: string;
+  subTasks: { _id?: string; title: string; isCompleted?: boolean }[];
+  columnId: string;
+}
 
 interface TaskFormModelProps {
   windowType: "create" | "edit";
   windowVisState: (value: boolean) => void;
-  handleSubmit: any;
-  onSubmit: (data: any) => void;
-  register: UseFormRegister<any>;
-  errors: FieldErrors<any>;
-  fields: FieldArrayWithId<any, "subTasks", "id">[];
-  append: UseFieldArrayAppend<any, "subTasks">;
+  handleSubmit: UseFormHandleSubmit<TaskFormValues>;
+  onSubmit: (data: TaskFormValues) => void;
+  register: UseFormRegister<TaskFormValues>;
+  errors: FieldErrors<TaskFormValues>;
+  isSubmitting: boolean;
+  fields: FieldArrayWithId<TaskFormValues, "subTasks", "id">[];
+  append: UseFieldArrayAppend<TaskFormValues, "subTasks">;
   remove: UseFieldArrayRemove;
-  activeBoard: any;
-  watch: UseFormWatch<any>;
-  setValue: UseFormSetValue<any>;
+  activeBoard: Board | null | undefined;
+  watch: UseFormWatch<TaskFormValues>;
+  setValue: UseFormSetValue<TaskFormValues>;
 }
 
 export default function TaskFormModel(props: TaskFormModelProps) {
@@ -36,6 +47,7 @@ export default function TaskFormModel(props: TaskFormModelProps) {
     onSubmit,
     register,
     errors,
+    isSubmitting,
     fields,
     append,
     remove,
@@ -53,15 +65,19 @@ export default function TaskFormModel(props: TaskFormModelProps) {
   }
 
   const t = useTranslations("TaskForm");
+  const LoadingTxt = useTranslations("Loading");
   const errorsT = useTranslations("FormErrors");
 
   return (
     <>
-      <div className="formBg" onClick={() => windowVisState(false)}>
+      <motion.div
+        exit={{ opacity: 0, transition: { duration: 0.15 } }}
+        className="formBg"
+        onClick={() => windowVisState(false)}
+      >
         <motion.div
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.1 } }}
           transition={{ duration: 0.2, ease: "easeInOut" }}
           className={`cardBgColor formWindow relative`}
           onClick={onClickWindow}
@@ -114,7 +130,7 @@ export default function TaskFormModel(props: TaskFormModelProps) {
                             index === 0 ? t("subtaskEx1") : t("subtaskEx2")
                           }
                           type="text"
-                          {...register(`subTasks.${index}.title` as const)}
+                          {...register(`subTasks.${index}.title`)}
                           className="inputStyles"
                         />
                       </div>
@@ -143,7 +159,7 @@ export default function TaskFormModel(props: TaskFormModelProps) {
             <div className="flex flex-col gap-2">
               <p className="inputTitle">{t("status")}</p>
               <SelectColumnModel
-                columns={activeBoard.columns}
+                columns={activeBoard?.columns}
                 selectedColumnId={selectedColumnId}
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
@@ -153,12 +169,18 @@ export default function TaskFormModel(props: TaskFormModelProps) {
 
             <div className="w-full">
               <button className="purpleBtn formBtn" type="submit">
-                {windowType === "create" ? t("createTask") : t("saveChanges")}
+                {windowType === "create"
+                  ? isSubmitting
+                    ? LoadingTxt("creating")
+                    : t("createTask")
+                  : isSubmitting
+                    ? LoadingTxt("editing")
+                    : t("saveChanges")}
               </button>
             </div>
           </form>
         </motion.div>
-      </div>
+      </motion.div>
     </>
   );
 }

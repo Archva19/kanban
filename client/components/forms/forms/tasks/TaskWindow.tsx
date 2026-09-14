@@ -3,13 +3,14 @@ import { useActiveBoard } from "@/context/ActiveBoardContext";
 import { useForms } from "@/context/FormsContext";
 import { AnimatePresence } from "motion/react";
 import Image from "next/image";
-import TaskDropDown from "./TaskDropDown";
 import useToggleSubtask from "@/hooks/ToggleSubtask/useToggleSubtask";
 import useEditTask from "@/hooks/EditTask/useEditTask";
-import SelectColumnModel from "../../FormItemModels/SelectColumnModel";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
+import { Column, Subtask, Task } from "@/types/types";
+import TaskDropDown from "./TaskDropDown";
+import SelectColumnModel from "../../FormItemModels/SelectColumnModel";
 
 export default function TaskWindow() {
   const { handleEditTask } = useEditTask();
@@ -24,18 +25,24 @@ export default function TaskWindow() {
   const { activeBoard } = useActiveBoard();
   const t = useTranslations("TaskWindow");
 
+  if (!activeTask || !activeBoard) return null;
+
   function onClickMenu() {
     setTaskDropDownVis(!taskDropDownVis);
   }
 
   const completedSubTasksLength = activeTask.subTasks.filter(
-    (subTask: any) => subTask.isCompleted,
+    (subTask: Subtask) => subTask.isCompleted,
   ).length;
 
   function handleOnClickTask(subTaskId: string) {
-    if (!activeTask) return;
+    if (!activeTask || !activeBoard) return;
 
-    const subTask = activeTask.subTasks.find((st: any) => st._id === subTaskId);
+    const subTask = activeTask.subTasks.find(
+      (st: Subtask) => st._id === subTaskId,
+    );
+
+    if (!subTask) return;
 
     const audio = new Audio("/sounds/taskCheckSoundEffect.MP3");
     audio.volume = 0.4;
@@ -44,12 +51,13 @@ export default function TaskWindow() {
       audio.play().catch(() => {});
     }
 
-    const updatedSubtasks = activeTask.subTasks.map((subTask: any) =>
+    const updatedSubtasks = activeTask.subTasks.map((subTask: Subtask) =>
       subTask._id === subTaskId
         ? { ...subTask, isCompleted: !subTask.isCompleted }
         : subTask,
     );
-    const updatedTask = { ...activeTask, subTasks: updatedSubtasks };
+    const updatedTask: Task = { ...activeTask, subTasks: updatedSubtasks };
+
     setActiveTask(updatedTask);
     handleToggleSubtask(activeBoard._id, activeTask._id, subTaskId).catch(
       () => {
@@ -58,17 +66,17 @@ export default function TaskWindow() {
     );
   }
 
-  const currentColumn = activeBoard?.columns.find((column: any) =>
-    column.tasks.some((task: any) => task._id === activeTask._id),
+  const currentColumn = activeBoard?.columns.find((column: Column) =>
+    column.tasks.some((task: Task) => task._id === activeTask._id),
   );
   const currentColumnId = currentColumn?._id;
 
   async function handleChangeColumn(newColumnId: string) {
-    if (newColumnId === currentColumnId) return;
+    if (newColumnId === currentColumnId || !activeTask || !activeBoard) return;
     await handleEditTask(activeBoard._id, activeTask._id, {
-      title: activeTask.title,
-      description: activeTask.description,
-      subTasks: activeTask.subTasks,
+      title: activeTask?.title,
+      description: activeTask?.description,
+      subTasks: activeTask?.subTasks,
       targetedColumnId: newColumnId,
     });
   }
@@ -84,23 +92,26 @@ export default function TaskWindow() {
 
   return (
     <>
-      <div className="formBg" onClick={() => setTaskWindowVis(false)}>
+      <motion.div
+        exit={{ opacity: 0, transition: { duration: 0.15 } }}
+        className="formBg"
+        onClick={() => setTaskWindowVis(false)}
+      >
         <motion.div
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          exit={{ opacity: 0 }}
           transition={{ duration: 0.2, ease: "easeInOut" }}
           className="cardBgColor relative formWindow overflow-visible!"
           onClick={onClickWindow}
         >
           <div className="flex items-center justify-between">
-            <p className="formTitle max-w-[86%] wrap-break-word leading-5.75">
+            <p className="formTitle max-w-[86%] wrap-break-word leading-5.75 max-h-20 overflow-scroll">
               {activeTask.title}
             </p>
             <ThreeDotsBtnModel onClick={onClickMenu} />
           </div>
           <div>
-            <p className="wrap-break-word leading-5.75 text-[13px] text-[#828FA3] font-medium">
+            <p className="wrap-break-word leading-5.75 text-[13px] text-[#828FA3] font-medium max-h-37.5 overflow-scroll">
               {activeTask.description === ""
                 ? t("noDescription")
                 : activeTask.description}
@@ -118,7 +129,7 @@ export default function TaskWindow() {
                 ${completedSubTasksLength} ქვედავალება`}
               </p>
               <div className="flex flex-col gap-2 max-h-50 overflow-y-scroll">
-                {activeTask.subTasks.map((subTask: any) => (
+                {activeTask.subTasks.map((subTask: Subtask) => (
                   <button
                     onClick={() => handleOnClickTask(subTask._id)}
                     key={subTask._id}
@@ -162,7 +173,7 @@ export default function TaskWindow() {
             {taskDropDownVis && <TaskDropDown />}
           </AnimatePresence>
         </motion.div>
-      </div>
+      </motion.div>
     </>
   );
 }

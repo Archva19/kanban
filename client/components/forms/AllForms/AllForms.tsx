@@ -1,13 +1,13 @@
 import { useForms } from "@/context/FormsContext";
-import NewBoard from "../forms/boards/NewBoard";
-import EditBoard from "../forms/boards/EditBoard";
+import NewBoard from "../Forms/Boards/NewBoard";
+import EditBoard from "../Forms/Boards/EditBoard";
 import useTimer from "@/hooks/WindowTimer/useTimer";
-import NewTask from "../forms/tasks/NewTask";
-import EditTask from "../forms/tasks/EditTask";
-import DeleteBoard from "../forms/boards/DeleteBoard";
-import DeleteTask from "../forms/tasks/DeleteTask";
+import NewTask from "../Forms/Tasks/NewTask";
+import EditTask from "../Forms/Tasks/EditTask";
+import DeleteBoard from "../Forms/Boards/DeleteBoard";
+import DeleteTask from "../Forms/Tasks/DeleteTask";
 import DeleteMessageModel from "@/components/models/Messages/DeleteMessageModel";
-import TaskWindow from "../forms/tasks/TaskWindow";
+import TaskWindow from "../Forms/Tasks/TaskWindow";
 import { AnimatePresence } from "motion/react";
 import { useTranslations } from "next-intl";
 
@@ -25,8 +25,8 @@ export default function AllForms() {
     setDeleteTaskMessageVis,
     taskWindowVis,
   } = useForms();
-  
-  const t= useTranslations("DeleteMessages");
+
+  const t = useTranslations("DeleteMessages");
 
   function onCloseDeleteMessage() {
     setDeleteMessageVis(false);
@@ -47,28 +47,34 @@ export default function AllForms() {
   return (
     <>
       <AnimatePresence>
-        {newBoardVis && <NewBoard />}
-        {deleteBoardVis && <DeleteBoard startTimer={startBoardTimer} />}
+        {newBoardVis && <NewBoard key="new-board-modal" />}
+        {deleteBoardVis && (
+          <DeleteBoard key="delete-board-modal" startTimer={startBoardTimer} />
+        )}
 
         {deleteMessageVis && (
           <DeleteMessageModel
+            key="delete-board-message"
             content={t("deleteBoard")}
             startTimer={startBoardTimer}
             stopTimer={stopBoardTimer}
           />
         )}
-        {editBoardVis && <EditBoard />}
-        {newTaskVis && <NewTask />}
-        {editTaskVis && <EditTask />}
-        {deleteTaskVis && <DeleteTask startTimer={startTaskTimer} />}
+        {editBoardVis && <EditBoard key="edit-board-modal" />}
+        {newTaskVis && <NewTask key="new-task-modal" />}
+        {editTaskVis && <EditTask key="edit-task-modal" />}
+        {deleteTaskVis && (
+          <DeleteTask key="delete-task-modal" startTimer={startTaskTimer} />
+        )}
         {deleteTaskMessageVis && (
           <DeleteMessageModel
+            key="delete-task-message"
             content={t("deleteTask")}
             startTimer={startTaskTimer}
             stopTimer={stopTaskTimer}
           />
         )}
-        {taskWindowVis && <TaskWindow />}
+        {taskWindowVis && <TaskWindow key="task-window-modal" />}
       </AnimatePresence>
     </>
   );

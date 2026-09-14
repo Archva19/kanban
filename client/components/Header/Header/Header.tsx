@@ -1,21 +1,20 @@
 "use client";
-import Logo from "../Logo/Logo";
-import DropDown from "./DropDown";
-import { useState } from "react";
+import Logo from "../../Logo/Logo";
+import DropDown from "../DropDowns/DropDown";
+import { Dispatch, SetStateAction, useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import ThreeDots from "./ThreeDots";
-import NewTaskBtn from "./NewTaskBtn";
-import MobileHeaderTitle from "./MobileHeaderTitle";
-import DesktopHeaderTitle from "./DesktopHeaderTitle";
-import BoardDropDown from "./BoardDropDown";
+import ThreeDots from "../HeaderItems/ThreeDots";
+import NewTaskBtn from "../HeaderItems/NewTaskBtn";
+import MobileHeaderTitle from "../HeaderItems/MobileHeaderTitle";
+import DesktopHeaderTitle from "../HeaderItems/DesktopHeaderTitle";
+import BoardDropDown from "../DropDowns/BoardDropDown";
 import { useActiveBoard } from "@/context/ActiveBoardContext";
-import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
-import HeaderProfileBtn from "./HeaderProfileBtn";
+import LanguageSwitcher from "../../CommonItems/LanguageSwitcher/LanguageSwitcher";
 
 export default function Header({
   setProfileWindowVis,
 }: {
-  setProfileWindowVis: (value: boolean) => void;
+  setProfileWindowVis: Dispatch<SetStateAction<boolean>>;
 }) {
   const [dropDownVis, setDropDownVis] = useState(false);
   const [boardDropDownVis, setBoardDropDownVis] = useState(false);
@@ -41,13 +40,15 @@ export default function Header({
           <LanguageSwitcher />
           <NewTaskBtn />
           <ThreeDots onClick={() => setBoardDropDownVis(!boardDropDownVis)} />
-          <div className="md:hidden flex items-center">
-            <HeaderProfileBtn setProfileWindowVis={setProfileWindowVis} />
-          </div>
         </div>
       </div>
       <AnimatePresence>
-        {dropDownVis && <DropDown setDropDownVis={setDropDownVis} />}
+        {dropDownVis && (
+          <DropDown
+            setDropDownVis={setDropDownVis}
+            setProfileWindowVis={setProfileWindowVis}
+          />
+        )}
         {boardDropDownVis && (
           <BoardDropDown
             onClose={() => setBoardDropDownVis(false)}

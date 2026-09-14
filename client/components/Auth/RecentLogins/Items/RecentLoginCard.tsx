@@ -1,5 +1,5 @@
 import { useRecentLogins } from "@/context/RecentLoginsContext";
-import { RecentUser } from "@/types/auth";
+import { RecentUser } from "@/types/types";
 import { getRecentLogins, removeRecentUser } from "@/utils/recentLogins";
 import { X } from "lucide-react";
 

@@ -11,6 +11,7 @@
   --borderLine-color: #e4ebfa;
   --linearGradient-background: #e9effa;
   --boardDropDown-background: white;
+  --boardButton-hoverBg: rgba(98, 95, 199, 0.1);
 }
 
 .dark,
@@ -24,6 +25,7 @@
   --borderLine-color: #3e3f4e;
   --linearGradient-background: #2b2c37;
   --boardDropDown-background: #20212c;
+  --boardButton-hoverBg: #ffffff;
 }
 
 body {
@@ -38,31 +40,9 @@ a {
   cursor: pointer;
 }
 
-button:active{
-  scale:0.98;
+button:active {
+  scale: 0.98;
 }
-
-/* input,
-textarea {
-  border: 1px solid #828fa340;
-  border-radius: 4px;
-  padding-top: 8px;
-  padding-bottom: 9px;
-  padding-inline: 16px;
-  outline: none;
-  width: 100%;
-  line-height: 23px;
-  font-size: 13px;
-  font-weight: 500;
-} */
-
-/* input{
-  height:40px;
-} */
-
-/* textarea{
-  height:112px;
-} */
 
 input::placeholder,
 textarea::placeholder {
@@ -74,20 +54,8 @@ textarea::placeholder {
 }
 
 @layer components {
-  /* .authInputStyles {
-    width: 100%;
-    border: 1px solid #828fa340;
-    border-radius: 4px;
-    padding-block: 9px;
-    padding-left: 40px;
-    padding-right: 100px;
-    outline: none;
-    font-size: 13px;
-    font-weight: 500;
-  } */
-
   .authInputStyles {
-    @apply border border-[#828fa340] rounded-xl py-3 pl-10 pr-20 outline-none w-full leading-5.75 text-[13px] font-medium;
+    @apply border border-[#828fa340] rounded-xl py-3 pl-10 pr-2 outline-none w-full leading-5.75 text-[13px] font-medium;
   }
 
   .authInputTitle {
@@ -106,24 +74,13 @@ textarea::placeholder {
     @apply bg-[#635fc7]/20 hover:bg-[#635FC7]/30 text-[#635FC7];
   }
 
-  .authInputErrorMessage{
-    @apply absolute right-1 -bottom-5 font-medium text-[#EA5555] text-[10.5px]
+  .authInputErrorMessage {
+    @apply absolute font-medium text-[#EA5555] text-[8px] right-1 -top-4 sm:-top-5 sm:text-[10px];
   }
 
-
-  /* .inputStyles {
-    height: 40px;
-    border: 1px solid #828fa340;
-    border-radius: 4px;
-    padding-top: 8px;
-    padding-bottom: 9px;
-    padding-inline: 16px;
-    outline: none;
-    width: 100%;
-    line-height: 23px;
-    font-size: 13px;
-    font-weight: 500;
-  } */
+  .authServerErrorMessage {
+    @apply text-left absolute font-medium text-[#EA5555] text-[8px] left-0 -bottom-4 sm:text-[10px] sm:-bottom-5;
+  }
 
   .inputStyles {
     @apply h-10 border border-[#828fa340] rounded-sm pt-2 pb-2.25 px-4 outline-none w-full leading-5.75 text-[13px] font-medium;
@@ -182,7 +139,7 @@ textarea::placeholder {
   }
 
   .formBtn {
-    @apply pt-2 pb-2.25 rounded-[20px] w-full text-[13px] leading-5.75 flex items-center justify-center;
+    @apply pt-2 pb-2.25 rounded-[20px] w-full text-[13px] leading-5.75 flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed;
   }
 
   .lightPurpleBtn {
@@ -217,7 +174,6 @@ textarea::placeholder {
   }
 
   .sideBarHideBtnBgHover:hover {
-    @apply transition-colors duration-200;
     background-color: var(--lightPurpleBtn-background);
   }
 }

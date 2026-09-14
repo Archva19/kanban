@@ -1,4 +1,4 @@
-import Logo from "../Logo/Logo";
+import Logo from "../../Logo/Logo";
 import { motion } from "framer-motion";
 
 export default function SideLogo() {

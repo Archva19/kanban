@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import PurpleChevronDown from "../models/Icons/PurpleChevronDown";
+import PurpleChevronDown from "../../models/Icons/PurpleChevronDown";
 
 interface MobileHeaderTitleProps {
   headerTitle: string;

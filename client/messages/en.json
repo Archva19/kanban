@@ -37,8 +37,12 @@
     "description": "This is the perfect way to organize your tasks. Sign Up or Sign In to get started. You can also continue as guest if you like."
   },
 
-  "RecentLogins":{
-"title":"Recent Logins"
+  "RecentLogins": {
+    "title": "Recent Logins",
+    "continue":"Continue",
+    "useAnotherProfile": "Use Another Profile",
+    "profiles": "Profiles",
+    "removeProfile":"Remove profile from this browser"
   },
 
   "GetStarted": {
@@ -125,11 +129,11 @@
     "newColumn": "+ New Column"
   },
 
-  "ProfileWindow":{
+  "ProfileWindow": {
     "fullName": "Full Name",
     "email": "Email Address",
     "member": "Member Since",
-    "language":"Language",
+    "language": "Language",
     "activeBoards": "Active Boards",
     "totalTasks": "Total Tasks",
     "profile": "Profile",
@@ -140,9 +144,15 @@
     "dangerZone": "Danger Zone",
     "deleteAccount": "Delete Account",
     "deleteQuest": "Delete this account?",
-    "deleteDesc":"Are you sure you want to delete your account? This action cannot be undone and will permanently remove all your data and boards.",
+    "deleteDesc": "Are you sure you want to delete your account? This action cannot be undone and will permanently remove all your data and boards.",
     "delete": "Delete",
     "deleting": "Deleting...",
     "cancel": "Cancel"
+  },
+
+  "Loading":{
+    "processing":"Processing...",
+    "creating":"Creating...",
+    "editing": "Saving Changes..."
   }
 }

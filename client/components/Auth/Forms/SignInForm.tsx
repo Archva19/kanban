@@ -11,26 +11,30 @@ import { Eye, EyeOff, LockKeyhole, Mail } from "lucide-react";
 import { useState } from "react";
 import { saveRecentUser } from "@/utils/recentLogins";
 import { useRecentLogins } from "@/context/RecentLoginsContext";
-import { Variants } from "motion";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
+import * as InferYup from "yup";
+
+export type SignInFormInputs = InferYup.InferType<typeof SignInSchema>;
 
 export default function SignInForm() {
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
-  } = useForm({
+    formState: { errors, isSubmitting },
+  } = useForm<SignInFormInputs>({
     resolver: yupResolver(SignInSchema),
   });
+
   const { recentUsers } = useRecentLogins();
   const router = useRouter();
   const t = useTranslations("SignInPage");
+  const LoadingTxt = useTranslations("Loading");
   const [serverError, setServerError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const passwordValue = watch("password");
 
-  async function onSubmit(data: any) {
+  async function onSubmit(data: SignInFormInputs) {
     try {
       setServerError(null);
       const res = await axios.post("http://localhost:3030/auth/sign-in", data);
@@ -43,8 +47,8 @@ export default function SignInForm() {
         });
         router.push("/");
       }
-    } catch (error: any) {
-      if (error.response && error.response.data?.message) {
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.data?.message) {
         const backendMessage = error.response.data.message;
 
         if (backendMessage === "Email or Password is incorrect") {
@@ -74,20 +78,20 @@ export default function SignInForm() {
       transition: {
         duration: 0.4,
         ease: "easeOut",
-        staggerChildren: 0.08,
+        staggerChildren: 0.06,
         delayChildren: 0.04,
       },
     },
   };
 
   const itemVariants: Variants = {
-    hidden: { y: 15, opacity: 0 },
+    hidden: { y: 10, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
         y: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1.0] },
-        opacity: { duration: 0.5, ease: "easeInOut" },
+        opacity: { duration: 0.4, ease: "easeInOut" },
       },
     },
   };
@@ -122,7 +126,7 @@ export default function SignInForm() {
                   {...register("email")}
                 />
                 <p className="authInputErrorMessage">
-                  {errors.email?.message && t(errors.email.message as any)}
+                  {errors.email?.message && t(errors.email.message)}
                 </p>
               </div>
             </motion.div>
@@ -154,13 +158,12 @@ export default function SignInForm() {
                   </button>
                 )}
                 <p className="authInputErrorMessage">
-                  {errors.password?.message &&
-                    t(errors.password.message as any)}
+                  {errors.password?.message && t(errors.password.message)}
                 </p>
               </div>
             </motion.div>
             {serverError && (
-              <div className="font-medium text-[#EA5555] absolute left-0 -bottom-6 text-[12px]">
+              <div className="authServerErrorMessage">
                 {serverError}
               </div>
             )}
@@ -168,8 +171,12 @@ export default function SignInForm() {
 
           <div className="flex flex-col gap-3">
             <motion.div variants={itemVariants}>
-              <button type="submit" className="authBtnStyles authPurpleBtn">
-                {t("title")}
+              <button
+                disabled={isSubmitting}
+                type="submit"
+                className="authBtnStyles authPurpleBtn"
+              >
+                {isSubmitting ? LoadingTxt("processing") : t("title")}
               </button>
             </motion.div>
             <motion.div variants={itemVariants}>

@@ -1,5 +1,6 @@
 import { useForms } from "@/context/FormsContext";
 import { useUser } from "@/context/UserContext";
+import { Task } from "@/types/types";
 import axios from "axios";
 import { getCookie } from "cookies-next";
 
@@ -28,7 +29,7 @@ function useToggleSubtask() {
       let updatedTask = null;
 
       for (const column of editedBoard.columns) {
-        const found = column.tasks.find((task: any) => task._id === taskId);
+        const found = column.tasks.find((task: Task) => task._id === taskId);
         if (found) {
           updatedTask = found;
           break;

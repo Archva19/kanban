@@ -1,5 +1,3 @@
-"use client";
-
 import ModifyDropDownModel from "@/components/models/Sections/ModifyDropDownModel";
 import { useForms } from "@/context/FormsContext";
 import useTimer from "@/hooks/WindowTimer/useTimer";

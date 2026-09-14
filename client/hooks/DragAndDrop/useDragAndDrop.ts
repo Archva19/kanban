@@ -1,5 +1,6 @@
 import { useActiveBoard } from "@/context/ActiveBoardContext";
 import { useUser } from "@/context/UserContext";
+import { Column, Task } from "@/types/types";
 import {
   DragEndEvent,
   DragOverEvent,
@@ -14,10 +15,15 @@ import axios from "axios";
 import { getCookie } from "cookies-next";
 import { useState } from "react";
 
+interface ActiveItemType {
+  type: "Column" | "Task";
+  data: Column | Task;
+}
+
 function useDragAndDrop() {
   const { handleEditBoard } = useUser();
   const { activeBoard } = useActiveBoard();
-  const [activeItem, setActiveItem] = useState<any>(null);
+  const [activeItem, setActiveItem] = useState<ActiveItemType | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -31,6 +37,8 @@ function useDragAndDrop() {
   );
 
   async function handleDragStart(event: DragStartEvent) {
+    if (!activeBoard?.columns) return;
+
     const { active } = event;
     const activeData = active.data.current;
 
@@ -40,7 +48,7 @@ function useDragAndDrop() {
     }
 
     for (const column of activeBoard.columns) {
-      const task = column.tasks.find((task: any) => task._id === active.id);
+      const task = column.tasks.find((task: Task) => task._id === active.id);
       if (task) {
         setActiveItem({ type: "Task", data: task });
         break;
@@ -49,6 +57,8 @@ function useDragAndDrop() {
   }
 
   async function handleDragOver(event: DragOverEvent) {
+    if (!activeBoard?.columns || !event.over) return;
+
     const { active, over } = event;
 
     if (!over) return;
@@ -56,7 +66,7 @@ function useDragAndDrop() {
     const activeId = active.id;
     const overId = over.id;
 
-    let updatedColumns = activeBoard.columns.map((col: any) => ({
+    let updatedColumns = activeBoard?.columns.map((col: Column) => ({
       ...col,
       tasks: [...col.tasks],
     }));
@@ -65,18 +75,18 @@ function useDragAndDrop() {
 
     if (isColumn) {
       const oldIndex = updatedColumns.findIndex(
-        (column: any) => column._id === activeId,
+        (column: Column) => column._id === activeId,
       );
 
       let newIndex;
 
       if (over.data.current?.type === "Column") {
         newIndex = updatedColumns.findIndex(
-          (column: any) => column._id === overId,
+          (column: Column) => column._id === overId,
         );
       } else {
-        newIndex = updatedColumns.findIndex((column: any) =>
-          column.tasks.some((task: any) => task._id === overId),
+        newIndex = updatedColumns.findIndex((column: Column) =>
+          column.tasks.some((task: Task) => task._id === overId),
         );
       }
 
@@ -85,24 +95,24 @@ function useDragAndDrop() {
         updatedColumns.splice(newIndex, 0, movedCol);
       }
     } else {
-      const sourceColumn = updatedColumns.find((column: any) =>
-        column.tasks.some((task: any) => task._id === activeId),
+      const sourceColumn = updatedColumns.find((column: Column) =>
+        column.tasks.some((task: Task) => task._id === activeId),
       );
 
       const targetColumn = updatedColumns.find(
-        (column: any) =>
+        (column: Column) =>
           column._id === overId ||
-          column.tasks.some((task: any) => task._id === overId),
+          column.tasks.some((task: Task) => task._id === overId),
       );
 
       if (!sourceColumn || !targetColumn) return;
 
       if (sourceColumn._id === targetColumn._id) {
         const oldIndex = sourceColumn.tasks.findIndex(
-          (task: any) => task._id === activeId,
+          (task: Task) => task._id === activeId,
         );
         const newIndex = sourceColumn.tasks.findIndex(
-          (task: any) => task._id === overId,
+          (task: Task) => task._id === overId,
         );
         if (oldIndex !== -1 && newIndex !== -1) {
           const reorderedTasks = [...sourceColumn.tasks];
@@ -112,12 +122,12 @@ function useDragAndDrop() {
         }
       } else {
         const movedTask = sourceColumn.tasks.find(
-          (task: any) => task._id === activeId,
+          (task: Task) => task._id === activeId,
         );
 
         if (movedTask) {
           sourceColumn.tasks = sourceColumn.tasks.filter(
-            (task: any) => task._id !== activeId,
+            (task: Task) => task._id !== activeId,
           );
 
           const updatedTask = {
@@ -126,14 +136,14 @@ function useDragAndDrop() {
           };
 
           const overIndex = targetColumn.tasks.findIndex(
-            (task: any) => task._id === overId,
+            (task: Task) => task._id === overId,
           );
 
           if (overIndex !== -1) {
             let insertIndex = overIndex;
 
             const overTask = targetColumn.tasks.find(
-              (task: any) => task._id === overId,
+              (task: Task) => task._id === overId,
             );
 
             const activeRect = active.rect.current.translated;
@@ -179,10 +189,9 @@ function useDragAndDrop() {
     handleEditBoard(updatedBoard);
   }
 
-
   async function handleDragEnd(event: DragEndEvent) {
     setActiveItem(null);
-    if (!event.over) return;
+    if (!event.over || !activeBoard?._id) return;
 
     try {
       const token = getCookie("accesstoken");

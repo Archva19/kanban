@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import PurpleChevronDown from "@/components/models/Icons/PurpleChevronDown";
+import { Column } from "@/types/types";
 
 interface SelectColumnModelProps {
-  columns: any;
-  selectedColumnId: string;
+  columns: Column[] | undefined;
+  selectedColumnId: string | undefined;
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
   handleOnSelect: (columnId: string) => void;
@@ -21,7 +22,7 @@ export default function SelectColumnModel({
   const [coords, setCoords] = useState({ top: 0, left: 0, width: 0 });
 
   const selectedColumn =
-    columns?.find((col: any) => col._id === selectedColumnId) || columns?.[0];
+    columns?.find((col: Column) => col._id === selectedColumnId) || columns?.[0];
 
   useEffect(() => {
     if (isOpen && triggerRef.current) {
@@ -47,7 +48,7 @@ export default function SelectColumnModel({
           onClick={() => setIsOpen(!isOpen)}
           className={`inputStyles relative cursor-pointer flex items-center justify-between ${isOpen && "focusOnDiv"}`}
         >
-          <p>{selectedColumn.title}</p>
+          <p>{selectedColumn?.title}</p>
           <motion.div
             initial={{ rotate: -45 }}
             animate={{ rotate: isOpen ? -225 : -45 }}
@@ -70,7 +71,7 @@ export default function SelectColumnModel({
               }}
               className="modifyDropDown gap-2! fixed overflow-scroll max-h-30.5"
             >
-              {columns.map((col: any) => (
+              {columns?.map((col: Column) => (
                 <button
                   onClick={() => onSelectColumn(col._id)}
                   className="w-full flex items-start"

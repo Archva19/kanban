@@ -1,23 +1,31 @@
 import {
   FieldArrayWithId,
   FieldErrors,
+  FieldValues,
   UseFieldArrayAppend,
   UseFieldArrayRemove,
+  UseFormHandleSubmit,
   UseFormRegister,
 } from "react-hook-form";
 import DeleteIcon from "../../models/Icons/DeleteIcon";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 
+export interface BoardFormValues extends FieldValues {
+  title: string;
+  columns: { _id?: string; title: string }[];
+}
+
 interface BoardFormModelProps {
-  windowType: string;
+  windowType: "create" | "edit";
   handleOnClickBg: () => void;
-  handleSubmit: any;
-  onSubmit: (data: any) => void;
-  register: UseFormRegister<any>;
-  errors: FieldErrors<any>;
-  fields: FieldArrayWithId<any, "columns", "id">[];
-  append: UseFieldArrayAppend<any, "columns">;
+  handleSubmit: UseFormHandleSubmit<BoardFormValues>;
+  onSubmit: (data: BoardFormValues) => void;
+  register: UseFormRegister<BoardFormValues>;
+  errors: FieldErrors<BoardFormValues>;
+  isSubmitting: boolean;
+  fields: FieldArrayWithId<BoardFormValues, "columns", "id">[];
+  append: UseFieldArrayAppend<BoardFormValues, "columns">;
   remove: UseFieldArrayRemove;
   autoAddColumn?: boolean;
 }
@@ -29,6 +37,7 @@ export default function BoardFormModel(props: BoardFormModelProps) {
     handleSubmit,
     onSubmit,
     errors,
+    isSubmitting,
     register,
     fields,
     remove,
@@ -37,15 +46,20 @@ export default function BoardFormModel(props: BoardFormModelProps) {
   } = props;
 
   const t = useTranslations("BoardForm");
+  const LoadingTxt = useTranslations("Loading");
   const errorsT = useTranslations("FormErrors");
 
   return (
     <>
-      <div className="formBg" onClick={handleOnClickBg}>
+      <motion.div
+        exit={{ opacity: 0, transition: { duration: 0.15 } }}
+        transition={{ duration: 0.2, ease: "easeInOut" }}
+        className="formBg"
+        onClick={handleOnClickBg}
+      >
         <motion.div
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.1 } }}
           transition={{ duration: 0.2, ease: "easeInOut" }}
           className="cardBgColor formWindow"
           onClick={(e) => e.stopPropagation()}
@@ -97,17 +111,14 @@ export default function BoardFormModel(props: BoardFormModelProps) {
                               message: errorsT("tooLong"),
                             },
                           })}
-                          className={`inputStyles ${(errors.columns as any)?.[index]?.title ? "errorOnInput pr-28.75!" : "focusOnInput"}`}
+                          className={`inputStyles ${errors.columns?.[index]?.title ? "errorOnInput pr-28.75!" : "focusOnInput"}`}
                         />
                         <p className="inputErrorMessage">
-                          {
-                            (errors.columns as any)?.[index]?.title
-                              ?.message as string
-                          }
+                          {errors.columns?.[index]?.title?.message as string}
                         </p>
                       </div>
                       <button
-                        className={`${(errors.columns as any)?.[index]?.title ? "fill-[#EA5555]" : "fill-[#828FA3]"}`}
+                        className={`${errors.columns?.[index]?.title ? "fill-[#EA5555]" : "fill-[#828FA3]"}`}
                         type="button"
                         onClick={() => remove(index)}
                       >
@@ -128,13 +139,23 @@ export default function BoardFormModel(props: BoardFormModelProps) {
               </div>
             </div>
             <div className="w-full">
-              <button className="purpleBtn formBtn" type="submit">
-                {windowType === "create" ? t("createBoard") : t("saveChanges")}
+              <button
+                disabled={isSubmitting}
+                className="purpleBtn formBtn "
+                type="submit"
+              >
+                {windowType === "create"
+                  ? isSubmitting
+                    ? LoadingTxt("creating")
+                    : t("createBoard")
+                  : isSubmitting
+                    ? LoadingTxt("editing")
+                    : t("saveChanges")}
               </button>
             </div>
           </form>
         </motion.div>
-      </div>
+      </motion.div>
     </>
   );
 }

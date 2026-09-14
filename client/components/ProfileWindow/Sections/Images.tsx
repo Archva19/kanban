@@ -1,4 +1,5 @@
 import { useUser } from "@/context/UserContext";
+import { User } from "@/types/types";
 import { updateRecentUser } from "@/utils/recentLogins";
 import axios from "axios";
 import { getCookie } from "cookies-next";
@@ -40,12 +41,17 @@ export default function Images() {
       );
 
       if (res.data?.data) {
-        setUserData((prev: any) => ({
-          ...prev,
-          profilePicture: res.data.data.profilePicture,
-        }));
+        const newAvatar = res.data.data.profilePicture;
 
-        updateRecentUser(userData.email, { avatar: res.data.data.profilePicture });
+        setUserData((prev) =>
+          prev ? { ...prev, profilePicture: newAvatar } : null,
+        );
+
+        if (userData?.email) {
+          updateRecentUser(userData.email, {
+            avatar: res.data.data.profilePicture,
+          });
+        }
       }
     } catch (error) {
       console.error("Error updating profile picture:", error);
@@ -72,12 +78,17 @@ export default function Images() {
         },
       );
 
-      setUserData((prev: any) => ({
-        ...prev,
-        profilePicture: res.data?.data?.profilePicture,
-      }));
-      
-      updateRecentUser(userData.email, { avatar: res.data.data.profilePicture });
+      if (res.data?.data) {
+        const newAvatar = res.data.data.profilePicture;
+
+        setUserData((prev) =>
+          prev ? { ...prev, profilePicture: newAvatar } : null,
+        );
+
+        if (userData?.email) {
+          updateRecentUser(userData.email, { avatar: newAvatar });
+        }
+      }
     } catch (error) {
       console.error("Error updating profile picture:", error);
     } finally {
@@ -104,8 +115,8 @@ export default function Images() {
         >
           <img
             className="w-full h-full rounded-full object-cover"
-            src={userData.profilePicture}
-            alt={userData.fullName}
+            src={userData?.profilePicture || ""}
+            alt={userData?.fullName || "User Avatar"}
           />
 
           <div

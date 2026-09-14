@@ -9,33 +9,37 @@ import GuestBtn from "../Items/GuestBtn";
 import { Eye, EyeOff, LockKeyhole, Mail, User } from "lucide-react";
 import { useState } from "react";
 import { motion, Variants } from "framer-motion";
+import * as InferYup from "yup";
+
+export type SignUpFormInputs = InferYup.InferType<typeof SignUpSchema>;
 
 export default function SignUpForm() {
   const router = useRouter();
   const t = useTranslations("SignUpPage");
+  const LoadingTxt = useTranslations("Loading");
   const [serverError, setServerError] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     watch,
-  } = useForm({
+  } = useForm<SignUpFormInputs>({
     resolver: yupResolver(SignUpSchema),
   });
 
   const [showPassword, setShowPassword] = useState(false);
   const passwordValue = watch("password");
 
-  async function onSubmit(data: any) {
+  async function onSubmit(data: SignUpFormInputs) {
     try {
       setServerError(null);
       const res = await axios.post("http://localhost:3030/auth/sign-up", data);
       if (res.status === 200) {
         router.push("/sign-in");
       }
-    } catch (error: any) {
-      if (error.response && error.response.data?.message) {
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.data?.message) {
         const backendMessage = error.response.data.message;
 
         if (backendMessage === "User with this email already exists") {
@@ -53,7 +57,6 @@ export default function SignUpForm() {
     }
   }
 
-
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -61,20 +64,20 @@ export default function SignUpForm() {
       transition: {
         duration: 0.4,
         ease: "easeOut",
-        staggerChildren: 0.08,
+        staggerChildren: 0.06,
         delayChildren: 0.04,
       },
     },
   };
 
   const itemVariants: Variants = {
-    hidden: { y: 20, opacity: 0 },
+    hidden: { y: 10, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
         y: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1.0] },
-        opacity: { duration: 0.5, ease: "easeInOut" },
+        opacity: { duration: 0.4, ease: "easeInOut" },
       },
     },
   };
@@ -110,8 +113,7 @@ export default function SignUpForm() {
                   {...register("fullName")}
                 />
                 <p className="authInputErrorMessage">
-                  {errors.fullName?.message &&
-                    t(errors.fullName.message as any)}
+                  {errors.fullName?.message && t(errors.fullName.message)}
                 </p>
               </div>
             </motion.div>
@@ -130,7 +132,7 @@ export default function SignUpForm() {
                   {...register("email")}
                 />
                 <p className="authInputErrorMessage">
-                  {errors.email?.message && t(errors.email.message as any)}
+                  {errors.email?.message && t(errors.email.message)}
                 </p>
               </div>
             </motion.div>
@@ -162,13 +164,12 @@ export default function SignUpForm() {
                   </button>
                 )}
                 <p className="authInputErrorMessage">
-                  {errors.password?.message &&
-                    t(errors.password.message as any)}
+                  {errors.password?.message && t(errors.password.message)}
                 </p>
               </div>
             </motion.div>
             {serverError && (
-              <div className="font-medium text-[#EA5555] absolute left-0 -bottom-6 text-[12px]">
+              <div className="authServerErrorMessage">
                 {serverError}
               </div>
             )}
@@ -176,8 +177,12 @@ export default function SignUpForm() {
 
           <div className="flex flex-col gap-3">
             <motion.div variants={itemVariants}>
-              <button type="submit" className="authBtnStyles authPurpleBtn">
-                {t("title")}
+              <button
+                disabled={isSubmitting}
+                type="submit"
+                className="authBtnStyles authPurpleBtn"
+              >
+                {isSubmitting ? LoadingTxt("processing") : t("title")}
               </button>
             </motion.div>
 

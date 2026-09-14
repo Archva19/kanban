@@ -1,5 +1,5 @@
-import RecentLoginCard from "./RecentLoginCard";
-import RecentLoginModal from "./RecentLoginModal";
+import RecentLoginCard from "../Items/RecentLoginCard";
+import RecentLoginModal from "../Modals/RecentLoginModal";
 import { AnimatePresence } from "motion/react";
 import { useRecentLogins } from "@/context/RecentLoginsContext";
 import { useTranslations } from "next-intl";

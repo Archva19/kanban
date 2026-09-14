@@ -1,15 +1,18 @@
 import { Drawer } from "vaul";
-import { Trash2, X } from "lucide-react";
+import { Trash2, UserPlus, X } from "lucide-react";
 import { useRecentLogins } from "@/context/RecentLoginsContext";
 import { getRecentLogins, removeRecentUser } from "@/utils/recentLogins";
-import { RecentUser } from "@/types/auth";
+import { RecentUser } from "@/types/types";
+import { useTranslations } from "next-intl";
 
 export default function MobileRecentsModal({
   mobileRecentsModalVis,
   setMobileRecentsModalVis,
+  setSignInFormVis,
 }: {
   mobileRecentsModalVis: boolean;
   setMobileRecentsModalVis: (open: boolean) => void;
+  setSignInFormVis: (value: boolean) => void;
 }) {
   const { recentUsers, setRecentUsers, selectedUser, setSelectedUser } =
     useRecentLogins();
@@ -24,6 +27,13 @@ export default function MobileRecentsModal({
     removeRecentUser(email);
     setRecentUsers(getRecentLogins());
   }
+
+  function handleOnClickUseAnotherProfile() {
+    setMobileRecentsModalVis(false);
+    setSignInFormVis(true);
+  }
+
+  const t = useTranslations("RecentLogins");
 
   return (
     <Drawer.Root
@@ -45,7 +55,7 @@ export default function MobileRecentsModal({
               <X className="w-5 h-5" />
             </button>
             <Drawer.Title className="text-lg font-semibold tracking-wide">
-              Profiles
+              {t("profiles")}
             </Drawer.Title>
           </div>
 
@@ -75,17 +85,23 @@ export default function MobileRecentsModal({
                     </div>
                   </div>
 
-
                   <button
                     onClick={(e) => handleRemoveUser(e, user.email)}
                     className="p-2 rounded-lg text-[#828FA3]"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
-
                 </div>
               );
             })}
+            <button
+              type="button"
+              onClick={handleOnClickUseAnotherProfile}
+              className="authBtnStyles authLightPurpleBtn gap-2"
+            >
+              <UserPlus className="w-4 h-4" />
+              <span> {t("useAnotherProfile")}</span>
+            </button>
           </div>
         </Drawer.Content>
       </Drawer.Portal>

@@ -2,7 +2,7 @@ import { useActiveBoard } from "@/context/ActiveBoardContext";
 import { useForms } from "@/context/FormsContext";
 import { useUser } from "@/context/UserContext";
 import useDeleteBoard from "@/hooks/DeleteBoard/useDeleteBoard";
-import DeleteModel from "../../formModels/DeleteModel";
+import DeleteModel from "../../FormModels/DeleteModel";
 import { useRouter } from "next/navigation";
 
 export default function DeleteBoard({
@@ -40,7 +40,7 @@ export default function DeleteBoard({
       <DeleteModel
         windowType={"board"}
         windowVisState={setDeleteBoardVis}
-        title={activeBoard.title}
+        title={activeBoard?.title}
         handleOnDelete={handleOnDelete}
       />
     </>

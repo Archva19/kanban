@@ -22,14 +22,16 @@ export default function DeleteAccount() {
       const token = getCookie("accesstoken");
       if (!token) return;
 
-      await axios.delete(`http://localhost:3030/users/${userData._id}`, {
+      await axios.delete(`http://localhost:3030/users/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       deleteCookie("accesstoken");
       router.push("/sign-in");
-      removeRecentUser(userData.email);
+      if (userData?.email) {
+        removeRecentUser(userData.email);
+      }
       setRecentUsers(getRecentLogins());
     } catch (error) {
       console.error("Error deleting account:", error);
