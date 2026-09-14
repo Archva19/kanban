@@ -9,11 +9,16 @@ const authRouter = require("./auth/auth.router");
 const tasksRouter = require("./routes/tasks.router");
 
 const app = express();
-const PORT = 3030;
+const PORT = process.env.PORT || 3030;
 
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 ConnectToMongo();
 
