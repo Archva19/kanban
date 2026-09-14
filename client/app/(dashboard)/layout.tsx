@@ -9,8 +9,8 @@ import ProfileWindow from "@/components/ProfileWindow/ProfileWindow/ProfileWindo
 import Sidebar from "@/components/Sidebar/Sidebar";
 import UserGuard from "@/components/UserGuard/UserGuard";
 import ActiveBoardProvider from "@/context/ActiveBoardContext";
-import FormsProvider, { useForms } from "@/context/FormsContext";
-import UserProvider, { useUser } from "@/context/UserContext";
+import FormsProvider from "@/context/FormsContext";
+import UserProvider from "@/context/UserContext";
 import { AnimatePresence } from "motion/react";
 import { useState } from "react";
 
