@@ -34,7 +34,7 @@ export default function SignUpForm() {
   async function onSubmit(data: SignUpFormInputs) {
     try {
       setServerError(null);
-      const res = await axios.post("http://localhost:3030/auth/sign-up", data);
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/sign-up`, data);
       if (res.status === 200) {
         router.push("/sign-in");
       }

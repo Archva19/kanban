@@ -15,7 +15,7 @@ function useToggleSubtask() {
     try {
       const token = getCookie("accesstoken");
       const res = await axios.patch(
-        `http://localhost:3030/tasks/${boardId}/${taskId}/subtasks/${subTaskId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/tasks/${boardId}/${taskId}/subtasks/${subTaskId}`,
         {},
         {
           headers: {

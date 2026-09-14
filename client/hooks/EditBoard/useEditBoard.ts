@@ -9,7 +9,7 @@ function useEditBoard() {
   async function editBoard(id: string, data:EditBoardPayload) {
     try {
       const token = getCookie("accesstoken");
-      const res = await axios.put(`http://localhost:3030/boards/${id}`, data, {
+      const res = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/boards/${id}`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

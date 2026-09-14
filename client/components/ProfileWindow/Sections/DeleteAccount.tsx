@@ -22,7 +22,7 @@ export default function DeleteAccount() {
       const token = getCookie("accesstoken");
       if (!token) return;
 
-      await axios.delete(`http://localhost:3030/users/me`, {
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

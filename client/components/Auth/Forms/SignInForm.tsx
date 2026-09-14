@@ -37,7 +37,7 @@ export default function SignInForm() {
   async function onSubmit(data: SignInFormInputs) {
     try {
       setServerError(null);
-      const res = await axios.post("http://localhost:3030/auth/sign-in", data);
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/sign-in`, data);
       if (res.status === 200) {
         setCookie("accesstoken", res.data.data, { maxAge: 60 * 60 * 24 });
         saveRecentUser({

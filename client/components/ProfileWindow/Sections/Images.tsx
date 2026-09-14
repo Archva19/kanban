@@ -31,7 +31,7 @@ export default function Images() {
       const base64Image: string = await convertToBase64(file);
 
       const res = await axios.patch(
-        `http://localhost:3030/users/profilePicture`,
+        `${process.env.NEXT_PUBLIC_API_URL}/users/profilePicture`,
         { profilePicture: base64Image },
         {
           headers: {
@@ -69,7 +69,7 @@ export default function Images() {
       if (!token) return;
 
       const res = await axios.patch(
-        `http://localhost:3030/users/profilePictureDelete`,
+        `${process.env.NEXT_PUBLIC_API_URL}/users/profilePictureDelete`,
         {},
         {
           headers: {

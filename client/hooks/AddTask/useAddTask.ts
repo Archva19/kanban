@@ -9,7 +9,7 @@ function useAddTask() {
   async function handleCreateTask(id: string, data: CreateTaskPayload) {
     try {
       const token = getCookie("accesstoken");
-      const res = await axios.post(`http://localhost:3030/tasks/${id}`, data, {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${id}`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -8,7 +8,7 @@ function useDeleteTask() {
     try {
       const token = getCookie("accesstoken");
       const res = await axios.delete(
-        `http://localhost:3030/tasks/${boardId}/${taskId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/tasks/${boardId}/${taskId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
