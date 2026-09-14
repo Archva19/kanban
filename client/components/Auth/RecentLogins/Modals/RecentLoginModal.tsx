@@ -35,7 +35,7 @@ export default function RecentLoginModal() {
     if (!selectedUser) return;
     try {
       setServerError(null);
-      const res = await axios.post("http://localhost:3030/auth/sign-in", {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/sign-in`, {
         email: selectedUser.email,
         password: data.password,
       });

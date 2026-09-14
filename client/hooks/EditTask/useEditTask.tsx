@@ -10,7 +10,7 @@ function useEditTask() {
     try {
       const token = getCookie("accesstoken");
       const res = await axios.put(
-        `http://localhost:3030/tasks/${boardId}/${taskId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/tasks/${boardId}/${taskId}`,
         data,
         {
           headers: {

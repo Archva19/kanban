@@ -6,7 +6,7 @@ import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-function useFetchUser(url: string = "http://localhost:3030/users/me") {
+function useFetchUser(url: string = `${process.env.NEXT_PUBLIC_API_URL}/users/me`) {
   const [userData, setUserData] = useState<User | null>(null);
   const router = useRouter();
 

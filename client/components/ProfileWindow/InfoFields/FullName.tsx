@@ -18,7 +18,7 @@ export default function FullName() {
       if (!token) return;
 
       const res = await axios.patch(
-        `http://localhost:3030/users/fullName`,
+        `${process.env.NEXT_PUBLIC_API_URL}/users/fullName`,
         { fullName: fullName },
         {
           headers: {

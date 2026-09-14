@@ -8,7 +8,7 @@ function useDeleteBoard() {
   async function deleteBoard(id:string) {
     try {
       const token = getCookie("accesstoken");
-      const res = await axios.delete(`http://localhost:3030/boards/${id}`, {
+      const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/boards/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

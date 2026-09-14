@@ -9,7 +9,7 @@ function useAddBoard() {
   async function createBoard(data: CreateBoardPayload) {
     try {
       const token = getCookie("accesstoken");
-      const res = await axios.post("http://localhost:3030/boards", data, {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/boards`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

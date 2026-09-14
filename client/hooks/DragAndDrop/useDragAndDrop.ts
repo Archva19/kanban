@@ -197,7 +197,7 @@ function useDragAndDrop() {
       const token = getCookie("accesstoken");
 
       const res = await axios.patch(
-        `http://localhost:3030/boards/${activeBoard._id}/drag`,
+        `${process.env.NEXT_PUBLIC_API_URL}/boards/${activeBoard._id}/drag`,
         { columns: activeBoard.columns },
         {
           headers: {
