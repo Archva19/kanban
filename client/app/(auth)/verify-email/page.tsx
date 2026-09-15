@@ -4,10 +4,11 @@ import LeftSide from "@/components/Auth/LeftSide/LeftSide";
 import LanguageSwitcher from "@/components/CommonItems/LanguageSwitcher/LanguageSwitcher";
 import { useEffect, useState } from "react";
 import { useRecentLogins } from "@/context/RecentLoginsContext";
-import SignUpForm from "@/components/Auth/Forms/SignUpForm";
 import ThemeToggleAuth from "@/components/ThemeToggle/ThemeToggleAuth";
+import { useSearchParams } from "next/navigation";
+import VerifyEmailForm from "@/components/Auth/Forms/VerifyEmailForm";
 
-export default function SignUp() {
+export default function VerifyEmail() {
   const { recentUsers } = useRecentLogins();
   const [mounted, setMounted] = useState(false);
 
@@ -16,6 +17,13 @@ export default function SignUp() {
   }, []);
 
   const hasRecentUsers = mounted && recentUsers.length > 0;
+
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email");
+
+  if (!email) {
+    return <p>Invalid verification link.</p>
+  }
 
   return (
     <>
@@ -26,11 +34,11 @@ export default function SignUp() {
           className={`w-full flex flex-col items-center justify-center gap-10 ${hasRecentUsers ? "xl:items-start xl:flex-row xl:gap-20 xl:px-50 xl:justify-between" : "flex-col"}`}
         >
           <LeftSide />
-          <SignUpForm />
+          <VerifyEmailForm email={email} />
         </div>
         <div className="flex items-center gap-5 absolute top-5 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-auto md:right-5 xl:right-10 xl:top-10">
           <ThemeToggleAuth />
-          <LanguageSwitcher layoutId="authLangPill"/>
+          <LanguageSwitcher layoutId="authLangPill" />
         </div>
       </div>
     </>

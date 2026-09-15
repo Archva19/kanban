@@ -35,10 +35,13 @@ export default function RecentLoginModal() {
     if (!selectedUser) return;
     try {
       setServerError(null);
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/sign-in`, {
-        email: selectedUser.email,
-        password: data.password,
-      });
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/sign-in`,
+        {
+          email: selectedUser.email,
+          password: data.password,
+        },
+      );
       if (res.status === 200) {
         setCookie("accesstoken", res.data.data, { maxAge: 60 * 60 * 24 });
         saveRecentUser({
@@ -87,13 +90,18 @@ export default function RecentLoginModal() {
           onClick={(e) => e.stopPropagation()}
           className="flex flex-col w-[90%] max-w-sm cardBgColor rounded-2xl relative pt-15 pb-8 px-7 gap-5"
         >
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center gap-3">
             <img
               className="w-40 h-40 rounded-full object-cover"
               src={selectedUser?.avatar}
               alt=""
             />
-            <p className="text-lg font-semibold">{selectedUser?.fullName}</p>
+            <div className="flex flex-col gap-0.5">
+              <p className="text-lg font-semibold">{selectedUser?.fullName}</p>
+              <p className="max-w-full text-xs text-[#828FA3] font-medium truncate">
+                {selectedUser?.email}
+              </p>
+            </div>
           </div>
 
           <form

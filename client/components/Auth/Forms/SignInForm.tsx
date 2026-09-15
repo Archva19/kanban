@@ -4,7 +4,7 @@ import axios from "axios";
 import { setCookie } from "cookies-next";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import GuestBtn from "../Items/GuestBtn";
 import { Eye, EyeOff, LockKeyhole, Mail } from "lucide-react";
@@ -17,6 +17,9 @@ import * as InferYup from "yup";
 export type SignInFormInputs = InferYup.InferType<typeof SignInSchema>;
 
 export default function SignInForm() {
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email") || "";
+
   const {
     register,
     handleSubmit,
@@ -24,6 +27,9 @@ export default function SignInForm() {
     formState: { errors, isSubmitting },
   } = useForm<SignInFormInputs>({
     resolver: yupResolver(SignInSchema),
+    defaultValues: {
+      email,
+    },
   });
 
   const { recentUsers } = useRecentLogins();
@@ -37,7 +43,10 @@ export default function SignInForm() {
   async function onSubmit(data: SignInFormInputs) {
     try {
       setServerError(null);
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/sign-in`, data);
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/sign-in`,
+        data,
+      );
       if (res.status === 200) {
         setCookie("accesstoken", res.data.data, { maxAge: 60 * 60 * 24 });
         saveRecentUser({
@@ -62,6 +71,8 @@ export default function SignInForm() {
           "Too many login attempts, please try again after 15 minutes."
         ) {
           setServerError(t("tooManyAttempts"));
+        } else if (backendMessage === "Please verify your email first") {
+          router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
         } else {
           setServerError(t("serverError"));
         }
@@ -163,9 +174,7 @@ export default function SignInForm() {
               </div>
             </motion.div>
             {serverError && (
-              <div className="authServerErrorMessage">
-                {serverError}
-              </div>
+              <div className="authServerErrorMessage">{serverError}</div>
             )}
           </div>
 

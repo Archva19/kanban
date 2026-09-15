@@ -37,7 +37,7 @@ export default function Header({
           <DesktopHeaderTitle />
         </div>
         <div className="flex items-center gap-4 md:gap-6">
-          <LanguageSwitcher />
+          <LanguageSwitcher layoutId="headerLangPill" />
           <NewTaskBtn />
           <ThreeDots onClick={() => setBoardDropDownVis(!boardDropDownVis)} />
         </div>
