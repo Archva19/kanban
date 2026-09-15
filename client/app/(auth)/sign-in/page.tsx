@@ -44,7 +44,7 @@ export default function SignIn() {
           ) : (
             <SignInForm />
           )}
-          {!isXl && !signInFormVis && (
+          {mounted && !isXl && !signInFormVis && (
             <div>
               <Link
                 href="/sign-up"
@@ -57,7 +57,7 @@ export default function SignIn() {
         </div>
         <div className="flex items-center gap-5 absolute top-5 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-auto md:right-5 xl:right-10 xl:top-10">
           <ThemeToggleAuth />
-          <LanguageSwitcher />
+          <LanguageSwitcher layoutId="authLangPill"/>
         </div>
         {!isXl && hasRecentUsers && signInFormVis && (
           <button

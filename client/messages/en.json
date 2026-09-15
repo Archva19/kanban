@@ -29,7 +29,8 @@
     "invalidEmail": "Invalid email",
     "passwordRequired": "Password is required",
     "tooManyAttempts": "Too many login attempts, please try again after 15 minutes.",
-    "continueAsGuest": "Continue As Guest"
+    "continueAsGuest": "Continue As Guest",
+    "emailNotVerified": "Please verify your email first"
   },
 
   "AuthTxts": {
@@ -39,10 +40,25 @@
 
   "RecentLogins": {
     "title": "Recent Logins",
-    "continue":"Continue",
+    "continue": "Continue",
     "useAnotherProfile": "Use Another Profile",
     "profiles": "Profiles",
-    "removeProfile":"Remove profile from this browser"
+    "removeProfile": "Remove profile from this browser"
+  },
+
+  "VerifyEmail": {
+    "title": "Verify Your Email",
+    "description": "A 6-digit code has been sent to:",
+    "verifyBtn": "Verify Email",
+    "incompleteCode": "Please enter all 6 digits",
+    "codeExpired": "Verification code has expired",
+    "invalidCode": "Invalid verification code",
+    "serverError": "Server Error",
+    "userNotFound": "User Not Found",
+    "resendCodeIn": "Resend code in",
+    "resendCode": "Resend Code",
+    "codeResentSuccess": "A new verification code has been sent!",
+    "tooManyAttempts":"Too many verification attempts, please try again after 15 minutes."
   },
 
   "GetStarted": {
@@ -150,9 +166,9 @@
     "cancel": "Cancel"
   },
 
-  "Loading":{
-    "processing":"Processing...",
-    "creating":"Creating...",
+  "Loading": {
+    "processing": "Processing...",
+    "creating": "Creating...",
     "editing": "Saving Changes..."
   }
 }

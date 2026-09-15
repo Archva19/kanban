@@ -12,6 +12,11 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     isGuest: { type: Boolean, default: false },
+    isVerified: { type: Boolean, default: false },
+    verificationCode: { type: String },
+    verificationCodeExpiresAt: {
+      type: Date,
+    },
     profilePicture: {
       type: String,
       default: function () {
@@ -37,6 +42,14 @@ userSchema.index(
   {
     expireAfterSeconds: 86400,
     partialFilterExpression: { isGuest: true },
+  },
+);
+
+userSchema.index(
+  { verificationCodeExpiresAt: 1 },
+  {
+    expireAfterSeconds: 86400,
+    partialFilterExpression: { isVerified: false },
   },
 );
 

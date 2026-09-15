@@ -10,6 +10,7 @@ import { Eye, EyeOff, LockKeyhole, Mail, User } from "lucide-react";
 import { useState } from "react";
 import { motion, Variants } from "framer-motion";
 import * as InferYup from "yup";
+import VerifyEmailForm from "./VerifyEmailForm";
 
 export type SignUpFormInputs = InferYup.InferType<typeof SignUpSchema>;
 
@@ -34,9 +35,12 @@ export default function SignUpForm() {
   async function onSubmit(data: SignUpFormInputs) {
     try {
       setServerError(null);
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/sign-up`, data);
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/sign-up`,
+        data,
+      );
       if (res.status === 200) {
-        router.push("/sign-in");
+        router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.data?.message) {
@@ -48,6 +52,8 @@ export default function SignUpForm() {
           backendMessage === "Full Name, Email and Password are required fields"
         ) {
           setServerError(t("requiredFields"));
+        } else if (backendMessage === "Invalid email format") {
+          setServerError(t("invalidEmail"));
         } else {
           setServerError(t("serverError"));
         }
@@ -81,6 +87,7 @@ export default function SignUpForm() {
       },
     },
   };
+
 
   return (
     <>
@@ -169,9 +176,7 @@ export default function SignUpForm() {
               </div>
             </motion.div>
             {serverError && (
-              <div className="authServerErrorMessage">
-                {serverError}
-              </div>
+              <div className="authServerErrorMessage">{serverError}</div>
             )}
           </div>
 

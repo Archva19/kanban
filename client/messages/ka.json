@@ -29,7 +29,8 @@
     "invalidEmail": "არასწორი ელ-ფოსტა",
     "passwordRequired": "პაროლი აუცილებელია",
     "tooManyAttempts": "ძალიან ბევრი მცდელობა. სცადეთ მოგვიანებით 15 წუთში.",
-    "continueAsGuest": "სტუმრის სტატუსით გაგრძელება"
+    "continueAsGuest": "სტუმრის სტატუსით გაგრძელება",
+    "emailNotVerified": "გთხოვთ პირველ რიგში დაადასტუროთ ელ-ფოსტა"
   },
 
   "RecentLogins": {
@@ -38,6 +39,21 @@
     "useAnotherProfile": "სხვა ანგარიშით შესვლა",
     "profiles": "ანგარიშები",
     "removeProfile": "ამ ბრაუზერიდან ანგარიშის წაშლა"
+  },
+
+  "VerifyEmail": {
+    "title": "ელ-ფოსტის დადასტურება",
+    "description": "6-ნიშნა კოდი გაიგზავნა მისამართზე:",
+    "verifyBtn": "დადასტურება",
+    "incompleteCode": "გთხოვთ შეიყვანოთ 6-ვე ციფრი",
+    "codeExpired": "კოდს ვადა გაუვიდა",
+    "invalidCode": "არასწორი კოდი",
+    "serverError": "დაფიქსირდა შეცდომა",
+    "userNotFound": "მომხმარებელი ვერ მოიძებნა",
+    "resendCodeIn": "კოდის ხელახლა გაგზავნა შეგეძლებათ:",
+    "resendCode": "კოდის ხელახლა გაგზავნა",
+    "codeResentSuccess": "ახალი კოდი წარმატებით გაიგზავნა!",
+    "tooManyAttempts": "ძალიან ბევრი მცდელობა. სცადეთ მოგვიანებით 15 წუთში."
   },
 
   "AuthTxts": {
@@ -150,10 +166,9 @@
     "cancel": "გაუქმება"
   },
 
-  "Loading":{
-    "processing":"მუშავდება...",
-    "creating":"იქმნება...",
+  "Loading": {
+    "processing": "მუშავდება...",
+    "creating": "იქმნება...",
     "editing": "მონაცემები ახლდება..."
   }
-
 }

@@ -11,19 +11,28 @@ const themes = [
 ];
 
 export default function ThemeToggleAuth() {
-  const { theme, setTheme } = useTheme();
+  const { theme, resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
+  if (!mounted) {
+    return (
+      <div className="flex items-center h-7 p-0.5 rounded-full cardBgColor border borderLineColor select-none justify-center opacity-0">
+        <div className="h-full w-7" />
+        <div className="h-full w-7" />
+      </div>
+    );
+  }
+
+  const activeTheme = theme === "system" ? resolvedTheme : theme || "light";
 
   return (
     <div className="relative flex items-center h-7 p-0.5 rounded-full cardBgColor border borderLineColor select-none justify-center">
       {themes.map((t) => {
-        const isActive = theme === t.code;
+        const isActive = activeTheme === t.code;
 
         return (
           <button
@@ -46,7 +55,9 @@ export default function ThemeToggleAuth() {
               height={14}
               priority
               className={`transition-all duration-200 ${
-                isActive ? "brightness-0 invert" : "opacity-60 hover:opacity-100"
+                isActive
+                  ? "brightness-0 invert"
+                  : "opacity-60 hover:opacity-100"
               }`}
             />
           </button>

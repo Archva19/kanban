@@ -27,7 +27,7 @@ export default function RecentLoginCard({ user }: { user: RecentUser }) {
           <p className="text-sm group-hover:text-[#635FC7] transition-colors truncate max-w-full">
             {user.fullName}
           </p>
-          <p className="text-xs text-[#828FA3] font-medium truncate">
+          <p className="max-w-full text-xs text-[#828FA3] font-medium truncate">
             {user.email}
           </p>
         </div>
