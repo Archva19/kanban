@@ -1,33 +1,47 @@
-const nodemailer = require("nodemailer");
+const { BrevoClient } = require("@getbrevo/brevo");
 
-const transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.BREVO_SMTP_KEY,
-  },
+const brevo = new BrevoClient({
+  apiKey: process.env.BREVO_API_KEY,
 });
 
 const sendVerificationEmail = async (email, code) => {
   try {
-    await transporter.sendMail({
-      from: `"Kanban Task Manager" <${process.env.EMAIL_USER}>`,
-      to: email,
+    const data = await brevo.transactionalEmails.sendTransacEmail({
       subject: "Email Verification Code",
-      html: `
+
+      htmlContent: `
         <div style="font-family: Arial, sans-serif; padding: 20px;">
           <h2>Email Verification</h2>
           <p>Your verification code is:</p>
-          <h1 style="color: #635FC7; letter-spacing: 4px;">${code}</h1>
+
+          <h1 style="
+            color: #635FC7;
+            letter-spacing: 4px;
+          ">
+            ${code}
+          </h1>
+
           <p>This code will expire soon.</p>
         </div>
       `,
+
+      sender: {
+        name: "Kanban Task Manager",
+        email: process.env.EMAIL_USER,
+      },
+
+      to: [
+        {
+          email: email,
+        },
+      ],
     });
-    console.log("Email sent successfully via Brevo SMTP");
+
+    console.log("Email sent successfully via Brevo:", data);
+
+    return data;
   } catch (error) {
-    console.error("Failed to send verification email:", error);
+    console.error("Failed to send verification email via Brevo:", error);
     throw error;
   }
 };
