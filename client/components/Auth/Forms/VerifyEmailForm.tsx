@@ -174,13 +174,10 @@ export default function VerifyEmailForm({ email }: VerifyEmailFormProps) {
           {t("title")}
         </motion.p>
 
-        <motion.p
-          variants={itemVariants}
-          className="text-sm text-[#828FA3] text-center"
-        >
-          {t("description")}{" "}
-          <span className="text-white font-medium">{email}</span>
-        </motion.p>
+        <motion.div variants={itemVariants} className="text-sm text-center">
+          <p className="text-[#828FA3] ">{t("description")}</p>
+          <span className="font-medium">{email}</span>
+        </motion.div>
 
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-8">
           <motion.div
