@@ -59,6 +59,7 @@ export default function VerifyEmailForm({ email }: VerifyEmailFormProps) {
   };
 
   async function handleSubmit(e: React.FormEvent) {
+    setSuccessMessage(null);
     e.preventDefault();
     const code = otp.join("");
 
@@ -70,10 +71,9 @@ export default function VerifyEmailForm({ email }: VerifyEmailFormProps) {
     try {
       setLoading(true);
       setServerError(null);
-      setSuccessMessage(null);
 
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/verify/verify-email`,
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/verify-email`,
         { email, code },
       );
 
@@ -87,8 +87,15 @@ export default function VerifyEmailForm({ email }: VerifyEmailFormProps) {
           setServerError(t("userNotFound"));
         } else if (message === "Verification code has expired") {
           setServerError(t("codeExpired"));
-        } else if (message === "Invalid verification code") {
+        } else if (
+          message === "Invalid verification code" ||
+          message === "Invalid verification request or code expired"
+        ) {
           setServerError(t("invalidCode"));
+        } else if (
+          message === "Too many verification attempts. Please try again later."
+        ) {
+          setServerError(t("tooManyAttempts"));
         } else {
           setServerError(t("serverError"));
         }
@@ -109,7 +116,7 @@ export default function VerifyEmailForm({ email }: VerifyEmailFormProps) {
       setSuccessMessage(null);
 
       await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/verify/resend-verification`,
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/resend-verification`,
         { email },
       );
 

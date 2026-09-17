@@ -4,7 +4,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const usersModel = require("../models/users.model");
 const rateLimit = require("express-rate-limit");
-const sendVerificationEmail = require("../utils/sendEmail");
+const crypto = require("crypto");
+const {
+  sendVerificationEmail,
+  sendAlreadyRegisteredEmail,
+} = require("../utils/sendEmail");
 
 const signInLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -25,6 +29,18 @@ authRouter.post("/sign-up", async (req, res) => {
         .json({ message: "Full Name, Email and Password are required fields" });
     }
 
+    if (password.length < 6) {
+      return res.status(400).json({
+        message: "Password must be at least 6 characters long",
+      });
+    }
+
+    if (password.length > 20) {
+      return res.status(400).json({
+        message: "Password must be maximum 20 characters long",
+      });
+    }
+
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     if (!emailRegex.test(email)) {
@@ -38,32 +54,38 @@ authRouter.post("/sign-up", async (req, res) => {
     });
 
     if (existingUser && existingUser.isVerified) {
-      return res
-        .status(400)
-        .json({ message: "User with this email already exists" });
-    }
+      try {
+        await sendAlreadyRegisteredEmail(cleanEmail);
+      } catch (error) {
+        console.error(
+          "Failed to send already registered email:",
+          error.message,
+        );
+      }
 
-    const verificationCode = Math.floor(
-      100000 + Math.random() * 900000,
-    ).toString();
-
-    try {
-      await sendVerificationEmail(cleanEmail, verificationCode);
-    } catch (error) {
-      console.error("Failed to send verification email:", error);
-      return res.status(500).json({
-        message: "Failed to send verification email",
-      });
+      return res.json({ message: "Registration process initiated" });
     }
 
     const hashedPass = await bcrypt.hash(password, 10);
+
+    const rawVerificationCode = Math.floor(
+      100000 + Math.random() * 900000,
+    ).toString();
+    const hashedCode = crypto
+      .createHash("sha256")
+      .update(rawVerificationCode)
+      .digest("hex");
     const verificationCodeExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
     if (existingUser && !existingUser.isVerified) {
+      const formattedName = fullName.trim().replace(/\s+/g, "+");
+
       existingUser.fullName = fullName;
       existingUser.password = hashedPass;
-      existingUser.verificationCode = verificationCode;
+      existingUser.verificationCode = hashedCode;
       existingUser.verificationCodeExpiresAt = verificationCodeExpiresAt;
+      existingUser.profilePicture = `https://ui-avatars.com/api/?name=${formattedName}&background=635FC7&color=FFFFFF`;
+
       await existingUser.save();
     } else {
       await usersModel.create({
@@ -71,8 +93,17 @@ authRouter.post("/sign-up", async (req, res) => {
         email: cleanEmail,
         password: hashedPass,
         isVerified: false,
-        verificationCode,
+        verificationCode: hashedCode,
         verificationCodeExpiresAt,
+      });
+    }
+
+    try {
+      await sendVerificationEmail(cleanEmail, rawVerificationCode);
+    } catch (error) {
+      console.error("Failed to send verification email:", error);
+      return res.status(500).json({
+        message: "Failed to send verification email",
       });
     }
 

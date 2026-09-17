@@ -8,6 +8,7 @@ const boardsRouter = require("./routes/boards.router");
 const authRouter = require("./auth/auth.router");
 const tasksRouter = require("./routes/tasks.router");
 const verifyRouter = require("./auth/verify.router");
+const passwordResetRouter = require("./auth/passwordReset.router");
 
 const app = express();
 const PORT = process.env.PORT || 3030;
@@ -27,7 +28,8 @@ app.use(
 ConnectToMongo();
 
 app.use("/auth", authRouter);
-app.use("/verify", verifyRouter);
+app.use("/auth", verifyRouter);
+app.use("/auth", passwordResetRouter);
 app.use("/users", usersRouter);
 app.use("/boards", boardsRouter);
 app.use("/tasks", tasksRouter);

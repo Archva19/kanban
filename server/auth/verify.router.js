@@ -1,8 +1,9 @@
 const { Router } = require("express");
 const verifyRouter = Router();
 const rateLimit = require("express-rate-limit");
-const sendVerificationEmail = require("../utils/sendEmail");
 const usersModel = require("../models/users.model");
+const crypto = require("crypto");
+const { sendVerificationEmail } = require("../utils/sendEmail");
 
 const verificationLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -28,13 +29,9 @@ verifyRouter.post("/verify-email", verificationLimiter, async (req, res) => {
       email: email.toLowerCase().trim(),
     });
 
-    if (!user) {
-      return res.status(400).json({ message: "User not found" });
-    }
-
-    if (user.isVerified) {
+    if (!user || user.isVerified) {
       return res.status(400).json({
-        message: "Email is already verified",
+        message: "Invalid verification request or code expired",
       });
     }
 
@@ -47,7 +44,12 @@ verifyRouter.post("/verify-email", verificationLimiter, async (req, res) => {
       });
     }
 
-    if (user.verificationCode !== code.trim()) {
+    const inputHashedCode = crypto
+      .createHash("sha256")
+      .update(code)
+      .digest("hex");
+
+    if (user.verificationCode !== inputHashedCode) {
       return res.status(400).json({ message: "Invalid verification code" });
     }
 
@@ -82,34 +84,32 @@ verifyRouter.post(
         email: cleanEmail,
       });
 
-      if (!user) {
-        return res.status(400).json({
-          message: "User not found",
+      if (!user || user.isVerified) {
+        return res.json({
+          message: "Verification code sent successfully",
         });
       }
 
-      if (user.isVerified) {
-        return res.status(400).json({
-          message: "Email is already verified",
-        });
-      }
-
-      const verificationCode = Math.floor(
+      const rawVerificationCode = Math.floor(
         100000 + Math.random() * 900000,
       ).toString();
+      const hashedCode = crypto
+        .createHash("sha256")
+        .update(rawVerificationCode)
+        .digest("hex");
+
+      user.verificationCode = hashedCode;
+      user.verificationCodeExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
+
+      await user.save();
 
       try {
-        await sendVerificationEmail(cleanEmail, verificationCode);
+        await sendVerificationEmail(cleanEmail, rawVerificationCode);
       } catch (error) {
         return res.status(500).json({
           message: "Failed to send verification email",
         });
       }
-
-      user.verificationCode = verificationCode;
-      user.verificationCodeExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
-
-      await user.save();
 
       res.json({
         message: "Verification code sent successfully",

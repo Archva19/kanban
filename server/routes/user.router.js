@@ -35,7 +35,7 @@ usersRouter.delete("/me", isAuth, async (req, res) => {
     }
 
     await boardsModel.deleteMany({ user: id });
-    const deletedUser = await usersModel.findByIdAndDelete(id);
+    const deletedUser = await usersModel.findByIdAndDelete(id).select("-password");
 
     res.json({
       message: "მომხმარებელი წაიშალა წარმატებით",

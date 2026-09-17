@@ -30,7 +30,8 @@
     "passwordRequired": "Password is required",
     "tooManyAttempts": "Too many login attempts, please try again after 15 minutes.",
     "continueAsGuest": "Continue As Guest",
-    "emailNotVerified": "Please verify your email first"
+    "emailNotVerified": "Please verify your email first",
+    "forgotPassword": "Forgot Password?"
   },
 
   "AuthTxts": {
@@ -58,7 +59,35 @@
     "resendCodeIn": "Resend code in",
     "resendCode": "Resend Code",
     "codeResentSuccess": "A new verification code has been sent!",
-    "tooManyAttempts":"Too many verification attempts, please try again after 15 minutes."
+    "tooManyAttempts": "Too many verification attempts, please try again after 15 minutes."
+  },
+
+  "ForgotPassword": {
+    "title": "Forgot Password",
+    "email": "Email Address",
+    "sendLink": "Send Reset Link",
+    "backToSignIn": "Back to Sing In Page",
+    "emailRequired": "Email is required",
+    "invalidEmail": "Invalid email",
+    "tooManyAttempts": "Too many password reset attempts, please try again after 15 minutes.",
+    "serverError": "Server Error",
+    "successMessage": "If an account with this email exists, a reset link has been sent."
+  },
+
+  "ResetPassword": {
+    "title": "Reset Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "backToSignIn": "Back to Sing In Page",
+    "missingTokenOrEmail": "Invalid or expired link parameters.",
+    "invalidOrExpiredToken": "Invalid or expired reset token.",
+    "tooManyAttempts": "Too many password reset attempts, please try again after 15 minutes.",
+    "serverError": "Server Error",
+    "requiredFields": "This field is required",
+    "min6char": "minimum 6 character",
+    "max20char": "maximum 20 character",
+    "passwordsMustMatch": "Passwords must match",
+    "successMessage": "Password reset successful. Redirecting..."
   },
 
   "GetStarted": {

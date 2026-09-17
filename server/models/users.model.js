@@ -17,6 +17,8 @@ const userSchema = new mongoose.Schema(
     verificationCodeExpiresAt: {
       type: Date,
     },
+    resetPasswordToken: { type: String, default: null },
+    resetPasswordExpiresAt: { type: Date, default: null },
     profilePicture: {
       type: String,
       default: function () {
