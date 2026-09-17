@@ -173,8 +173,20 @@ export default function SignInForm() {
                 </p>
               </div>
             </motion.div>
+            <motion.div
+              className="absolute right-0 -bottom-4 sm:-bottom-5"
+              variants={itemVariants}
+            >
+              <Link
+                href="/forgot-password"
+                className="text-[10px] sm:text-[11px] font-medium text-[#635FC7]/90 hover:text-[#635FC7] hover:underline transition-colors"
+              >
+                {t("forgotPassword")}
+              </Link>
+            </motion.div>
+
             {serverError && (
-              <div className="authServerErrorMessage">{serverError}</div>
+              <div className="authServerErrorMessage absolute -bottom-7! sm:-bottom-4.5!">{serverError}</div>
             )}
           </div>
 

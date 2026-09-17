@@ -10,7 +10,6 @@ import { Eye, EyeOff, LockKeyhole, Mail, User } from "lucide-react";
 import { useState } from "react";
 import { motion, Variants } from "framer-motion";
 import * as InferYup from "yup";
-import VerifyEmailForm from "./VerifyEmailForm";
 
 export type SignUpFormInputs = InferYup.InferType<typeof SignUpSchema>;
 
@@ -45,10 +44,7 @@ export default function SignUpForm() {
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.data?.message) {
         const backendMessage = error.response.data.message;
-
-        if (backendMessage === "User with this email already exists") {
-          setServerError(t("userExists"));
-        } else if (
+        if (
           backendMessage === "Full Name, Email and Password are required fields"
         ) {
           setServerError(t("requiredFields"));
@@ -87,7 +83,6 @@ export default function SignUpForm() {
       },
     },
   };
-
 
   return (
     <>
