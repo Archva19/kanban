@@ -11,6 +11,11 @@ import { useLocale, useTranslations } from "next-intl";
 import { Column, Subtask, Task } from "@/types/types";
 import TaskDropDown from "./TaskDropDown";
 import SelectColumnModel from "../../FormItemModels/SelectColumnModel";
+import { CalendarDays } from "lucide-react";
+import {
+  formatDueDate,
+  isTaskOverdue,
+} from "@/hooks/useFormattedDate/useFormattedDate";
 
 export default function TaskWindow() {
   const { handleEditTask } = useEditTask();
@@ -24,6 +29,7 @@ export default function TaskWindow() {
   } = useForms();
   const { activeBoard } = useActiveBoard();
   const t = useTranslations("TaskWindow");
+  const locale = useLocale();
 
   if (!activeTask || !activeBoard) return null;
 
@@ -73,6 +79,16 @@ export default function TaskWindow() {
 
   async function handleChangeColumn(newColumnId: string) {
     if (newColumnId === currentColumnId || !activeTask || !activeBoard) return;
+
+    const newColumn = activeBoard.columns.find((col) => col._id === newColumnId);
+
+    if (newColumn) {
+    setActiveTask({
+      ...activeTask,
+      status: newColumn.title
+    });
+  }
+
     await handleEditTask(activeBoard._id, activeTask._id, {
       title: activeTask?.title,
       description: activeTask?.description,
@@ -88,7 +104,29 @@ export default function TaskWindow() {
     setIsOpen(false);
   }
 
-  const locale = useLocale();
+  async function handleChangeDueDate(newDate: string) {
+    if (!activeTask || !activeBoard) return;
+
+    const updatedTask: Task = { ...activeTask, dueDate: newDate };
+    setActiveTask(updatedTask);
+
+    await handleEditTask(activeBoard._id, activeTask._id, {
+      title: activeTask.title,
+      description: activeTask.description,
+      dueDate: newDate,
+      subTasks: activeTask.subTasks,
+      targetedColumnId: currentColumnId || "",
+    });
+  }
+
+  const rawDateValue = activeTask.dueDate
+    ? new Date(activeTask.dueDate).toISOString().split("T")[0]
+    : "";
+
+  const isOverdue = isTaskOverdue(
+    activeTask.dueDate,
+    activeTask.status === "Done",
+  );
 
   return (
     <>
@@ -117,6 +155,33 @@ export default function TaskWindow() {
                 : activeTask.description}
             </p>
           </div>
+
+          <div className="flex flex-col gap-1.5">
+            <p className={`inputTitle ${isOverdue ? "text-[#EA5555]!" : ""}`}>
+              {t("dueDate")}
+            </p>
+            <div className="relative flex items-center cursor-pointer">
+              <input
+                type="date"
+                value={rawDateValue}
+                onChange={(e) => handleChangeDueDate(e.target.value)}
+                onClick={(e) => {
+                  e.currentTarget.showPicker();
+                }}
+                className={`inputStyles cursor-pointer w-full [&::-webkit-calendar-picker-indicator]:hidden ${
+                  isOverdue
+                    ? "border-[#EA5555]! text-[#EA5555]! focus:border-[#EA5555]!"
+                    : "focusOnInput"
+                }`}
+              />
+              <CalendarDays
+                className={`w-4 h-4 absolute right-3 pointer-events-none ${
+                  isOverdue ? "text-[#EA5555]" : "text-[#828FA3]"
+                }`}
+              />
+            </div>
+          </div>
+
           {activeTask.subTasks.length === 0 ? (
             <p className="inputTitle">{t("noSubtasks")}</p>
           ) : (

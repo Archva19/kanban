@@ -20,6 +20,10 @@ const tasksSchema = new mongoose.Schema({
   status: {
     type: String,
   },
+  dueDate: {
+    type: Date,
+    default: null,
+  },
   subTasks: {
     type: [subtasksSchema],
     default: [],

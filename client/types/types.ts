@@ -8,6 +8,7 @@ export interface Task {
   _id: string;
   title: string;
   description: string;
+  dueDate?:string,
   status: string;
   subTasks: Subtask[];
 }
@@ -65,6 +66,7 @@ export interface EditBoardPayload {
 export interface CreateTaskPayload {
   title: string;
   description?: string;
+  dueDate?:string,
   subTasks?: { title: string; isCompleted?: boolean }[];
   columnId: string;
 }
@@ -72,6 +74,7 @@ export interface CreateTaskPayload {
 export interface EditTaskPayload {
   title?: string;
   description?: string;
+  dueDate?:string,
   subTasks?: { _id?: string; title: string; isCompleted?: boolean }[];
   targetedColumnId?: string;
   columnId?: string;

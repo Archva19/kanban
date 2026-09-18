@@ -23,6 +23,10 @@ export default function EditTask() {
     column.tasks?.some((task: Task) => task._id === activeTask?._id),
   );
 
+  const formattedDueDate = activeTask?.dueDate
+    ? new Date(activeTask.dueDate).toISOString().split("T")[0]
+    : "";
+
   const {
     handleSubmit,
     register,
@@ -34,6 +38,7 @@ export default function EditTask() {
     values: {
       title: activeTask?.title || "",
       description: activeTask?.description,
+      dueDate: formattedDueDate,
       subTasks: activeTask?.subTasks?.map((subtask: Subtask) => ({
         _id: subtask?._id,
         title: subtask?.title,
@@ -51,12 +56,13 @@ export default function EditTask() {
     if (!activeBoard || !activeTask) return;
 
     const formattedSubTasks = data.subTasks.filter(
-      (subTask:{ title: string }) => subTask.title.trim() !== "",
+      (subTask: { title: string }) => subTask.title.trim() !== "",
     );
 
     await handleEditTask(activeBoard._id, activeTask._id, {
       title: data.title,
       description: data.description,
+      dueDate: data.dueDate,
       subTasks: formattedSubTasks,
       targetedColumnId: data.columnId,
     });

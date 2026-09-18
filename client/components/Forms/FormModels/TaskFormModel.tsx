@@ -15,10 +15,12 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Board } from "@/types/types";
+import { CalendarDays } from "lucide-react";
 
 export interface TaskFormValues extends FieldValues {
   title: string;
   description?: string;
+  dueDate?: string;
   subTasks: { _id?: string; title: string; isCompleted?: boolean }[];
   columnId: string;
 }
@@ -115,6 +117,19 @@ export default function TaskFormModel(props: TaskFormModelProps) {
                   placeholder={t("descriptionEx")}
                   {...register("description")}
                 />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <p className="inputTitle">{t("dueDate")}</p>
+              <div className="relative flex items-center cursor-pointer">
+                <input
+                  onClick={(e) => e.currentTarget.showPicker()}
+                  type="date"
+                  className="inputStyles focusOnInput cursor-pointer [&::-webkit-calendar-picker-indicator]:hidden"
+                  {...register("dueDate")}
+                />
+                <CalendarDays className="w-4 h-4 absolute right-3 text-[#828FA3] pointer-events-none" />
               </div>
             </div>
 

@@ -7,7 +7,7 @@ const tasksRouter = Router();
 tasksRouter.post("/:boardId", isAuth, async (req, res) => {
   try {
     const { boardId } = req.params;
-    const { title, description, subTasks, columnId } = req.body;
+    const { title, description, subTasks, columnId, dueDate } = req.body;
     const userId = req.userId;
 
     if (!isValidObjectId(boardId) || !isValidObjectId(columnId)) {
@@ -35,6 +35,7 @@ tasksRouter.post("/:boardId", isAuth, async (req, res) => {
       title: title.trim(),
       description: description || "",
       status: column.title,
+      dueDate: dueDate ? new Date(dueDate) : null,
       subTasks: subTasks || [],
     };
 
@@ -50,7 +51,8 @@ tasksRouter.post("/:boardId", isAuth, async (req, res) => {
 tasksRouter.put("/:boardId/:taskId", isAuth, async (req, res) => {
   try {
     const { boardId, taskId } = req.params;
-    const { title, description, subTasks, targetedColumnId } = req.body;
+    const { title, description, subTasks, targetedColumnId, dueDate } =
+      req.body;
     const userId = req.userId;
 
     if (!isValidObjectId(boardId) || !isValidObjectId(taskId)) {
@@ -83,6 +85,10 @@ tasksRouter.put("/:boardId/:taskId", isAuth, async (req, res) => {
 
     currentTask.title = title.trim() || currentTask.title;
     currentTask.description = description || currentTask.description;
+
+    if (dueDate !== undefined) {
+      currentTask.dueDate = dueDate ? new Date(dueDate) : null;
+    }
 
     if (subTasks) {
       const existingSubTasksMap = new Map(

@@ -143,6 +143,7 @@
     "titleEx": "e.g. Take coffee break",
     "description": "Descrition",
     "descriptionEx": "e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little.",
+    "dueDate": "Due Date",
     "subtasks": "Subtasks",
     "subtaskEx1": "e.g. Make coffee",
     "subtaskEx2": "e.g. Drink coffee & smile",
@@ -155,7 +156,8 @@
   "TaskWindow": {
     "noDescription": "No Description",
     "noSubtasks": "No Subtasks",
-    "currentStatus": "Current Status"
+    "currentStatus": "Current Status",
+    "dueDate": "Due Date"
   },
 
   "DeleteForm": {
