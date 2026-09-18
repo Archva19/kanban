@@ -30,6 +30,7 @@ export default function NewTask() {
     defaultValues: {
       title: "",
       description: "",
+      dueDate: "",
       subTasks: [{ title: "" }, { title: "" }],
       columnId: activeBoard?.columns?.[0]?._id,
     },
@@ -58,6 +59,7 @@ export default function NewTask() {
     await handleCreateTask(activeBoard._id, {
       title: data.title,
       description: data.description,
+      dueDate: data.dueDate,
       subTasks: formattedSubTasks,
       columnId: data.columnId,
     });
