@@ -13,6 +13,7 @@ import FormsProvider from "@/context/FormsContext";
 import UserProvider from "@/context/UserContext";
 import { AnimatePresence } from "motion/react";
 import { useState } from "react";
+import IsCurrentOwnerProvider from "@/context/IsCurrentOwnerContext";
 
 function DashboardContent({ children }: { children: React.ReactNode }) {
   const [sidebarVis, setSidebarVis] = useState(true);
@@ -62,7 +63,9 @@ export default function DashboardLayout({
       <FormsProvider>
         <UserProvider>
           <ActiveBoardProvider>
-            <DashboardContent>{children}</DashboardContent>
+            <IsCurrentOwnerProvider>
+              <DashboardContent>{children}</DashboardContent>
+            </IsCurrentOwnerProvider>
           </ActiveBoardProvider>
         </UserProvider>
       </FormsProvider>

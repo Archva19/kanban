@@ -23,7 +23,9 @@ export default function NewTaskBtn() {
             width={12}
             height={12}
           />
-          <p className="hidden md:inline-block text-[15px]">{t("newTaskBtn")}</p>
+          <p className="hidden md:inline-block text-[15px]">
+            {t("newTaskBtn")}
+          </p>
         </button>
       )}
     </>

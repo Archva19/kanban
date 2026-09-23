@@ -3,6 +3,7 @@ const usersModel = require("../models/users.model");
 const { isValidObjectId } = require("mongoose");
 const isAuth = require("../middlewares/isAuth.middleware");
 const boardsModel = require("../models/boards.model");
+const invitationsModel = require("../models/invitations.model");
 
 const usersRouter = Router();
 
@@ -11,7 +12,17 @@ usersRouter.get("/me", isAuth, async (req, res) => {
     const user = await usersModel
       .findById(req.userId)
       .select("-password")
-      .populate("boards");
+      .populate({
+        path: "boards",
+        populate: [
+          { path: "owner", select: "fullName email profilePicture" },
+          { path: "collaborators", select: "fullName email profilePicture" },
+          {
+            path: "columns.tasks.assignee",
+            select: "fullName email profilePicture",
+          },
+        ],
+      });
 
     if (!user) {
       return res.status(404).json({ message: "user not found" });
@@ -34,8 +45,36 @@ usersRouter.delete("/me", isAuth, async (req, res) => {
       return res.status(400).json({ message: "invalid id", data: null });
     }
 
-    await boardsModel.deleteMany({ user: id });
-    const deletedUser = await usersModel.findByIdAndDelete(id).select("-password");
+    const userBoards = await boardsModel.find({ owner: id }).select("_id");
+    const userBoardIds = userBoards.map((board) => board._id);
+
+    await invitationsModel.deleteMany({
+      $or: [
+        { sender: id },
+        { recipient: id },
+        { board: { $in: userBoardIds } },
+      ],
+    });
+
+    await boardsModel.deleteMany({ owner: id });
+
+    await boardsModel.updateMany(
+      { $or: [{ collaborators: id }, { "columns.tasks.assignee": id }] },
+      {
+        $pull: { collaborators: id },
+        $set: { "columns.$[col].tasks.$[task].assignee": null },
+      },
+      {
+        arrayFilters: [
+          { "col.tasks": { $exists: true } },
+          { "task.assignee": id },
+        ],
+      },
+    );
+
+    const deletedUser = await usersModel
+      .findByIdAndDelete(id)
+      .select("-password");
 
     res.json({
       message: "მომხმარებელი წაიშალა წარმატებით",

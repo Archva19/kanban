@@ -1,6 +1,6 @@
 "use client";
 
-import useFetchUser from "@/hooks/FetchUser/useFetchUser";
+import useFetchUser from "@/hooks/Others/FetchUser/useFetchUser";
 import { Board, User } from "@/types/types";
 import {
   createContext,
@@ -25,28 +25,42 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export default function UserProvider({ children }: { children: ReactNode }) {
   const { userData, setUserData } = useFetchUser();
-  const [boards, setBoards] = useState<Board[]>([]);
 
-  useEffect(() => {
-    if (userData?.boards) {
-      setBoards(userData.boards);
-    }
-  }, [userData]);
+  const boards = userData?.boards || [];
 
   function addBoard(newBoard: Board) {
-    setBoards((prev) => [...prev, newBoard]);
+    setUserData((prev) => {
+      if (!prev) return null;
+      const exists = prev.boards?.some((b) => b._id === newBoard._id);
+      if (exists) return prev;
+
+      return {
+        ...prev,
+        boards: [...(prev.boards || []), newBoard],
+      };
+    });
   }
 
   function handleDeleteBoard(deletedId: string) {
-    setBoards((prev) => prev.filter((board) => board._id !== deletedId));
+    setUserData((prev) => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        boards: (prev.boards || []).filter((board) => board._id !== deletedId),
+      };
+    });
   }
 
   function handleEditBoard(updatedBoard: Board) {
-    setBoards((prev) =>
-      prev.map((board) =>
-        board._id === updatedBoard._id ? updatedBoard : board,
-      ),
-    );
+    setUserData((prev) => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        boards: (prev.boards || []).map((board) =>
+          board._id === updatedBoard._id ? updatedBoard : board,
+        ),
+      };
+    });
   }
 
   return (
