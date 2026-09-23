@@ -25,7 +25,6 @@ export default function InvitationsDropDown({
     } catch (error) {
       console.error(error);
     } finally {
-      setInvitationsDropDownVis(false);
       setActionLoadingId(null);
     }
   };

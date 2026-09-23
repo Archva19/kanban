@@ -56,7 +56,7 @@ export default function Header({
         <div className="flex items-center gap-2 md:gap-3">
           <div className="flex items-center gap-2">
             <InvitationsBtn onClick={handleOnClickInvitations} />
-            <div className="hidden xl:inline-block">
+            <div className="hidden min-[900px]:inline-block">
               <LanguageSwitcher layoutId="headerLangPill" />
             </div>
           </div>

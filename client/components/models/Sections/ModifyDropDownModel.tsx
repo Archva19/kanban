@@ -1,3 +1,4 @@
+import { useCurrentOwner } from "@/context/IsCurrentOwnerContext";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 
@@ -17,6 +18,11 @@ export default function ModifyDropDownModel({
   handleOnClickDelete,
 }: ModifyDropDownModelProps) {
   const t = useTranslations("ModifyDropDown");
+  const { isCurrentOwner } = useCurrentOwner();
+
+  const canDelete =
+    subject === "Task" || (subject === "Board" && isCurrentOwner);
+
   return (
     <>
       <motion.div
@@ -34,12 +40,14 @@ export default function ModifyDropDownModel({
         >
           {subject === "Board" ? t("editBoard") : t("editTask")}
         </button>
-        <button
-          onClick={handleOnClickDelete}
-          className="min-w-40 text-left text-[#EA5555]"
-        >
-          {subject === "Board" ? t("deleteBoard") : t("deleteTask")}
-        </button>
+        {canDelete && (
+          <button
+            onClick={handleOnClickDelete}
+            className="min-w-40 text-left text-[#EA5555]"
+          >
+            {subject === "Board" ? t("deleteBoard") : t("deleteTask")}
+          </button>
+        )}
       </motion.div>
     </>
   );

@@ -5,12 +5,6 @@ import useEditTask from "@/hooks/Tasks/EditTask/useEditTask";
 import TaskFormModel, { TaskFormValues } from "../../FormModels/TaskFormModel";
 import { Column, Subtask, Task } from "@/types/types";
 
-export interface EditTaskFormInputs {
-  title: string;
-  description: string;
-  subTasks: { _id?: string; title: string; isCompleted?: boolean }[];
-  columnId: string;
-}
 
 export default function EditTask() {
   const { setEditTaskVis, activeTask } = useForms();

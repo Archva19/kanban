@@ -17,7 +17,7 @@ export default function InvitationsBtn({ onClick }: InvitationsBtnProps) {
       <Mail className="w-5 h-5 stroke-2" />
 
       {count > 0 && (
-        <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#EA5555] text-[10px] font-bold text-white shadow-sm">
+        <span className="absolute top-px -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#EA5555] text-[10px] font-bold text-white shadow-sm">
           {count > 9 ? "9+" : count}
         </span>
       )}

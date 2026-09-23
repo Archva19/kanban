@@ -25,13 +25,12 @@ function useDeleteBoard() {
         },
       );
       if (res.status === 200) {
-        const deletedBoard = res.data.data;
-        handleDeleteBoard(deletedBoard._id);
+        const remainingBoards = boards.filter((b) => b._id !== id);
+
         setDeleteBoardVis(false);
         setDeleteMessageVis(true);
         startTimer();
-
-        const remainingBoards = boards.filter((b) => b._id !== id);
+        handleDeleteBoard(id);
 
         if (remainingBoards.length > 0) {
           router.push(`/boards/${remainingBoards[0]._id}`);

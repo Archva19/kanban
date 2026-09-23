@@ -33,7 +33,6 @@ export default function Board() {
     handleDragEnd,
   } = useDragAndDrop();
   const { boards } = useUser();
-  const { isCurrentOwner } = useCurrentOwner();
 
   useEffect(() => {
     if (!activeBoard && boards && boards.length > 0) {
@@ -88,7 +87,7 @@ export default function Board() {
               ))}
             </SortableContext>
 
-            {isCurrentOwner && <NewColumnBtn />}
+            <NewColumnBtn />
           </div>
         </div>
 

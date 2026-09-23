@@ -50,8 +50,10 @@ export default function NewBoard() {
       columns: formattedColumns,
     });
 
-    handleOnClickBg();
-    router.push(`/boards/${newBoard._id}`);
+    if (newBoard && newBoard._id) {
+      handleOnClickBg();
+      router.push(`/boards/${newBoard._id}`);
+    }
   }
 
   return (

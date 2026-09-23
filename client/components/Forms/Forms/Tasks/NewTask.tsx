@@ -7,12 +7,6 @@ import { useActiveBoard } from "@/context/ActiveBoardContext";
 import TaskFormModel, { TaskFormValues } from "../../FormModels/TaskFormModel";
 import { useEffect } from "react";
 
-export interface NewTaskFormInputs {
-  title: string;
-  description: string;
-  subTasks: { title: string }[];
-  columnId: string;
-}
 
 export default function NewTask() {
   const { setNewTaskVis } = useForms();

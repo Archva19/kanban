@@ -5,6 +5,7 @@ const isAuth = require("../middlewares/isAuth.middleware");
 const usersModel = require("../models/users.model");
 const { isValidObjectId } = require("mongoose");
 const invitationsRouter = Router();
+const { getIO } = require("../socket");
 
 invitationsRouter.get("/me", isAuth, async (req, res) => {
   try {
@@ -65,6 +66,9 @@ invitationsRouter.patch("/:id/accept", isAuth, async (req, res) => {
       $addToSet: { boards: invitation.board },
     });
 
+    getIO().to(`board:${invitation.board}`).emit("board_updated", updatedBoard);
+    getIO().to(`user:${userId}`).emit("invitation_accepted", { invitationId: id });
+
     res.json({ message: "Invitation accepted", data: updatedBoard });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
@@ -92,6 +96,8 @@ invitationsRouter.patch("/:id/reject", isAuth, async (req, res) => {
 
     invitation.status = "rejected";
     await invitation.save();
+
+    getIO().to(`user:${userId}`).emit("invitation_rejected", { invitationId: id });
 
     res.json({ message: "Invitation rejected", data: invitation });
   } catch (error) {

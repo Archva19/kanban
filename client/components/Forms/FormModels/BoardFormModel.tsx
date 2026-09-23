@@ -141,7 +141,7 @@ export default function BoardFormModel(props: BoardFormModelProps) {
             <div className="w-full">
               <button
                 disabled={isSubmitting}
-                className="purpleBtn formBtn "
+                className="purpleBtn formBtn"
                 type="submit"
               >
                 {windowType === "create"

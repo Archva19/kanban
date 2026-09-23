@@ -28,10 +28,13 @@ export default function FullName() {
       );
 
       const updatedName = res.data?.data?.fullName;
+      const newAvatar = res.data.data.profilePicture;
 
       if (updatedName) {
         setUserData((prev) =>
-          prev ? { ...prev, fullName: updatedName } : prev,
+          prev
+            ? { ...prev, fullName: updatedName, profilePicture: newAvatar }
+            : prev,
         );
 
         if (userData?.email) {

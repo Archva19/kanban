@@ -132,7 +132,7 @@ export default function TaskFormModel(props: TaskFormModelProps) {
                 <CalendarDays className="w-4 h-4 absolute right-3 text-[#828FA3] pointer-events-none" />
               </div>
             </div>
-            
+
             <div className="flex flex-col gap-2">
               <p className="inputTitle">{t("subtasks")}</p>
               <div className="flex flex-col gap-3">
@@ -183,7 +183,11 @@ export default function TaskFormModel(props: TaskFormModelProps) {
             </div>
 
             <div className="w-full">
-              <button className="purpleBtn formBtn" type="submit">
+              <button
+                disabled={isSubmitting}
+                className="purpleBtn formBtn"
+                type="submit"
+              >
                 {windowType === "create"
                   ? isSubmitting
                     ? LoadingTxt("creating")

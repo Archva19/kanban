@@ -3,6 +3,7 @@ const boardsModel = require("../models/boards.model");
 const isAuth = require("../middlewares/isAuth.middleware");
 const { isValidObjectId } = require("mongoose");
 const tasksRouter = Router();
+const { getIO } = require("../socket");
 
 async function findAccessibleBoard(boardId, userId) {
   return await boardsModel.findOne({
@@ -27,9 +28,9 @@ tasksRouter.post("/:boardId", isAuth, async (req, res) => {
 
     const activeBoard = await findAccessibleBoard(boardId, userId);
     if (!activeBoard) {
-      return res
-        .status(403)
-        .json({ message: "Only the board owner can create tasks" });
+      return res.status(403).json({
+        message: "You do not have access to create tasks on this board",
+      });
     }
 
     const column = activeBoard.columns.id(columnId);
@@ -57,6 +58,8 @@ tasksRouter.post("/:boardId", isAuth, async (req, res) => {
         select: "fullName email profilePicture",
       },
     ]);
+
+    getIO().to(`board:${boardId}`).emit("board_updated", activeBoard);
 
     return res.json({
       message: "წარმატებით შეიქმნა task",
@@ -157,6 +160,8 @@ tasksRouter.put("/:boardId/:taskId", isAuth, async (req, res) => {
       },
     ]);
 
+    getIO().to(`board:${boardId}`).emit("board_updated", activeBoard);
+
     return res.json({
       message: "Task-ი წარმატებით განახლდა",
       data: activeBoard,
@@ -209,6 +214,8 @@ tasksRouter.delete("/:boardId/:taskId", isAuth, async (req, res) => {
         select: "fullName email profilePicture",
       },
     ]);
+
+    getIO().to(`board:${boardId}`).emit("board_updated", activeBoard);
 
     return res.json({
       message: "წარმატებით წაიშალა task",
@@ -273,6 +280,8 @@ tasksRouter.patch(
         },
       ]);
 
+      getIO().to(`board:${boardId}`).emit("board_updated", activeBoard);
+
       return res.json({
         message: "Subtask status updated",
         data: activeBoard,
@@ -304,6 +313,18 @@ tasksRouter.patch("/:boardId/:taskId/assignee", isAuth, async (req, res) => {
       });
     }
 
+    if (assignee) {
+      const isOwner = activeBoard.owner.toString() === assignee;
+      const isCollaborator = activeBoard.collaborators.some(
+        (c) => c.toString() === assignee,
+      );
+      if (!isOwner && !isCollaborator) {
+        return res
+          .status(400)
+          .json({ message: "Assignee must be a board member" });
+      }
+    }
+
     let targetTask = null;
     for (let i = 0; i < activeBoard.columns.length; i++) {
       const foundTask = activeBoard.columns[i].tasks.id(taskId);
@@ -329,6 +350,8 @@ tasksRouter.patch("/:boardId/:taskId/assignee", isAuth, async (req, res) => {
         select: "fullName email profilePicture",
       },
     ]);
+
+    getIO().to(`board:${boardId}`).emit("board_updated", activeBoard);
 
     return res.json({
       message: "Assignee successfully updated",

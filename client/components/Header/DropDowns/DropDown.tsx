@@ -26,7 +26,7 @@ export default function DropDown({
         exit={{ opacity: 0 }}
         transition={{ duration: 0.25, ease: "easeInOut" }}
         onClick={handleClose}
-        className="absolute h-screen w-screen bg-[#000000]/50 top-0 left-0"
+        className="absolute h-screen w-screen bg-[#000000]/50 top-0 left-0 z-10"
       >
         <motion.div
           initial={{ clipPath: "inset(0% 0% 100% 0%)", opacity: 0 }}
