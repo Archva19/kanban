@@ -2,6 +2,8 @@
 
 import useFetchUser from "@/hooks/Others/FetchUser/useFetchUser";
 import { Board, User } from "@/types/types";
+import { socket } from "@/utils/socket";
+import { usePathname } from "next/navigation";
 import {
   createContext,
   Dispatch,
@@ -25,6 +27,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export default function UserProvider({ children }: { children: ReactNode }) {
   const { userData, setUserData } = useFetchUser();
+  const pathname = usePathname();
 
   const boards = userData?.boards || [];
 
@@ -62,6 +65,55 @@ export default function UserProvider({ children }: { children: ReactNode }) {
       };
     });
   }
+
+  useEffect(() => {
+    const userId = userData?._id;
+    if (!userId) return;
+
+    if (!socket.connected) {
+      socket.connect();
+    }
+
+    socket.emit("join_user", userId);
+
+    const handleRemovedFromBoard = (boardId: string) => {
+      handleDeleteBoard(boardId);
+    };
+
+    socket.on("removed_from_board", handleRemovedFromBoard);
+
+    return () => {
+      socket.off("removed_from_board", handleRemovedFromBoard);
+      socket.disconnect();
+    };
+  }, [userData?._id, handleDeleteBoard]);
+
+  useEffect(() => {
+    const currentBoardId = pathname?.startsWith("/boards/")
+      ? pathname.split("/")[2]
+      : null;
+
+    if (!currentBoardId || !userData?._id) return;
+
+    socket.emit("join_board", currentBoardId);
+
+    const handleBoardUpdated = (updatedBoard: Board) => {
+      handleEditBoard(updatedBoard);
+    };
+
+    const handleBoardDeleted = (deletedBoardId: string) => {
+      handleDeleteBoard(deletedBoardId);
+    };
+
+    socket.on("board_updated", handleBoardUpdated);
+    socket.on("board_deleted", handleBoardDeleted);
+
+    return () => {
+      socket.emit("leave_board", currentBoardId);
+      socket.off("board_updated", handleBoardUpdated);
+      socket.off("board_deleted", handleBoardDeleted);
+    };
+  }, [pathname, userData?._id, handleEditBoard, handleDeleteBoard]);
 
   return (
     <UserContext.Provider

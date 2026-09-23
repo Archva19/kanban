@@ -1,5 +1,4 @@
 import { useUser } from "@/context/UserContext";
-import { User } from "@/types/types";
 import { updateRecentUser } from "@/utils/recentLogins";
 import axios from "axios";
 import { getCookie } from "cookies-next";

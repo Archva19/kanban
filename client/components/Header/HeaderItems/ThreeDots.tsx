@@ -4,11 +4,10 @@ import { useCurrentOwner } from "@/context/IsCurrentOwnerContext";
 
 export default function ThreeDots({ onClick }: { onClick: () => void }) {
   const { activeBoard } = useActiveBoard();
-  const {isCurrentOwner} = useCurrentOwner();
 
   return (
     <>
-      {activeBoard && isCurrentOwner && <ThreeDotsBtnModel onClick={onClick} />}
+      {activeBoard && <ThreeDotsBtnModel onClick={onClick} />}
     </>
   );
 }

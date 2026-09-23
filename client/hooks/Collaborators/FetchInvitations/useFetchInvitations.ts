@@ -4,6 +4,7 @@ import { Invitation } from "@/types/types";
 import axios from "axios";
 import { getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
+import { socket } from "@/utils/socket";
 
 function useFetchInvitations() {
   const [invitations, setInvitations] = useState<Invitation[]>([]);
@@ -36,10 +37,35 @@ function useFetchInvitations() {
       }
     }
     fetchInvitations();
+  }, []);
 
-    const interval = setInterval(fetchInvitations, 15000);
+  useEffect(() => {
+    const handleNewInvitation = (newInv: Invitation) => {
+      setInvitations((prev) => {
+        if (prev.some((inv) => inv._id === newInv._id)) return prev;
+        return [newInv, ...prev];
+      });
+    };
 
-    return () => clearInterval(interval);
+    const handleRemoveInvitation = ({
+      invitationId,
+    }: {
+      invitationId: string;
+    }) => {
+      setInvitations((prev) =>
+        prev.filter((item) => item._id !== invitationId),
+      );
+    };
+
+    socket.on("new_invitation", handleNewInvitation);
+    socket.on("invitation_accepted", handleRemoveInvitation);
+    socket.on("invitation_rejected", handleRemoveInvitation);
+
+    return () => {
+      socket.off("new_invitation", handleNewInvitation);
+      socket.off("invitation_accepted", handleRemoveInvitation);
+      socket.off("invitation_rejected", handleRemoveInvitation);
+    };
   }, []);
 
   return { invitations, setInvitations, loading };

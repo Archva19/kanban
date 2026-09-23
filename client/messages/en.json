@@ -166,7 +166,9 @@
     "delete": "Delete",
     "cancel": "Cancel",
     "serverError": "Server Error",
-    "noPermission": "You don't have permission to delete this board."
+    "noPermission": "You don't have permission to delete this board.",
+    "deleteBoardConfirm": "Are you sure you want to delete the ‘{title}’ board? This action will remove all columns and tasks and cannot be reversed.",
+    "deleteTaskConfirm":"Are you sure you want to delete the ‘{title}’ task and its subtasks? This action cannot be reversed."
   },
 
   "FormErrors": {
@@ -214,13 +216,13 @@
     "collaborators": "Collaborators",
     "invite": "Invite",
     "email": "Email",
-    "onlyOwner": "Only owner can add collaborators",
-    "notFound": "User with this email not found",
-    "alreadyOwner": "You are already the owner of this board",
-    "alreadyCollaborator": "User is already a collaborator",
+    "onlyOwner": "Only owner can add collaborators.",
+    "notFound": "User with this email not found.",
+    "alreadyOwner": "You are already the owner of this board.",
+    "alreadyCollaborator": "User is already a collaborator.",
     "alreadySent": "Invitation already sent.",
     "serverError": "Server Error",
-    "successMessage": "Collaborator invited successfully"
+    "successMessage": "Collaborator invited successfully."
   },
 
   "InvitationsDropDown": {

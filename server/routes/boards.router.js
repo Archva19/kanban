@@ -5,6 +5,7 @@ const usersModel = require("../models/users.model");
 const { isValidObjectId } = require("mongoose");
 const invitationsModel = require("../models/invitations.model");
 const boardsRouter = Router();
+const { getIO } = require("../socket");
 
 boardsRouter.post("/", isAuth, async (req, res) => {
   try {
@@ -65,7 +66,7 @@ boardsRouter.put("/:id", isAuth, async (req, res) => {
 
     const currentBoard = await boardsModel.findOne({
       _id: id,
-      owner: userId,
+      $or: [{ owner: userId }, { collaborators: userId }],
     });
 
     if (!currentBoard) {
@@ -107,6 +108,8 @@ boardsRouter.put("/:id", isAuth, async (req, res) => {
       },
     ]);
 
+    getIO().to(`board:${id}`).emit("board_updated", currentBoard);
+
     return res.json({
       message: "გილოცავ შენ წარმატებით განაახლე მონაცემი",
       data: currentBoard,
@@ -135,6 +138,8 @@ boardsRouter.delete("/:id", isAuth, async (req, res) => {
         .status(404)
         .json({ message: "Board not found or unauthorized" });
     }
+
+    getIO().to(`board:${id}`).emit("board_deleted", id);
 
     await invitationsModel.deleteMany({ board: id });
     await usersModel.updateMany({ boards: id }, { $pull: { boards: id } });
@@ -174,6 +179,8 @@ boardsRouter.patch("/:id/drag", isAuth, async (req, res) => {
     if (!updatedBoard) {
       return res.status(404).json({ message: "Board not found" });
     }
+
+    getIO().to(`board:${id}`).emit("board_updated", updatedBoard);
 
     return res.json({ message: "Board updated", data: updatedBoard });
   } catch (error) {
@@ -251,6 +258,10 @@ boardsRouter.post("/:id/collaborators", isAuth, async (req, res) => {
       .populate("board", "title")
       .populate("sender", "fullName email profilePicture");
 
+    getIO()
+      .to(`user:${invitedUser._id}`)
+      .emit("new_invitation", populatedInvitation);
+
     return res.json({
       message: "Invitation sent successfully",
       data: populatedInvitation,
@@ -315,6 +326,9 @@ boardsRouter.delete(
       await usersModel.findByIdAndUpdate(collaboratorId, {
         $pull: { boards: id },
       });
+
+      getIO().to(`board:${id}`).emit("board_updated", updatedBoard);
+      getIO().to(`user:${collaboratorId}`).emit("removed_from_board", id);
 
       return res.json({
         message: "Collaborator removed successfully",

@@ -205,6 +205,7 @@ function useDragAndDrop() {
           },
         },
       );
+      handleEditBoard(res.data.data);
     } catch (error) {
       console.error("Failed to save drag layout", error);
       handleEditBoard(activeBoard);

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import HideSidebarBtn from "./HideSidebarBtn";
 import ProfileBtn from "../CommonItems/ProfileButton/ProfileBtn";
 import { Dispatch, SetStateAction } from "react";
+import LanguageSwitcher from "../CommonItems/LanguageSwitcher/LanguageSwitcher";
 
 interface SideBarProps {
   setSidebarVis: (value: boolean) => void;
@@ -32,6 +33,9 @@ export default function Sidebar({
         </div>
 
         <div className="flex flex-col gap-2">
+          <div className="hidden md:inline-block w-fit px-[12.5px] min-[900px]:hidden! xl:px-6 ">
+            <LanguageSwitcher layoutId="headerLangPill" />
+          </div>
           <div className="px-[12.5px] xl:px-6">
             <ThemeToggle />
           </div>

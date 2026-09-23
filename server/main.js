@@ -2,6 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const ConnectToMongo = require("./db/connectToMongo");
 const cors = require("cors");
+const http = require("http");
+const { initSocket } = require("./socket");
 
 const usersRouter = require("./routes/user.router");
 const boardsRouter = require("./routes/boards.router");
@@ -40,6 +42,9 @@ app.get("/", (req, res) => {
   res.json({ message: "წარმატებით დარესფონსდა" });
 });
 
-app.listen(PORT, "0.0.0.0", () => {
+const server = http.createServer(app);
+initSocket(server);
+
+server.listen(PORT, "0.0.0.0", () => {
   console.log(`server is running on http://localhost:${PORT}`);
 });

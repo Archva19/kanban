@@ -1,6 +1,6 @@
 import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { LayoutGroup, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const languages = [
@@ -57,8 +57,8 @@ export default function LanguageSwitcher({
           >
             {isActive && (
               <motion.div
-                // layoutId={layoutId}
-                layoutId={mounted ? layoutId : undefined}
+                layoutId={layoutId}
+                layoutDependency={locale}
                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 className="absolute inset-0 z-[-1] rounded-full bg-[#635FC7] shadow-xs shadow-[#635FC7]/40"
               />

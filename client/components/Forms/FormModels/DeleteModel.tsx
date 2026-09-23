@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useLocale } from "next-intl";
+import { useState } from "react";
 import { useTranslations } from "use-intl";
 
 interface DeleteModelProps {
@@ -15,13 +15,14 @@ export default function DeleteModel({
   title,
   handleOnDelete,
 }: DeleteModelProps) {
-  const locale = useLocale();
   const t = useTranslations("DeleteForm");
+  const [savedTitle] = useState(title);
+  const displayTitle = title || savedTitle || "";
 
   return (
     <>
       <motion.div
-           exit={{ opacity: 0, transition: { duration: 0.15 } }}
+        exit={{ opacity: 0, transition: { duration: 0.15 } }}
         className="formBg"
         onClick={() => windowVisState(false)}
       >
@@ -39,12 +40,8 @@ export default function DeleteModel({
           </p>
           <p className="text-[13px] leading-5.75! text-[#828FA3] font-medium wrap-break-word">
             {windowType === "board"
-              ? locale === "en"
-                ? `Are you sure you want to delete the ‘${title}’ board? This action will remove all columns and tasks and cannot be reversed.`
-                : `ნამდვილად გსურთ დაფის ‘${title}’ წაშლა? ეს წაშლის ყველა სვეტსა და დავალებას და ამ მოქმედების უკან დაბრუნება შეუძლებელია.`
-              : locale === "en"
-                ? `Are you sure you want to delete the ‘${title}’ task and its subtasks? This action cannot be reversed.`
-                : `ნამდვილად გსურთ დავალების ‘${title}’ და მისი ქვედავალებების წაშლა? ამ მოქმედების უკან დაბრუნება შეუძლებელია.`}
+              ? t("deleteBoardConfirm", { title: displayTitle })
+              : t("deleteTaskConfirm", { title: displayTitle })}
           </p>
           <div className="flex flex-col gap-4 md:flex-row">
             <div className="flex-1">

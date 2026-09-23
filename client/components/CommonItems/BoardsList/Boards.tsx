@@ -35,12 +35,16 @@ export default function Boards({ onClose }: BoardsProps) {
           <div className="flex flex-col max-h-42 md:max-h-67 overflow-scroll">
             {boards.map((board) => {
               const isActive = pathname === `/boards/${board._id}`;
+              const members = [
+                ...(board.owner ? [board.owner] : []),
+                ...(board.collaborators || []),
+              ];
               return (
                 <Link
                   key={board._id}
                   href={`/boards/${board._id}`}
                   onClick={handleBoardClick}
-                  className={`group w-60 rounded-tr-[100px] rounded-br-[100px] pt-3.5 pb-3.75 xl:w-69 ${isActive ? "bg-[#635FC7]" : "bg-transparent hover:bg-(--boardButton-hoverBg) transition-colors duration-200"}`}
+                  className={`flex gap-5 group w-60 rounded-tr-[100px] rounded-br-[100px] pt-3.5 pb-3.75 xl:w-69 ${isActive ? "bg-[#635FC7]" : "bg-transparent hover:bg-(--boardButton-hoverBg) transition-colors duration-200"}`}
                 >
                   <div className="flex pl-6 gap-3 items-center xl:pl-8 xl:gap-4">
                     <svg
@@ -61,6 +65,23 @@ export default function Boards({ onClose }: BoardsProps) {
                     >
                       {board.title}
                     </p>
+                  </div>
+
+                  <div className="flex -space-x-2 shrink-0 items-center">
+                    {members.slice(0, 3).map((member) => (
+                      <img
+                        key={member._id}
+                        src={member.profilePicture}
+                        alt={member.fullName || "User Avatar"}
+                        className="object-cover rounded-full w-6 h-6 ring ring-white/50"
+                      />
+                    ))}
+
+                    {members.length > 3 && (
+                      <div className="flex items-center justify-center w-6 h-6 rounded-full bg-[#635FC7] text-white text-[10px] font-bold ring ring-white/50">
+                        +{members.length - 3}
+                      </div>
+                    )}
                   </div>
                 </Link>
               );
