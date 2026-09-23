@@ -1,7 +1,7 @@
 import { useForms } from "@/context/FormsContext";
 import NewBoard from "../Forms/Boards/NewBoard";
 import EditBoard from "../Forms/Boards/EditBoard";
-import useTimer from "@/hooks/WindowTimer/useTimer";
+import useTimer from "@/hooks/Others/WindowTimer/useTimer";
 import NewTask from "../Forms/Tasks/NewTask";
 import EditTask from "../Forms/Tasks/EditTask";
 import DeleteBoard from "../Forms/Boards/DeleteBoard";
@@ -10,6 +10,7 @@ import DeleteMessageModel from "@/components/models/Messages/DeleteMessageModel"
 import TaskWindow from "../Forms/Tasks/TaskWindow";
 import { AnimatePresence } from "motion/react";
 import { useTranslations } from "next-intl";
+import InviteCollaborator from "../Forms/Collaborators/InviteCollaborator";
 
 export default function AllForms() {
   const {
@@ -24,6 +25,7 @@ export default function AllForms() {
     deleteTaskMessageVis,
     setDeleteTaskMessageVis,
     taskWindowVis,
+    collaboratorsWindowVis,
   } = useForms();
 
   const t = useTranslations("DeleteMessages");
@@ -75,6 +77,9 @@ export default function AllForms() {
           />
         )}
         {taskWindowVis && <TaskWindow key="task-window-modal" />}
+        {collaboratorsWindowVis && (
+          <InviteCollaborator key="invite-collaborators-modal" />
+        )}
       </AnimatePresence>
     </>
   );

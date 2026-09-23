@@ -3,7 +3,7 @@
 import { useFieldArray, useForm } from "react-hook-form";
 import { useForms } from "@/context/FormsContext";
 import { useActiveBoard } from "@/context/ActiveBoardContext";
-import useEditBoard from "@/hooks/EditBoard/useEditBoard";
+import useEditBoard from "@/hooks/Boards/EditBoard/useEditBoard";
 import BoardFormModel, {
   BoardFormValues,
 } from "../../FormModels/BoardFormModel";

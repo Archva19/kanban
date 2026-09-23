@@ -13,6 +13,7 @@
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@hookform/resolvers": "^5.9.1",
+    "@radix-ui/react-popover": "^1.1.23",
     "axios": "^1.20.0",
     "cookies-next": "^6.1.1",
     "lucide-react": "^1.35.0",
@@ -23,6 +24,7 @@
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "react-hook-form": "^7.86.0",
+    "socket.io-client": "^4.8.3",
     "vaul": "^1.1.2",
     "yup": "^1.7.1"
   },

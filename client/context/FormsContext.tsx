@@ -35,6 +35,8 @@ interface FormsContextType {
   setTaskWindowVis: (value: boolean) => void;
   taskDropDownVis: boolean;
   setTaskDropDownVis: (value: boolean) => void;
+  collaboratorsWindowVis: boolean;
+  SetCollaboratorsWindowVis: (value: boolean) => void;
 }
 
 const FormsContext = createContext<FormsContextType | undefined>(undefined);
@@ -52,6 +54,7 @@ export default function FormsProvider({ children }: { children: ReactNode }) {
   const [deleteTaskMessageVis, setDeleteTaskMessageVis] = useState(false);
   const [taskWindowVis, setTaskWindowVis] = useState(false);
   const [taskDropDownVis, setTaskDropDownVis] = useState(false);
+  const [collaboratorsWindowVis, SetCollaboratorsWindowVis] = useState(false);
 
   return (
     <>
@@ -81,6 +84,8 @@ export default function FormsProvider({ children }: { children: ReactNode }) {
           setTaskWindowVis,
           taskDropDownVis,
           setTaskDropDownVis,
+          collaboratorsWindowVis,
+          SetCollaboratorsWindowVis,
         }}
       >
         {children}

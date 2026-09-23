@@ -2,12 +2,13 @@ import { useForms } from "@/context/FormsContext";
 import {
   formatDueDate,
   isTaskOverdue,
-} from "@/hooks/useFormattedDate/useFormattedDate";
+} from "@/hooks/Others/useFormattedDate/useFormattedDate";
 import { Task } from "@/types/types";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { CalendarDays } from "lucide-react";
-import { useFormatter, useLocale, useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import AssigneeBtn from "./TaskCardItems/AssigneeBtn";
 
 export default function TaskCard({ task }: { task: Task }) {
   const { setTaskWindowVis, setActiveTask } = useForms();
@@ -53,7 +54,7 @@ export default function TaskCard({ task }: { task: Task }) {
         {...attributes}
         {...listeners}
         onClick={() => handleOnClickTask(task)}
-        className="group cardBgColor shadow-[0_4px_6px_0_rgba(54,78,126,0.1)] rounded-lg py-5.75 px-4 flex flex-col gap-2 cursor-pointer wrap-break-word"
+        className="group cardBgColor shadow-[0_4px_6px_0_rgba(54,78,126,0.1)] rounded-lg py-5.75 px-4 flex flex-col gap-2 cursor-pointer wrap-break-word relative"
       >
         <div className="flex flex-col gap-2">
           <p className="text-[15px] group-hover:text-[#635FC7] leading-4.75 transition-colors duration-200">
@@ -86,6 +87,7 @@ export default function TaskCard({ task }: { task: Task }) {
             </div>
           </div>
         )}
+        <AssigneeBtn task={task}/>
       </div>
     </>
   );

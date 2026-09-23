@@ -1,6 +1,6 @@
 import { useForms } from "@/context/FormsContext";
 import DeleteModel from "../../FormModels/DeleteModel";
-import useDeleteTask from "@/hooks/DeleteTask/useDeleteTask";
+import useDeleteTask from "@/hooks/Tasks/DeleteTask/useDeleteTask";
 import { useActiveBoard } from "@/context/ActiveBoardContext";
 
 export default function DeleteTask({ startTimer }: { startTimer: () => void }) {

@@ -4,7 +4,7 @@ import LeftSide from "@/components/Auth/LeftSide/LeftSide";
 import SignInForm from "@/components/Auth/Forms/SignInForm";
 import LanguageSwitcher from "@/components/CommonItems/LanguageSwitcher/LanguageSwitcher";
 import MobileRecentLogin from "@/components/Auth/RecentLogins/RecentLogins/MobileRecentLogin";
-import useDesktop from "@/hooks/useDesktop/useDesktop";
+import useDesktop from "@/hooks/Others/useDesktop/useDesktop";
 import { useRecentLogins } from "@/context/RecentLoginsContext";
 import { useEffect, useState } from "react";
 import Link from "next/link";

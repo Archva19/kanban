@@ -164,12 +164,15 @@
     "deleteBoardQuest": "Delete this board?",
     "deleteTaskQuest": "Delete this task?",
     "delete": "Delete",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "serverError": "Server Error",
+    "noPermission": "You don't have permission to delete this board."
   },
 
   "FormErrors": {
     "tooLong": "Input is too long",
-    "required": "Can’t be empty"
+    "required": "Can’t be empty",
+    "invalidEmail": "Invalid Email"
   },
 
   "NewColumnBtn": {
@@ -198,8 +201,33 @@
   },
 
   "Loading": {
+    "loading": "Loading...",
     "processing": "Processing...",
     "creating": "Creating...",
     "editing": "Saving Changes..."
+  },
+
+  "InviteCollaborator": {
+    "title": "Invite Collaborators to",
+    "membersOf": "Members of",
+    "owner": "Owner",
+    "collaborators": "Collaborators",
+    "invite": "Invite",
+    "email": "Email",
+    "onlyOwner": "Only owner can add collaborators",
+    "notFound": "User with this email not found",
+    "alreadyOwner": "You are already the owner of this board",
+    "alreadyCollaborator": "User is already a collaborator",
+    "alreadySent": "Invitation already sent.",
+    "serverError": "Server Error",
+    "successMessage": "Collaborator invited successfully"
+  },
+
+  "InvitationsDropDown": {
+    "invites": "Invites",
+    "noInvites": "No Invites",
+    "isInviting": "Is inviting you to board:",
+    "accept": "Accept",
+    "reject": "Reject"
   }
 }

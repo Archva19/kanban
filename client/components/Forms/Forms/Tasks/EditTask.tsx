@@ -1,7 +1,7 @@
 import { useForms } from "@/context/FormsContext";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useActiveBoard } from "@/context/ActiveBoardContext";
-import useEditTask from "@/hooks/EditTask/useEditTask";
+import useEditTask from "@/hooks/Tasks/EditTask/useEditTask";
 import TaskFormModel, { TaskFormValues } from "../../FormModels/TaskFormModel";
 import { Column, Subtask, Task } from "@/types/types";
 

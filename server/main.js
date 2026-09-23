@@ -9,6 +9,7 @@ const authRouter = require("./auth/auth.router");
 const tasksRouter = require("./routes/tasks.router");
 const verifyRouter = require("./auth/verify.router");
 const passwordResetRouter = require("./auth/passwordReset.router");
+const invitationsRouter = require("./routes/invitations.router");
 
 const app = express();
 const PORT = process.env.PORT || 3030;
@@ -32,6 +33,7 @@ app.use("/auth", verifyRouter);
 app.use("/auth", passwordResetRouter);
 app.use("/users", usersRouter);
 app.use("/boards", boardsRouter);
+app.use("/invitations", invitationsRouter);
 app.use("/tasks", tasksRouter);
 
 app.get("/", (req, res) => {

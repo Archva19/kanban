@@ -1,6 +1,6 @@
 "use client";
 
-import useAddBoard from "@/hooks/AddBoard/useAddBoard";
+import useAddBoard from "@/hooks/Boards/AddBoard/useAddBoard";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useForms } from "@/context/FormsContext";

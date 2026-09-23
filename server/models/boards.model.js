@@ -24,6 +24,11 @@ const tasksSchema = new mongoose.Schema({
     type: Date,
     default: null,
   },
+  assignee: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+    default: null,
+  },
   subTasks: {
     type: [subtasksSchema],
     default: [],
@@ -50,10 +55,16 @@ const boardsSchema = new mongoose.Schema(
       default: [],
     },
     isGuest: { type: Boolean, default: false },
-    user: {
+    owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
     },
+    collaborators: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+      },
+    ],
   },
   {
     timestamps: true,

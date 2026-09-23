@@ -3,8 +3,8 @@ import { useActiveBoard } from "@/context/ActiveBoardContext";
 import { useForms } from "@/context/FormsContext";
 import { AnimatePresence } from "motion/react";
 import Image from "next/image";
-import useToggleSubtask from "@/hooks/ToggleSubtask/useToggleSubtask";
-import useEditTask from "@/hooks/EditTask/useEditTask";
+import useToggleSubtask from "@/hooks/Tasks/ToggleSubtask/useToggleSubtask";
+import useEditTask from "@/hooks/Tasks/EditTask/useEditTask";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
@@ -12,10 +12,7 @@ import { Column, Subtask, Task } from "@/types/types";
 import TaskDropDown from "./TaskDropDown";
 import SelectColumnModel from "../../FormItemModels/SelectColumnModel";
 import { CalendarDays } from "lucide-react";
-import {
-  formatDueDate,
-  isTaskOverdue,
-} from "@/hooks/useFormattedDate/useFormattedDate";
+import { isTaskOverdue } from "@/hooks/Others/useFormattedDate/useFormattedDate";
 
 export default function TaskWindow() {
   const { handleEditTask } = useEditTask();
@@ -80,14 +77,16 @@ export default function TaskWindow() {
   async function handleChangeColumn(newColumnId: string) {
     if (newColumnId === currentColumnId || !activeTask || !activeBoard) return;
 
-    const newColumn = activeBoard.columns.find((col) => col._id === newColumnId);
+    const newColumn = activeBoard.columns.find(
+      (col) => col._id === newColumnId,
+    );
 
     if (newColumn) {
-    setActiveTask({
-      ...activeTask,
-      status: newColumn.title
-    });
-  }
+      setActiveTask({
+        ...activeTask,
+        status: newColumn.title,
+      });
+    }
 
     await handleEditTask(activeBoard._id, activeTask._id, {
       title: activeTask?.title,

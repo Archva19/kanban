@@ -5,7 +5,9 @@ import NewColumnBtn from "@/components/Dashboard/NewColumnBtn";
 import TaskCard from "@/components/Dashboard/TaskCard";
 import EmptyBoard from "@/components/EmptyMessages/EmptyBoard";
 import { useActiveBoard } from "@/context/ActiveBoardContext";
-import useDragAndDrop from "@/hooks/DragAndDrop/useDragAndDrop";
+import { useCurrentOwner } from "@/context/IsCurrentOwnerContext";
+import { useUser } from "@/context/UserContext";
+import useDragAndDrop from "@/hooks/Tasks/DragAndDrop/useDragAndDrop";
 import { Column, Task } from "@/types/types";
 import {
   closestCorners,
@@ -17,9 +19,12 @@ import {
   horizontalListSortingStrategy,
   SortableContext,
 } from "@dnd-kit/sortable";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Board() {
   const { activeBoard } = useActiveBoard();
+  const router = useRouter();
   const {
     activeItem,
     sensors,
@@ -27,6 +32,20 @@ export default function Board() {
     handleDragOver,
     handleDragEnd,
   } = useDragAndDrop();
+  const { boards } = useUser();
+  const { isCurrentOwner } = useCurrentOwner();
+
+  useEffect(() => {
+    if (!activeBoard && boards && boards.length > 0) {
+      router.push(`/boards/${boards[0]._id}`);
+      return;
+    }
+
+    if (!activeBoard && boards && boards.length === 0) {
+      router.push(`/`);
+      return;
+    }
+  }, [activeBoard, boards, router]);
 
   if (!activeBoard) {
     return null;
@@ -69,7 +88,7 @@ export default function Board() {
               ))}
             </SortableContext>
 
-            <NewColumnBtn />
+            {isCurrentOwner && <NewColumnBtn />}
           </div>
         </div>
 
