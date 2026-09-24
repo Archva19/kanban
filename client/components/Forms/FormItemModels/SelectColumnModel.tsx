@@ -22,7 +22,8 @@ export default function SelectColumnModel({
   const [coords, setCoords] = useState({ top: 0, left: 0, width: 0 });
 
   const selectedColumn =
-    columns?.find((col: Column) => col._id === selectedColumnId) || columns?.[0];
+    columns?.find((col: Column) => col._id === selectedColumnId) ||
+    columns?.[0];
 
   useEffect(() => {
     if (isOpen && triggerRef.current) {

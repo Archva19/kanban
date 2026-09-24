@@ -26,19 +26,6 @@ function useToggleSubtask() {
       const editedBoard = res.data.data;
       handleEditBoard(editedBoard);
 
-      let updatedTask = null;
-
-      for (const column of editedBoard.columns) {
-        const found = column.tasks.find((task: Task) => task._id === taskId);
-        if (found) {
-          updatedTask = found;
-          break;
-        }
-      }
-      
-      if (updatedTask) {
-        setActiveTask(updatedTask);
-      }
 
       return editedBoard;
     } catch (error) {

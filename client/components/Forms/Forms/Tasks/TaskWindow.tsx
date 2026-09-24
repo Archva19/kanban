@@ -54,23 +54,39 @@ export default function TaskWindow() {
       audio.play().catch(() => {});
     }
 
-    const updatedSubtasks = activeTask.subTasks.map((subTask: Subtask) =>
-      subTask._id === subTaskId
-        ? { ...subTask, isCompleted: !subTask.isCompleted }
-        : subTask,
-    );
-    const updatedTask: Task = { ...activeTask, subTasks: updatedSubtasks };
+    const newIsCompleted = !subTask.isCompleted;
 
-    setActiveTask(updatedTask);
+    setActiveTask((prevTask) => {
+      if (!prevTask) return null;
+      return {
+        ...prevTask,
+        subTasks: prevTask.subTasks.map((st) =>
+          st._id === subTaskId ? { ...st, isCompleted: newIsCompleted } : st,
+        ),
+      };
+    });
+
     handleToggleSubtask(activeBoard._id, activeTask._id, subTaskId).catch(
       () => {
-        setActiveTask(activeTask);
+        setActiveTask((prevTask) => {
+          if (!prevTask) return null;
+          return {
+            ...prevTask,
+            subTasks: prevTask.subTasks.map((st) =>
+              st._id === subTaskId
+                ? { ...st, isCompleted: subTask.isCompleted }
+                : st,
+            ),
+          };
+        });
       },
     );
   }
 
-  const currentColumn = activeBoard?.columns.find((column: Column) =>
-    column.tasks.some((task: Task) => task._id === activeTask._id),
+  const currentColumn = activeBoard?.columns.find(
+    (column: Column) =>
+      column.title === activeTask.status ||
+      column.tasks.some((t) => t._id === activeTask._id),
   );
   const currentColumnId = currentColumn?._id;
 
@@ -80,6 +96,8 @@ export default function TaskWindow() {
     const newColumn = activeBoard.columns.find(
       (col) => col._id === newColumnId,
     );
+
+    const previousStatus = activeTask.status;
 
     if (newColumn) {
       setActiveTask({
@@ -93,6 +111,10 @@ export default function TaskWindow() {
       description: activeTask?.description,
       subTasks: activeTask?.subTasks,
       targetedColumnId: newColumnId,
+    }).catch(() => {
+      setActiveTask((prev) =>
+        prev ? { ...prev, status: previousStatus } : null,
+      );
     });
   }
 
@@ -106,8 +128,9 @@ export default function TaskWindow() {
   async function handleChangeDueDate(newDate: string) {
     if (!activeTask || !activeBoard) return;
 
-    const updatedTask: Task = { ...activeTask, dueDate: newDate };
-    setActiveTask(updatedTask);
+    const previousDueDate = activeTask.dueDate;
+
+    setActiveTask((prev) => (prev ? { ...prev, dueDate: newDate } : null));
 
     await handleEditTask(activeBoard._id, activeTask._id, {
       title: activeTask.title,
@@ -115,6 +138,10 @@ export default function TaskWindow() {
       dueDate: newDate,
       subTasks: activeTask.subTasks,
       targetedColumnId: currentColumnId || "",
+    }).catch(() => {
+      setActiveTask((prev) =>
+        prev ? { ...prev, dueDate: previousDueDate } : null,
+      );
     });
   }
 
