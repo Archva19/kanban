@@ -7,6 +7,42 @@ const invitationsModel = require("../models/invitations.model");
 const boardsRouter = Router();
 const { getIO } = require("../socket");
 
+boardsRouter.get("/:id", isAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.userId;
+
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({ message: "Invalid board ID" });
+    }
+
+    const board = await boardsModel
+      .findOne({
+        _id: id,
+        $or: [{ owner: userId }, { collaborators: userId }],
+      })
+      .populate("owner", "fullName email profilePicture")
+      .populate("collaborators", "fullName email profilePicture")
+      .populate({
+        path: "columns.tasks.assignee",
+        select: "fullName email profilePicture",
+      });
+
+    if (!board) {
+      return res
+        .status(404)
+        .json({ message: "Board not found or access denied" });
+    }
+
+    res.json({
+      message: "Board fetched successfully",
+      data: board,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
 boardsRouter.post("/", isAuth, async (req, res) => {
   try {
     const { title, columns } = req.body;

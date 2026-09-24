@@ -4,6 +4,13 @@ const { isValidObjectId } = require("mongoose");
 const isAuth = require("../middlewares/isAuth.middleware");
 const boardsModel = require("../models/boards.model");
 const invitationsModel = require("../models/invitations.model");
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const usersRouter = Router();
 
@@ -96,8 +103,17 @@ usersRouter.patch("/profilePicture", isAuth, async (req, res) => {
         .json({ message: "profilePicture URL is required" });
     }
 
+    const uploadResponse = await cloudinary.uploader.upload(profilePicture, {
+      folder: "avatars",
+      transformation: [{ width: 200, height: 200, crop: "fill" }],
+    });
+
     const updatedUser = await usersModel
-      .findByIdAndUpdate(id, { profilePicture }, { new: true })
+      .findByIdAndUpdate(
+        id,
+        { profilePicture: uploadResponse.secure_url },
+        { new: true },
+      )
       .select("-password");
 
     if (!updatedUser) {

@@ -67,7 +67,9 @@ invitationsRouter.patch("/:id/accept", isAuth, async (req, res) => {
     });
 
     getIO().to(`board:${invitation.board}`).emit("board_updated", updatedBoard);
-    getIO().to(`user:${userId}`).emit("invitation_accepted", { invitationId: id });
+    getIO()
+      .to(`user:${userId}`)
+      .emit("invitation_accepted", { invitationId: id });
 
     res.json({ message: "Invitation accepted", data: updatedBoard });
   } catch (error) {
@@ -97,7 +99,9 @@ invitationsRouter.patch("/:id/reject", isAuth, async (req, res) => {
     invitation.status = "rejected";
     await invitation.save();
 
-    getIO().to(`user:${userId}`).emit("invitation_rejected", { invitationId: id });
+    getIO()
+      .to(`user:${userId}`)
+      .emit("invitation_rejected", { invitationId: id });
 
     res.json({ message: "Invitation rejected", data: invitation });
   } catch (error) {
