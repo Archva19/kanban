@@ -1,7 +1,7 @@
 import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
-import { LayoutGroup, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { startTransition, useEffect, useState } from "react";
 
 const languages = [
   { code: "en", label: "EN" },
@@ -26,7 +26,9 @@ export default function LanguageSwitcher({
   const handleLanguageChange = (newLocale: string) => {
     if (locale === newLocale) return;
     document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
-    router.refresh();
+    startTransition(() => {
+      router.refresh();
+    });
   };
 
   if (!mounted) {

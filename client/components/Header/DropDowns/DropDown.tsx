@@ -1,7 +1,6 @@
 import Boards from "../../CommonItems/BoardsList/Boards";
 import ThemeToggle from "../../ThemeToggle/ThemeToggle";
 import { motion } from "framer-motion";
-import Profile from "../../ProfileWindow/Sections/Profile";
 import ProfileBtn from "../../CommonItems/ProfileButton/ProfileBtn";
 import { Dispatch, SetStateAction } from "react";
 

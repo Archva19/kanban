@@ -2,7 +2,7 @@
 import Logo from "../../Logo/Logo";
 import DropDown from "../DropDowns/DropDown";
 import { Dispatch, SetStateAction, useState } from "react";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, LayoutGroup } from "framer-motion";
 import ThreeDots from "../HeaderItems/ThreeDots";
 import NewTaskBtn from "../HeaderItems/NewTaskBtn";
 import MobileHeaderTitle from "../HeaderItems/MobileHeaderTitle";
@@ -57,7 +57,9 @@ export default function Header({
           <div className="flex items-center gap-2">
             <InvitationsBtn onClick={handleOnClickInvitations} />
             <div className="hidden min-[900px]:inline-block">
-              <LanguageSwitcher layoutId="headerLangPill" />
+              <LayoutGroup id="header-lang-group">
+                <LanguageSwitcher layoutId="headerLangPill" />
+              </LayoutGroup>
             </div>
           </div>
 

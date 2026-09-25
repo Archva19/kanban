@@ -4,7 +4,6 @@ import axios from "axios";
 import { getCookie } from "cookies-next";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 function useDeleteBoard() {
   const { handleDeleteBoard } = useUser();
