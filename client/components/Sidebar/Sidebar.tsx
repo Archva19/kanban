@@ -1,7 +1,7 @@
 import Logo from "../Logo/Logo";
 import Boards from "../CommonItems/BoardsList/Boards";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
-import { motion } from "framer-motion";
+import { LayoutGroup, motion } from "framer-motion";
 import HideSidebarBtn from "./HideSidebarBtn";
 import ProfileBtn from "../CommonItems/ProfileButton/ProfileBtn";
 import { Dispatch, SetStateAction } from "react";
@@ -34,7 +34,10 @@ export default function Sidebar({
 
         <div className="flex flex-col gap-2">
           <div className="hidden md:inline-block w-fit px-[12.5px] min-[900px]:hidden! xl:px-6 ">
-            <LanguageSwitcher layoutId="headerLangPill" />
+            {/* <LanguageSwitcher layoutId="sidebarLangPill" /> */}
+            <LayoutGroup id="sidebar-lang-group">
+              <LanguageSwitcher layoutId="sidebarLangPill" />
+            </LayoutGroup>
           </div>
           <div className="px-[12.5px] xl:px-6">
             <ThemeToggle />

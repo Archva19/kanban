@@ -68,7 +68,7 @@ export default function Boards({ onClose }: BoardsProps) {
                   </div>
 
                   <div className="flex -space-x-2 shrink-0 items-center">
-                    {members.slice(0, 3).map((member) => (
+                    {members.slice(0, 2).map((member) => (
                       <img
                         key={member._id}
                         src={member.profilePicture}
@@ -77,9 +77,9 @@ export default function Boards({ onClose }: BoardsProps) {
                       />
                     ))}
 
-                    {members.length > 3 && (
+                    {members.length > 2 && (
                       <div className="flex items-center justify-center w-6 h-6 rounded-full bg-[#635FC7] text-white text-[10px] font-bold ring ring-white/50">
-                        +{members.length - 3}
+                        +{members.length - 2}
                       </div>
                     )}
                   </div>

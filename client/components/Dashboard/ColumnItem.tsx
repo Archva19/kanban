@@ -5,8 +5,8 @@ import {
 } from "@dnd-kit/sortable";
 import TaskCard from "./TaskCard";
 import { CSS } from "@dnd-kit/utilities";
-import { useDndContext, useDroppable } from "@dnd-kit/core";
-import { Column, Task } from "@/types/types";
+import { useDndContext } from "@dnd-kit/core";
+import { Column } from "@/types/types";
 
 interface ColumnItemProps {
   column: Column;
@@ -85,8 +85,7 @@ export default function ColumnItem({ column, index }: ColumnItemProps) {
           <div
             className={`flex flex-col gap-5 w-full overflow-scroll h-full min-h-37.5 rounded-lg ${
               active?.data.current?.type === "Task" &&
-              (isOver ||
-                column.tasks.some((task) => task._id === over?.id))
+              (isOver || column.tasks.some((task) => task._id === over?.id))
                 ? "bg-[#635FC7]/10 border-2 border-dashed border-[#635FC7]"
                 : "bg-transparent border-2 border-transparent"
             }`}

@@ -12,14 +12,27 @@ export default function FullName() {
   const [isEditing, setIsEditing] = useState(false);
   const [fullName, setFullName] = useState(userData?.fullName);
 
+  function handleStartEdit() {
+    setFullName(userData?.fullName || "");
+    setIsEditing(true);
+  }
+
   async function handleSave() {
+    const trimmedName = fullName?.trim().replace(/\s+/g, " ");
+
+    if (!trimmedName || trimmedName === userData?.fullName) {
+      setIsEditing(false);
+      setFullName(userData?.fullName || "");
+      return;
+    }
+
     try {
       const token = getCookie("accesstoken");
       if (!token) return;
 
       const res = await axios.patch(
         `${process.env.NEXT_PUBLIC_API_URL}/users/fullName`,
-        { fullName: fullName },
+        { fullName: trimmedName },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -38,7 +51,10 @@ export default function FullName() {
         );
 
         if (userData?.email) {
-          updateRecentUser(userData.email, { fullName: updatedName });
+          updateRecentUser(userData.email, {
+            fullName: updatedName,
+            avatar: newAvatar,
+          });
         }
       }
 
@@ -92,7 +108,7 @@ export default function FullName() {
               </button>
             </div>
           ) : (
-            <button onClick={() => setIsEditing(true)}>
+            <button onClick={handleStartEdit}>
               <PencilSparkles className="w-4 h-4" />
             </button>
           )}

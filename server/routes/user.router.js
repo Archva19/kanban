@@ -160,10 +160,18 @@ usersRouter.patch("/fullName", isAuth, async (req, res) => {
     const id = req.userId;
     const { fullName } = req.body;
 
-    if (fullName === undefined || fullName === null) {
+    if (!fullName || typeof fullName !== "string") {
       return res
         .status(400)
         .json({ message: "Full Name parameter is required" });
+    }
+
+    const cleanedFullName = fullName.trim().replace(/\s+/g, " ");
+
+    if (cleanedFullName.length === 0) {
+      return res
+        .status(400)
+        .json({ message: "Full Name cannot be empty or contain only spaces" });
     }
 
     const user = await usersModel.findById(id);
@@ -171,7 +179,7 @@ usersRouter.patch("/fullName", isAuth, async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const formattedName = fullName.trim().replace(/\s+/g, "+");
+    const formattedName = cleanedFullName.replace(/\s+/g, "+");
     const defaultAvatar = `https://ui-avatars.com/api/?name=${formattedName}&background=635FC7&color=FFFFFF`;
 
     const updatedProfile = user.profilePicture?.includes("ui-avatars.com")
@@ -181,7 +189,7 @@ usersRouter.patch("/fullName", isAuth, async (req, res) => {
     const updatedUser = await usersModel
       .findByIdAndUpdate(
         id,
-        { fullName: fullName.trim(), profilePicture: updatedProfile },
+        { fullName: cleanedFullName, profilePicture: updatedProfile },
         { new: true },
       )
       .select("-password");

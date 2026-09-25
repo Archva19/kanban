@@ -1,5 +1,4 @@
 import { useUser } from "@/context/UserContext";
-import { Column } from "@/types/types";
 import { useTranslations } from "next-intl";
 
 export default function Statistics() {

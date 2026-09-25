@@ -5,7 +5,6 @@ import NewColumnBtn from "@/components/Dashboard/NewColumnBtn";
 import TaskCard from "@/components/Dashboard/TaskCard";
 import EmptyBoard from "@/components/EmptyMessages/EmptyBoard";
 import { useActiveBoard } from "@/context/ActiveBoardContext";
-import { useCurrentOwner } from "@/context/IsCurrentOwnerContext";
 import { useUser } from "@/context/UserContext";
 import useDragAndDrop from "@/hooks/Tasks/DragAndDrop/useDragAndDrop";
 import { Column, Task } from "@/types/types";

@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import ThemeToggleAuth from "@/components/ThemeToggle/ThemeToggleAuth";
 import { ChevronLeft } from "lucide-react";
+import { LayoutGroup } from "motion/react";
 
 export default function SignIn() {
   const { recentUsers } = useRecentLogins();
@@ -57,7 +58,9 @@ export default function SignIn() {
         </div>
         <div className="flex items-center gap-5 absolute top-5 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-auto md:right-5 xl:right-10 xl:top-10">
           <ThemeToggleAuth />
-          <LanguageSwitcher layoutId="authLangPill"/>
+          <LayoutGroup id="auth-lang-group">
+            <LanguageSwitcher layoutId="authLangPill" />
+          </LayoutGroup>
         </div>
         {!isXl && hasRecentUsers && signInFormVis && (
           <button

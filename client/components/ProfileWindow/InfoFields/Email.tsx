@@ -1,7 +1,6 @@
 import { useUser } from "@/context/UserContext";
 import { Mail } from "lucide-react";
 import { useTranslations } from "next-intl";
-import React from "react";
 
 export default function Email() {
   const t = useTranslations("ProfileWindow");
